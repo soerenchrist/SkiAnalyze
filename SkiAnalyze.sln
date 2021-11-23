@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31903.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiAnalyze", "src\SkiAnalyze\SkiAnalyze.csproj", "{19F0084A-7111-4A23-8862-12BE24D42835}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A9226CB-6CF7-46F2-93D3-3170F5F886CC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A030BC76-259B-447C-95B0-B92E26CFE0DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiAnalyze.Core", "src\SkiAnalyze.Core\SkiAnalyze.Core.csproj", "{7BE137A0-EF5A-4E89-9DD1-7BFBB74085D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiAnalyze.Infrastructure", "src\SkiAnalyze.Infrastructure\SkiAnalyze.Infrastructure.csproj", "{EF83B830-0589-4339-AAC2-3209B4763CFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiAnalyze.SharedKernel", "src\SkiAnalyze.SharedKernel\SkiAnalyze.SharedKernel.csproj", "{90877C12-018F-4EE6-A5D1-B4DAC94689CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19F0084A-7111-4A23-8862-12BE24D42835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F0084A-7111-4A23-8862-12BE24D42835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F0084A-7111-4A23-8862-12BE24D42835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F0084A-7111-4A23-8862-12BE24D42835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE137A0-EF5A-4E89-9DD1-7BFBB74085D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE137A0-EF5A-4E89-9DD1-7BFBB74085D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE137A0-EF5A-4E89-9DD1-7BFBB74085D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE137A0-EF5A-4E89-9DD1-7BFBB74085D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF83B830-0589-4339-AAC2-3209B4763CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF83B830-0589-4339-AAC2-3209B4763CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF83B830-0589-4339-AAC2-3209B4763CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF83B830-0589-4339-AAC2-3209B4763CFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90877C12-018F-4EE6-A5D1-B4DAC94689CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90877C12-018F-4EE6-A5D1-B4DAC94689CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90877C12-018F-4EE6-A5D1-B4DAC94689CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90877C12-018F-4EE6-A5D1-B4DAC94689CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19F0084A-7111-4A23-8862-12BE24D42835} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
+		{7BE137A0-EF5A-4E89-9DD1-7BFBB74085D5} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
+		{EF83B830-0589-4339-AAC2-3209B4763CFA} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
+		{90877C12-018F-4EE6-A5D1-B4DAC94689CD} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF5BDE7E-6F71-466A-86D9-D6444DB2D7A9}
+	EndGlobalSection
+EndGlobal
