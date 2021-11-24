@@ -47,10 +47,10 @@ export default {
   }),
   computed: {
     gondolas() {
-      return this.$store.state.gondolas;
+      return this.$store.getters.gondolas;
     },
     pistes() {
-      return this.$store.state.pistes;
+      return this.$store.getters.filteredPistes;
     },
   },
   methods: {

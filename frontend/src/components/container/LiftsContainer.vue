@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     lifts() {
-      return this.$store.state.gondolas;
+      return this.$store.getters.gondolas;
     },
     selectedLift() {
       return this.$store.state.selectedGondola;

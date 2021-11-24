@@ -16,6 +16,7 @@ export default {
   },
   computed: {
     pistes() {
+      console.log(this.$store.getters);
       return this.$store.getters.filteredPistes;
     },
     selectedPiste() {

@@ -1,2 +1,2 @@
-export const FETCH_GONDOLAS = 'fetchGondolas';
-export const FETCH_PISTES = 'fetchPistes';
+export * from './gondolas/actions';
+export * from './pistes/actions';

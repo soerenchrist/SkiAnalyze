@@ -15,7 +15,7 @@
         color="green" />
 
       <piste-polyline
-        v-for="piste in filteredPistes"
+        v-for="piste in pistes"
         :key="piste.id"
         :piste="piste"
         @onclick="pisteSelected" />
@@ -51,11 +51,6 @@ export default {
     },
     pisteSelected(piste) {
       this.$emit('pisteClicked', piste);
-    },
-  },
-  computed: {
-    filteredPistes() {
-      return this.$store.getters.filteredPistes;
     },
   },
   data: () => ({
