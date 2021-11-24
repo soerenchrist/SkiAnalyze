@@ -2,7 +2,7 @@
 
 namespace SkiAnalyze.ApiEndpoints.GondolaEndpoints;
 
-public class ListInBoundsResponse
+public class ListGondolasInBoundsResponse
 {
     public List<GondolaDto> Gondolas { get; set; } = new();
 }

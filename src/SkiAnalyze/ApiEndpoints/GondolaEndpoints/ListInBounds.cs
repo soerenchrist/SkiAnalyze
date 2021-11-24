@@ -12,8 +12,8 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace SkiAnalyze.ApiEndpoints.GondolaEndpoints;
 
 public class ListInBounds : BaseAsyncEndpoint
-    .WithRequest<ListInBoundsRequest>
-    .WithResponse<ListInBoundsResponse>
+    .WithRequest<ListGondolasInBoundsRequest>
+    .WithResponse<ListGondolasInBoundsResponse>
 {
     private readonly IGondolaSearchService _gondolaSearchService;
     private readonly IMapper _mapper;
@@ -25,14 +25,14 @@ public class ListInBounds : BaseAsyncEndpoint
         _mapper = mapper;
     }
 
-    [HttpGet("/gondolas")]
+    [HttpGet("/api/gondolas")]
     [SwaggerOperation(
         Summary = "Gets a list of all gondolas in bounds",
         Description = "Gets a list of all gondolas in a specific bound",
         OperationId = "Gondolas.ListInBounds",
         Tags = new[] { "GondolaEndpoints" })
     ]
-    public override async Task<ActionResult<ListInBoundsResponse>> HandleAsync([FromQuery] ListInBoundsRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<ListGondolasInBoundsResponse>> HandleAsync([FromQuery] ListGondolasInBoundsRequest request, CancellationToken cancellationToken = default)
     {
         var sw = new Coordinate
         {
@@ -50,14 +50,14 @@ public class ListInBounds : BaseAsyncEndpoint
             return Ok(ToResponse(result.Value));
         }
 
-        var newResult = result.ToResult<ListInBoundsResponse, List<Gondola>>();
+        var newResult = result.ToResult<ListGondolasInBoundsResponse, List<Gondola>>();
         return this.ToActionResult(newResult);
     }
 
-    private ListInBoundsResponse ToResponse(List<Gondola> value)
+    private ListGondolasInBoundsResponse ToResponse(List<Gondola> value)
     {
         var dtos = _mapper.Map<List<GondolaDto>>(value);
-        return new ListInBoundsResponse
+        return new ListGondolasInBoundsResponse
         {
             Gondolas = dtos
         };

@@ -13,5 +13,7 @@ public class DefaultCoreModule : Autofac.Module
 
         builder.RegisterType<GondolaSearchService>()
             .As<IGondolaSearchService>();
+        builder.RegisterType<PisteSearchService>()
+            .As<IPisteSearchService>();
     }
 }

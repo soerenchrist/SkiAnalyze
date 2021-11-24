@@ -16,11 +16,12 @@ public class GondolaDto
     public string? Wikipedia { get; set; }
     public string? Description { get; set; }
     public double? Duration { get; set; }
-    public List<GondolaCoordinateDto> Coordinates { get; set; } = new();
+    public List<GondolaNodeDto> Coordinates { get; set; } = new();
 }
 
-public class GondolaCoordinateDto
+public class GondolaNodeDto
 {
+    public long OsmId { get; set; }
     public float Latitude { get; set; }
     public float Longitude { get; set; }
 }
