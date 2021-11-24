@@ -3,10 +3,9 @@ import Vuex from 'vuex';
 import PistesModule from './pistes';
 import GondolasModule from './gondolas';
 import MapModule from './map';
+import TracksModule from './tracks';
 
 import {
-  ADD_TRACK,
-  REMOVE_TRACK,
   SET_DISPLAY_ADD_TRACK_DIALOG,
   SET_SELECTED_GONDOLA,
   SET_SELECTED_PISTE,
@@ -16,9 +15,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    tracks: [],
     showAddTrackDialog: false,
-    filteredPists: [],
     selectedGondola: null,
     selectedPiste: null,
   },
@@ -34,12 +31,6 @@ export default new Vuex.Store({
     [SET_DISPLAY_ADD_TRACK_DIALOG](state, value) {
       state.showAddTrackDialog = value;
     },
-    [ADD_TRACK](state, track) {
-      state.tracks.push(track);
-    },
-    [REMOVE_TRACK](state, track) {
-      state.tracks = state.tracks.filter((x) => x !== track);
-    },
   },
   actions: {
   },
@@ -47,6 +38,7 @@ export default new Vuex.Store({
     piste: PistesModule,
     gondola: GondolasModule,
     map: MapModule,
+    tracks: TracksModule,
   },
   getters: {
     gondolas(state) {

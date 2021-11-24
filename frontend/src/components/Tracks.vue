@@ -4,10 +4,11 @@
       Tracks
     </v-card-title>
     <v-card-text>
-      <div v-if="tracks.length === 0">
+      <v-progress-circular v-if="loading" />
+      <div v-else-if="tracks.length === 0">
         Start adding tracks
       </div>
-      <v-list-item v-for="track in tracks" :key="track.name">
+      <v-list-item v-else v-for="track in tracks" :key="track.name">
         <v-list-item-content>
           <v-list-item-title>
             {{track.name}}
@@ -36,6 +37,7 @@
 export default {
   props: {
     tracks: Array,
+    loading: Boolean,
   },
   methods: {
     onAdd() {

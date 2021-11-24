@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import { ADD_TRACK, SET_DISPLAY_ADD_TRACK_DIALOG } from '../../../store/mutations';
+import { ADD_TRACK } from '../../../store/actions';
+import { SET_DISPLAY_ADD_TRACK_DIALOG } from '../../../store/mutations';
 import AddTrackDialog from '../../dialogs/AddTrackDialog.vue';
 
 export default {
@@ -30,9 +31,12 @@ export default {
   },
   methods: {
     onAdd(name) {
-      this.$store.commit(ADD_TRACK, {
+      const track = {
         name,
-      });
+        color: '#ff0000',
+        gpxFileContent: 'test',
+      };
+      this.$store.dispatch(ADD_TRACK, track);
     },
   },
 };
