@@ -5,6 +5,7 @@
       style="height: 650px; z-index: 1"
       :zoom="zoom"
       :center="center"
+      @udpate:center="centerUpdated"
       @update:bounds="boundsUpdated">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <gondola-polyline
@@ -26,6 +27,7 @@
 
 <script>
 import { LMap, LTileLayer } from 'vue2-leaflet';
+import { SET_MAP_BOUNDS, SET_MAP_CENTER } from '../../store/mutations';
 import GondolaPolyline from './GondolaPolyline.vue';
 import PistePolyline from './PistePolyline.vue';
 
@@ -44,7 +46,10 @@ export default {
   },
   methods: {
     boundsUpdated(bounds) {
-      this.bounds = bounds;
+      this.$store.commit(SET_MAP_BOUNDS, bounds);
+    },
+    centerUpdated(center) {
+      this.$store.commit(SET_MAP_CENTER, center);
     },
     gondolaSelected(gondola) {
       this.$emit('gondolaClicked', gondola);
@@ -57,7 +62,6 @@ export default {
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    bounsd: null,
   }),
 };
 </script>

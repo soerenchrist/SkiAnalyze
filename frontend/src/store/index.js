@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import PistesModule from './pistes';
 import GondolasModule from './gondolas';
+import MapModule from './map';
 
 import {
   ADD_TRACK,
@@ -45,6 +46,7 @@ export default new Vuex.Store({
   modules: {
     piste: PistesModule,
     gondola: GondolasModule,
+    map: MapModule,
   },
   getters: {
     gondolas(state) {
