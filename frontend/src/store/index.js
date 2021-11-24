@@ -5,6 +5,7 @@ import DataService from '../services/DataService';
 import {
   ADD_TRACK,
   REMOVE_TRACK,
+  SET_DIFFICULTY_FILTER,
   SET_DISPLAY_ADD_TRACK_DIALOG,
   SET_GONDOLAS,
   SET_PISTES,
@@ -14,6 +15,14 @@ import {
 
 Vue.use(Vuex);
 
+const filterPistes = (pistes, index) => {
+  if (index === 0) return pistes;
+  if (index === 1) return pistes.filter((x) => x.difficulty <= 1);
+  if (index === 2) return pistes.filter((x) => x.difficulty === 2);
+  if (index === 3) return pistes.filter((x) => x.difficulty === 3);
+  return [];
+};
+
 export default new Vuex.Store({
   state: {
     gondolaCount: 0,
@@ -22,6 +31,8 @@ export default new Vuex.Store({
     showAddTrackDialog: false,
     pisteCount: 0,
     pistes: [],
+    filteredPists: [],
+    difficultyFilter: 0,
     selectedGondola: null,
     selectedPiste: null,
   },
@@ -51,6 +62,9 @@ export default new Vuex.Store({
     [REMOVE_TRACK](state, track) {
       state.tracks = state.tracks.filter((x) => x !== track);
     },
+    [SET_DIFFICULTY_FILTER](state, index) {
+      state.difficultyFilter = index;
+    },
   },
   actions: {
     async [FETCH_GONDOLAS]({ commit }) {
@@ -60,6 +74,11 @@ export default new Vuex.Store({
     async [FETCH_PISTES]({ commit }) {
       const response = await DataService.getPistes();
       commit(SET_PISTES, response);
+    },
+  },
+  getters: {
+    filteredPistes(state) {
+      return filterPistes(state.pistes, state.difficultyFilter);
     },
   },
   modules: {

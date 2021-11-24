@@ -1,5 +1,11 @@
 <template>
 <div>
+  <v-select
+    class="ma-3"
+    v-model="selectedDifficulty"
+    :items="difficultyFilters">
+
+  </v-select>
   <v-virtual-scroll
     :items="sortedPistes"
     :item-height="50"
@@ -17,6 +23,9 @@
             {{item.reference}}
           </v-list-item-title>
         </v-list-item-content>
+        <v-list-item-action>
+          <span :class="getColorClass(item)"></span>
+        </v-list-item-action>
       </v-list-item>
     </template>
   </v-virtual-scroll>
@@ -29,11 +38,21 @@ export default {
     pistes: Array,
     selectedPiste: Object,
   },
+  data: () => ({
+    selectedDifficulty: 'All difficulties',
+    difficultyFilters: ['All difficulties', 'Easy', 'Intermediate', 'Advanced', 'None'],
+  }),
   computed: {
     sortedPistes() {
       const copy = [...this.pistes];
       copy.sort((x, y) => this.sortByReference(x, y));
       return copy;
+    },
+  },
+  watch: {
+    selectedDifficulty() {
+      const index = this.difficultyFilters.indexOf(this.selectedDifficulty);
+      this.$emit('difficultyFilterChanged', index);
     },
   },
   methods: {
@@ -58,6 +77,19 @@ export default {
       if (xRef > yRef) { return 1; }
       return 0;
     },
+    getColorClass(piste) {
+      if (piste.difficulty <= 1) return 'dot blue';
+      if (piste.difficulty === 2) return 'dot red';
+      return 'dot black';
+    },
   },
 };
 </script>
+
+<style scoped>
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 15px;
+}
+</style>

@@ -7,3 +7,5 @@ export const SET_DISPLAY_ADD_TRACK_DIALOG = 'setDisplayAddTrackDialog';
 
 export const ADD_TRACK = 'addTrack';
 export const REMOVE_TRACK = 'removeTrack';
+
+export const SET_DIFFICULTY_FILTER = 'setDifficultyFilter';

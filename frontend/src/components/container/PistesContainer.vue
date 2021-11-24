@@ -2,11 +2,12 @@
   <pistes
     :pistes="pistes"
     :selectedPiste="selectedPiste"
-    @pisteSelected="onPisteSelected" />
+    @pisteSelected="onPisteSelected"
+    @difficultyFilterChanged="onDifficultyFilterChanged" />
 </template>
 
 <script>
-import { SET_SELECTED_PISTE } from '../../store/mutations';
+import { SET_DIFFICULTY_FILTER, SET_SELECTED_PISTE } from '../../store/mutations';
 import Pistes from '../Pistes.vue';
 
 export default {
@@ -15,7 +16,7 @@ export default {
   },
   computed: {
     pistes() {
-      return this.$store.state.pistes;
+      return this.$store.getters.filteredPistes;
     },
     selectedPiste() {
       return this.$store.state.selectedPiste;
@@ -24,6 +25,9 @@ export default {
   methods: {
     onPisteSelected(piste) {
       this.$store.commit(SET_SELECTED_PISTE, piste);
+    },
+    onDifficultyFilterChanged(filter) {
+      this.$store.commit(SET_DIFFICULTY_FILTER, filter);
     },
   },
 };
