@@ -1,4 +1,5 @@
 ﻿using OsmSharp.Complete;
+using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 using SkiAnalyze.SharedKernel.Interfaces;
@@ -19,7 +20,7 @@ public class Gondola : BaseEntity<long>, IAggregateRoot
     public string? Wikipedia { get; set; }
     public string? Description { get; set; }
     public double? Duration { get; set; }
-    public List<GondolaCoordinate> Coordinates { get; set; } = new();
+    public List<GondolaNode> Coordinates { get; set; } = new();
 
     public static Gondola FromWay(CompleteWay way)
     {
@@ -40,10 +41,12 @@ public class Gondola : BaseEntity<long>, IAggregateRoot
             Wikipedia = way.Tags.GetNullableString("wikipedia"),
             Coordinates = way.Nodes
                 .Where(x => x.Id.HasValue)
-                .Select(x => new GondolaCoordinate {
-                Id = x.Id!.Value,
+                .Select(x => new GondolaNode
+            {
+                OsmId = x.Id!.Value,
                 Latitude = (float)(x.Latitude ?? 0f),
-                Longitude = (float)(x.Longitude ?? 0f)
+                Longitude = (float)(x.Longitude ?? 0f),
+                GondolaId = way.Id
             }).ToList()
         };
     }

@@ -2,7 +2,7 @@
 using Ardalis.EFCore.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SkiAnalayze.Core.PisteAggregate;
+using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.SharedKernel;
 

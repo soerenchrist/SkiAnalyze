@@ -8,6 +8,11 @@ public class GondolaConfiguration : IEntityTypeConfiguration<Gondola>
 {
     public void Configure(EntityTypeBuilder<Gondola> builder)
     {
-        builder.OwnsMany(x => x.Coordinates);
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+        builder.HasMany(x => x.Coordinates)
+            .WithOne(x => x.Gondola)
+            .HasForeignKey(x => x.GondolaId);
     }
 }

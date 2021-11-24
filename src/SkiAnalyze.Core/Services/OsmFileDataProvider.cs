@@ -1,21 +1,21 @@
 ﻿using OsmSharp;
 using OsmSharp.Complete;
 using OsmSharp.Streams;
-using SkiAnalayze.Core.PisteAggregate;
+using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Interfaces;
 using System.Diagnostics;
 
 namespace SkiAnalyze.Core.Services;
 
-public class OsmFileDataProvider : IOsmDataProvider, IDisposable, IAsyncDisposable
+public class OsmFileDataProvider : IOsmDataProvider
 {
-    private FileStream fileStream;
+    private readonly IOsmFileProvider _osmFileProvider;
+
     public OsmFileDataProvider(IOsmFileProvider osmFileProvider)
     {
-        this.fileStream = osmFileProvider.GetOsmFile();
+        _osmFileProvider = osmFileProvider;
     }
 
     public Task<IEnumerable<Piste>> GetPistes(Coordinate northWest, Coordinate southEast)
@@ -24,7 +24,8 @@ public class OsmFileDataProvider : IOsmDataProvider, IDisposable, IAsyncDisposab
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var source = new XmlOsmStreamSource(this.fileStream);
+            using var fileStream = _osmFileProvider.GetOsmFile();
+            var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
                 (northWest.Longitude, northWest.Latitude, southEast.Longitude, southEast.Latitude);
@@ -57,7 +58,8 @@ public class OsmFileDataProvider : IOsmDataProvider, IDisposable, IAsyncDisposab
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var gondolaTypes = new string[] { "chair_lift", "t-bar", "gondola", "drag_lift", "platter", "magic_carpet" };
-            var source = new XmlOsmStreamSource(this.fileStream);
+            using var fileStream = _osmFileProvider.GetOsmFile();
+            var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
                 (northWest.Longitude, northWest.Latitude, southEast.Longitude, southEast.Latitude);
@@ -85,17 +87,5 @@ public class OsmFileDataProvider : IOsmDataProvider, IDisposable, IAsyncDisposab
             Console.WriteLine("Took {0} seconds", stopWatch.Elapsed.TotalSeconds);
             return gondolas;
         });
-    }
-
-    
-
-    public void Dispose()
-    {
-        fileStream.Dispose();
-    }
-
-    public ValueTask DisposeAsync()
-    {
-        return fileStream.DisposeAsync();
     }
 }

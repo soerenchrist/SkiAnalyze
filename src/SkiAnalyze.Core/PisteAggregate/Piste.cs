@@ -1,9 +1,10 @@
 ﻿using OsmSharp.Complete;
+using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 using SkiAnalyze.SharedKernel.Interfaces;
 
-namespace SkiAnalayze.Core.PisteAggregate;
+namespace SkiAnalyze.Core.PisteAggregate;
 public class Piste : BaseEntity<long>, IAggregateRoot
 {
     public string? Name { get; set; }
@@ -11,7 +12,7 @@ public class Piste : BaseEntity<long>, IAggregateRoot
     public bool? Lit { get; set; }
     public bool? Snowmaking { get; set; }
     public PisteDifficulty? Difficulty { get; set; }
-    public List<PisteCoordinate> Coordinates { get; set; } = new List<PisteCoordinate>();
+    public List<PisteNode> Coordinates { get; set; } = new List<PisteNode>();
 
     public static Piste FromWay(CompleteWay way)
     {
@@ -25,11 +26,12 @@ public class Piste : BaseEntity<long>, IAggregateRoot
             Difficulty = ParseDifficulty(way.Tags.GetNullableString("piste:difficulty")),
             Coordinates = way.Nodes
                 .Where(x => x.Id.HasValue)
-                .Select(x => new PisteCoordinate
+                .Select(x => new PisteNode
              {
-                    Id = x.Id!.Value,
+                OsmId = x.Id!.Value,
                 Latitude = (float)(x.Latitude ?? 0f),
-                Longitude = (float)(x.Longitude ?? 0f)
+                Longitude = (float)(x.Longitude ?? 0f),
+                PisteId = way.Id
             }).ToList()
         };
     }

@@ -1,6 +1,6 @@
 ﻿namespace SkiAnalyze.Core.Interfaces;
 
-public interface IOsmFileProvider : IDisposable, IAsyncDisposable
+public interface IOsmFileProvider
 {
     FileStream GetOsmFile();
 }

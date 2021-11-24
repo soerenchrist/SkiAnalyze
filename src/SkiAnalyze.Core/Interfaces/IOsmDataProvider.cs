@@ -1,5 +1,5 @@
 ﻿
-using SkiAnalayze.Core.PisteAggregate;
+using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.Common;
 

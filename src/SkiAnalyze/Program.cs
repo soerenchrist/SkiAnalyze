@@ -6,11 +6,13 @@ using Autofac;
 using SkiAnalyze.Core;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Data;
+using System.Reflection;
+using SkiAnalyze.Util;
+using SkiAnalyze;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
@@ -24,9 +26,11 @@ string connectionString = builder.Configuration.GetConnectionString("SqliteConne
 string osmPath = builder.Configuration.GetValue<string>("OsmDataPath");
 builder.Services.AddDbContext(connectionString);
 builder.Services.AddOsmFile(osmPath);
+builder.Services.AddScoped<DataInitializer>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -69,7 +73,7 @@ using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 await context.Database.EnsureCreatedAsync();
 
-var initializer = scope.ServiceProvider.GetRequiredService<IDataInitializer>();
+var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
 await initializer.LoadInitialData();
 
 app.Run();

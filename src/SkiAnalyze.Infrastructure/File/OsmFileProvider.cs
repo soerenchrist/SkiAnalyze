@@ -11,16 +11,6 @@ internal class OsmFileProvider : IOsmFileProvider
         _filePath = filePath;
     }
 
-    public void Dispose()
-    {
-        _fileStream?.Dispose();
-    }
-
-    public ValueTask DisposeAsync()
-    {
-         return _fileStream?.DisposeAsync() ?? new ValueTask();
-    }
-
     public FileStream GetOsmFile()
     {
         _fileStream = System.IO.File.OpenRead(_filePath);

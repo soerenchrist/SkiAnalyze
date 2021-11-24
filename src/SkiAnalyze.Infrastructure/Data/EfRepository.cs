@@ -14,7 +14,11 @@ public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepositor
 
     public Task BulkInsertAsync(List<T> records)
     {
-        return _appDbContext.BulkInsertAsync(records);
+        return _appDbContext.BulkInsertAsync(records, new BulkConfig
+        {
+            SetOutputIdentity = true,
+            PreserveInsertOrder = true,
+        });
     }
     public Task BulkInsertOrUpdateAsync(List<T> records)
     {
