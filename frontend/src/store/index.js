@@ -3,6 +3,9 @@ import Vuex from 'vuex';
 import { FETCH_GONDOLAS, FETCH_PISTES } from './actions';
 import DataService from '../services/DataService';
 import {
+  ADD_TRACK,
+  REMOVE_TRACK,
+  SET_DISPLAY_ADD_TRACK_DIALOG,
   SET_GONDOLAS,
   SET_PISTES,
   SET_SELECTED_GONDOLA,
@@ -15,6 +18,8 @@ export default new Vuex.Store({
   state: {
     gondolaCount: 0,
     gondolas: [],
+    tracks: [],
+    showAddTrackDialog: false,
     pisteCount: 0,
     pistes: [],
     selectedGondola: null,
@@ -36,6 +41,15 @@ export default new Vuex.Store({
     [SET_SELECTED_PISTE](state, piste) {
       state.selectedPiste = piste;
       state.selectedGondola = null;
+    },
+    [SET_DISPLAY_ADD_TRACK_DIALOG](state, value) {
+      state.showAddTrackDialog = value;
+    },
+    [ADD_TRACK](state, track) {
+      state.tracks.push(track);
+    },
+    [REMOVE_TRACK](state, track) {
+      state.tracks = state.tracks.filter((x) => x !== track);
     },
   },
   actions: {

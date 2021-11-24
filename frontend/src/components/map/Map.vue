@@ -1,23 +1,27 @@
 <template>
-  <l-map
-    style="height: 500px"
-    :zoom="zoom"
-    :center="center"
-    @update:bounds="boundsUpdated">
-    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-    <gondola-polyline
-      v-for="gondola in gondolas"
-      :key="gondola.id"
-      :gondola="gondola"
-      @onclick="gondolaSelected"
-      color="green" />
+<v-card>
+  <v-card-text class="mt-4 mr-4 pa-0">
+    <l-map
+      style="height: 650px; z-index: 1"
+      :zoom="zoom"
+      :center="center"
+      @update:bounds="boundsUpdated">
+      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+      <gondola-polyline
+        v-for="gondola in gondolas"
+        :key="gondola.id"
+        :gondola="gondola"
+        @onclick="gondolaSelected"
+        color="green" />
 
-    <piste-polyline
-      v-for="piste in pistes"
-      :key="piste.id"
-      :piste="piste"
-      @onclick="pisteSelected" />
-  </l-map>
+      <piste-polyline
+        v-for="piste in pistes"
+        :key="piste.id"
+        :piste="piste"
+        @onclick="pisteSelected" />
+    </l-map>
+  </v-card-text>
+</v-card>
 </template>
 
 <script>

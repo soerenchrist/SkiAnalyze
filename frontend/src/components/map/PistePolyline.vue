@@ -24,7 +24,7 @@ export default {
     },
     weight() {
       if (this.isSelected) return 8;
-      return 3;
+      return 1;
     },
   },
   data: () => ({

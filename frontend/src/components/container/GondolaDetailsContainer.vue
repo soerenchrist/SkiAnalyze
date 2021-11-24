@@ -2,8 +2,8 @@
   <v-col v-if="isGondolaSelected"
         :xs="12"
         :sm="12"
-        :md="4"
-        :lg="3"
+        :md="3"
+        :lg="2"
         :xl="2"
         class="my-4 mr-4">
     <gondola-details :gondola="selectedGondola" @close="onClose" />

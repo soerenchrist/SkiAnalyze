@@ -1,5 +1,6 @@
 <template>
 <v-row>
+  <tab-container />
   <v-col>
     <Map
       :center="center"
@@ -11,13 +12,18 @@
   </v-col>
   <gondola-details-container />
   <piste-details-container />
+
+  <add-track-dialog-container />
 </v-row>
 </template>
 
 <script>
+import AddTrackDialogContainer from '../components/container/dialogs/AddTrackDialogContainer.vue';
 import GondolaDetailsContainer from '../components/container/GondolaDetailsContainer.vue';
 import PisteDetailsContainer from '../components/container/PisteDetailsContainer.vue';
+import TabContainer from '../components/TabContainer.vue';
 import Map from '../components/map/Map.vue';
+
 import {
   FETCH_GONDOLAS, FETCH_PISTES,
 } from '../store/actions';
@@ -32,6 +38,8 @@ export default {
     Map,
     GondolaDetailsContainer,
     PisteDetailsContainer,
+    AddTrackDialogContainer,
+    TabContainer,
   },
   data: () => ({
     zoom: 13,
