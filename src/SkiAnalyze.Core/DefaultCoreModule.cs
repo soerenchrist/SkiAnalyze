@@ -15,5 +15,9 @@ public class DefaultCoreModule : Autofac.Module
             .As<IGondolaSearchService>();
         builder.RegisterType<PisteSearchService>()
             .As<IPisteSearchService>();
+        builder.RegisterType<UserSessionManager>()
+            .As<IUserSessionManager>();
+        builder.RegisterType<TracksService>()
+            .As<ITracksService>();
     }
 }

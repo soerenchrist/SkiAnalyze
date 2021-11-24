@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.SharedKernel;
+using SkiAnalyze.Core.SessionAggregate;
 
 namespace SkiAnalyze.Data;
 
@@ -13,6 +14,7 @@ public class AppDbContext : DbContext
     private readonly IMediator? _mediator;
     public DbSet<Gondola> Gondolas { get; set; } = default!;
     public DbSet<Piste> Pistes { get; set; } = default!;
+    public DbSet<UserSession> UserSessions { get; set; } = default!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options, IMediator? mediator) : base(options)
     {
@@ -35,7 +37,7 @@ public class AppDbContext : DbContext
         if (_mediator == null) return result;
 
         // dispatch events only if save was successful
-        var entitiesWithEvents = ChangeTracker.Entries<BaseEntity<long>>()
+       /* var entitiesWithEvents = ChangeTracker.Entries(typeof(BaseEntity<>))
             .Select(e => e.Entity)
             .Where(e => e.Events.Any())
             .ToArray();
@@ -49,7 +51,7 @@ public class AppDbContext : DbContext
                 await _mediator.Publish(domainEvent).ConfigureAwait(false);
             }
         }
-
+       */
         return result;
     }
 

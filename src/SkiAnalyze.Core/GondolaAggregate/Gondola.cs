@@ -6,7 +6,7 @@ using SkiAnalyze.SharedKernel.Interfaces;
 
 namespace SkiAnalyze.Core.GondolaAggregate;
 
-public class Gondola : BaseEntity<long>, IAggregateRoot
+public class Gondola : BaseEntity<long>
 {
     public string? Name { get; set; }
     public string Type { get; set; } = string.Empty;

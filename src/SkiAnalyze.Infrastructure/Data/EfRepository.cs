@@ -4,7 +4,7 @@ using SkiAnalyze.Data;
 using SkiAnalyze.SharedKernel.Interfaces;
 
 namespace SkiAnalyze.Infrastructure.Data;
-public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class, IAggregateRoot
+public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class
 {
     private readonly AppDbContext _appDbContext;
     public EfRepository(AppDbContext dbContext) : base(dbContext)

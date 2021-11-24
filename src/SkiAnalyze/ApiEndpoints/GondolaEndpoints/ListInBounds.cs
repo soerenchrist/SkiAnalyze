@@ -21,6 +21,7 @@ public class ListInBounds : BaseAsyncEndpoint
     public ListInBounds(IGondolaSearchService gondolaSearchService,
         IMapper mapper)
     {
+
         _gondolaSearchService = gondolaSearchService;
         _mapper = mapper;
     }
@@ -32,7 +33,8 @@ public class ListInBounds : BaseAsyncEndpoint
         OperationId = "Gondolas.ListInBounds",
         Tags = new[] { "GondolaEndpoints" })
     ]
-    public override async Task<ActionResult<ListGondolasInBoundsResponse>> HandleAsync([FromQuery] ListGondolasInBoundsRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<ListGondolasInBoundsResponse>> HandleAsync([FromQuery] ListGondolasInBoundsRequest request, 
+        CancellationToken cancellationToken = default)
     {
         var sw = new Coordinate
         {

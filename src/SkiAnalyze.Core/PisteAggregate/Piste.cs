@@ -5,7 +5,7 @@ using SkiAnalyze.SharedKernel;
 using SkiAnalyze.SharedKernel.Interfaces;
 
 namespace SkiAnalyze.Core.PisteAggregate;
-public class Piste : BaseEntity<long>, IAggregateRoot
+public class Piste : BaseEntity<long>
 {
     public string? Name { get; set; }
     public string? Reference { get; set; }
