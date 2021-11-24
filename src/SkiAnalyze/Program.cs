@@ -9,6 +9,7 @@ using SkiAnalyze.Data;
 using System.Reflection;
 using SkiAnalyze.Util;
 using SkiAnalyze;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,15 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<ServiceConfig>(config =>
 {
     config.Services = new List<ServiceDescriptor>(builder.Services);
+});
+builder.Services.AddCors(x =>
+{
+    x.AddPolicy("CorsPolicy", cors =>
+    {
+        cors.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
 });
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>

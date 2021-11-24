@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const baseUrl = 'https://localhost:5001/';
+const baseUrl = 'https://localhost:5001/api/';
 
 export default {
   async getGondolas() {
-    const response = await axios.get(`${baseUrl}gondolas?nwLat=46.982524&nwLon=10.888466&seLat=46.914135&seLon=11.036374`);
+    const response = await axios.get(`${baseUrl}gondolas?SwLat=46.905715&SwLon=10.900997&NeLat=47.000393&NeLon=11.049291`);
     return response.data;
   },
   async getPistes() {
-    const response = await axios.get(`${baseUrl}pistes?nwLat=46.982524&nwLon=10.888466&seLat=46.914135&seLon=11.036374`);
+    const response = await axios.get(`${baseUrl}pistes?SwLat=46.905715&SwLon=10.900997&NeLat=47.000393&NeLon=11.049291`);
     return response.data;
   },
 };

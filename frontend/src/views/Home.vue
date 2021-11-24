@@ -1,73 +1,61 @@
 <template>
-  <l-map style="height: 500px" :zoom="zoom" :center="center">
-    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-    <l-polyline
-      v-for="polyline in polylines"
-      :key="polyline.id"
-      :lat-lngs="polyline.latLngs"
-      :color="polyline.color" />
-  </l-map>
+<v-row>
+  <v-col>
+    <Map
+      :center="center"
+      :zoom="zoom"
+      :gondolas="gondolas"
+      :pistes="pistes"
+      @gondolaClicked="onGondolaSelected"
+      @pisteClicked="onPisteSelected" />
+  </v-col>
+  <gondola-details-container />
+  <piste-details-container />
+</v-row>
 </template>
 
 <script>
-import { LMap, LTileLayer } from 'vue2-leaflet';
-import DataService from '../services/DataService';
+import GondolaDetailsContainer from '../components/container/GondolaDetailsContainer.vue';
+import PisteDetailsContainer from '../components/container/PisteDetailsContainer.vue';
+import Map from '../components/map/Map.vue';
+import {
+  FETCH_GONDOLAS, FETCH_PISTES,
+} from '../store/actions';
+import {
+  SET_SELECTED_GONDOLA,
+  SET_SELECTED_PISTE,
+} from '../store/mutations';
 
 export default {
   name: 'Home',
   components: {
-    LMap,
-    LTileLayer,
+    Map,
+    GondolaDetailsContainer,
+    PisteDetailsContainer,
   },
   data: () => ({
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution:
-        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    zoom: 15,
-    gondolas: [],
-    pistes: [],
+    zoom: 13,
     center: [46.966709, 11.007390],
-    polylines: [],
   }),
+  computed: {
+    gondolas() {
+      return this.$store.state.gondolas;
+    },
+    pistes() {
+      return this.$store.state.pistes;
+    },
+  },
   methods: {
-    async fetchGondolas() {
-      this.gondolas = await DataService.getGondolas();
-      this.gondolas.forEach((x) => {
-        const latLngs = this.getLatLngs(x);
-        this.polylines.push({
-          id: x.osmId,
-          color: 'green',
-          latLngs,
-        });
-      });
+    onGondolaSelected(gondola) {
+      this.$store.commit(SET_SELECTED_GONDOLA, gondola);
     },
-    async fetchPistes() {
-      this.pistes = await DataService.getPistes();
-      this.pistes.forEach((x) => {
-        const latLngs = this.getLatLngs(x);
-        this.polylines.push({
-          id: x.osmId,
-          color: this.getColor(x),
-          latLngs,
-        });
-      });
-    },
-    getColor(piste) {
-      if (piste.difficulty <= 1) return 'blue';
-      if (piste.difficulty === 2) return 'red';
-      return 'black';
-    },
-    getLatLngs(gondola) {
-      const latLngs = [];
-      gondola.coordinates.forEach((x) => {
-        latLngs.push([x.latitude, x.longitude]);
-      });
-      return latLngs;
+    onPisteSelected(piste) {
+      this.$store.commit(SET_SELECTED_PISTE, piste);
     },
   },
   mounted() {
-    this.fetchGondolas();
-    this.fetchPistes();
+    this.$store.dispatch(FETCH_PISTES);
+    this.$store.dispatch(FETCH_GONDOLAS);
   },
 };
 </script>
