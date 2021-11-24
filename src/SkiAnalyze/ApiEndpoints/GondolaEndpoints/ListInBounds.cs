@@ -57,9 +57,6 @@ public class ListInBounds : BaseAsyncEndpoint
     private ListGondolasInBoundsResponse ToResponse(List<Gondola> value)
     {
         var dtos = _mapper.Map<List<GondolaDto>>(value);
-        return new ListGondolasInBoundsResponse
-        {
-            Gondolas = dtos
-        };
+        return new ListGondolasInBoundsResponse(dtos);
     }
 }

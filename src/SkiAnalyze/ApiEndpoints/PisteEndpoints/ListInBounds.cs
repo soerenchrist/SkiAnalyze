@@ -57,9 +57,6 @@ public class ListInBounds : BaseAsyncEndpoint
     private ListPistesInBoundsResponse ToResponse(List<Piste> value)
     {
         var dtos = _mapper.Map<List<PisteDto>>(value);
-        return new ListPistesInBoundsResponse
-        {
-            Pistes = dtos
-        };
+        return new ListPistesInBoundsResponse(dtos);
     }
 }

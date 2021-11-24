@@ -4,5 +4,11 @@ namespace SkiAnalyze.ApiEndpoints.GondolaEndpoints;
 
 public class ListGondolasInBoundsResponse
 {
-    public List<GondolaDto> Gondolas { get; set; } = new();
+    public ListGondolasInBoundsResponse(List<GondolaDto> gondolas)
+    {
+        Gondolas = gondolas;
+        Count = gondolas.Count;
+    }
+    public List<GondolaDto> Gondolas { get; }
+    public int Count { get; }
 }

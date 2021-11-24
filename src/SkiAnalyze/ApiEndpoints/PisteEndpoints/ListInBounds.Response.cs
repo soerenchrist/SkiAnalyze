@@ -4,5 +4,11 @@ namespace SkiAnalyze.ApiEndpoints.PisteEndpoints;
 
 public class ListPistesInBoundsResponse
 {
-    public List<PisteDto> Pistes { get; set; } = new();
+    public ListPistesInBoundsResponse(List<PisteDto> pistes)
+    {
+        Pistes = pistes;
+        Count = pistes.Count;
+    }
+    public List<PisteDto> Pistes { get; }
+    public int Count { get; }
 }
