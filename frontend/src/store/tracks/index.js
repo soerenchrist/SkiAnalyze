@@ -8,6 +8,7 @@ import {
   FETCH_TRACKS_SUCCESS,
   REMOVE_TRACK_ERROR,
   REMOVE_TRACK_STARTED,
+  TOGGLE_TRACK_VISIBILTIY,
 } from './mutations';
 
 export default {
@@ -71,6 +72,7 @@ export default {
     },
     [FETCH_TRACKS_SUCCESS](state, tracks) {
       state.loading = false;
+      tracks.forEach((x) => { x.visible = true; });
       state.tracks = tracks;
       state.error = null;
     },
@@ -88,10 +90,19 @@ export default {
       state.loading = false;
       state.error = error;
     },
+    [TOGGLE_TRACK_VISIBILTIY](state, track) {
+      const tracks = state.tracks.filter((x) => x.id === track.id);
+      if (tracks.length === 1) {
+        tracks[0].visible = !tracks[0].visible;
+      }
+    },
   },
   getters: {
     tracks(state) {
       return state.tracks;
+    },
+    visibleTracks(state) {
+      return state.tracks.filter((x) => x.visible);
     },
   },
 };

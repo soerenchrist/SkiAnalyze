@@ -17,7 +17,9 @@
 
         <v-list-item-action>
           <v-btn icon>
-            <v-icon color="grey">mdi-eye</v-icon>
+            <v-icon color="grey" @click="() => toggleVisibility(track)">
+              {{track.visible ? 'mdi-eye-off' : 'mdi-eye'}}
+            </v-icon>
           </v-btn>
         </v-list-item-action>
         <v-list-item-action>
@@ -45,6 +47,9 @@ export default {
     },
     onRemove(track) {
       this.$emit('removeTrack', track);
+    },
+    toggleVisibility(track) {
+      this.$emit('toggleVisibility', track);
     },
   },
 };

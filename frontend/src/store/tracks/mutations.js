@@ -7,3 +7,5 @@ export const ADD_TRACK_ERROR = 'addTrackError';
 
 export const REMOVE_TRACK_STARTED = 'removeTrackStarted';
 export const REMOVE_TRACK_ERROR = 'removeTrackError';
+
+export const TOGGLE_TRACK_VISIBILTIY = 'toggleTrackVisibility';
