@@ -30,12 +30,7 @@ export default {
     },
   },
   methods: {
-    onAdd(name) {
-      const track = {
-        name,
-        color: '#ff0000',
-        gpxFileContent: 'test',
-      };
+    onAdd(track) {
       this.$store.dispatch(ADD_TRACK, track);
     },
   },
