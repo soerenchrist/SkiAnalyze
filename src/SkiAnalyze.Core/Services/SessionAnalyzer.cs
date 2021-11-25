@@ -1,0 +1,85 @@
+﻿using Ardalis.Result;
+using NetTopologySuite.IO;
+using SkiAnalyze.Core.Common.Analysis;
+using SkiAnalyze.Core.Interfaces;
+using SkiAnalyze.Core.Services.MapMatching;
+using SkiAnalyze.Core.Util;
+using System.Xml;
+
+namespace SkiAnalyze.Core.Services;
+
+public class SessionAnalyzer : ISessionAnalyzer
+{
+    private readonly IUserSessionManager _userSessionManager;
+    private readonly IGondolaSearchService _gondolaSearchService;
+    private readonly IPisteSearchService _pisteSearchService;
+    public SessionAnalyzer(IUserSessionManager userSessionManager,
+        IGondolaSearchService gondolaSearchService,
+        IPisteSearchService pisteSearchService)
+    {
+        _userSessionManager = userSessionManager;
+        _gondolaSearchService = gondolaSearchService;
+        _pisteSearchService = pisteSearchService;
+    }
+
+    public async Task<Result<AnalysisResult>> StartAnalysis(Guid userSessionId)
+    {
+        var session = await _userSessionManager.GetUserSession(userSessionId);
+        if (session == null)
+            return Invalid("Invalid session id");
+
+
+        var tracks = session.Tracks.ToList();
+        if (tracks.Count == 0)
+            return Invalid("No tracks yet!");
+
+        var gpxFiles = LoadGpxFiles(tracks);
+
+        var trackPoints = gpxFiles.ToTrackPoints();
+        var bounds = trackPoints.GetBounds();
+
+        var pistes = await _pisteSearchService.GetPistesInBounds(bounds);
+        var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);
+
+        var matcher = new MatchingService();
+        var runs = matcher.Match(gondolas, pistes, trackPoints.ToList());
+
+        return new AnalysisResult
+        {
+            IsRunning = true,
+            Bounds = bounds,
+            Runs = runs.ToList()
+        };
+    }
+
+    private IEnumerable<GpxFile> LoadGpxFiles(List<SessionAggregate.Track> tracks)
+    {
+        foreach(var track in tracks)
+        {
+            using var stringReader = new StringReader(track.GpxFileContents);
+            using var xmlReader = new XmlTextReader(stringReader);
+            var file = GpxFile.ReadFrom(xmlReader, new GpxReaderSettings
+            {
+                TimeZoneInfo = TimeZoneInfo.Local
+            });
+
+            yield return file;
+        }
+    }
+
+    private Result<AnalysisResult> Invalid(string message)
+    {
+        return Result<AnalysisResult>.Invalid(GetValidationErrors(message));
+    }
+
+    private List<ValidationError> GetValidationErrors(string message)
+    {
+        return new List<ValidationError>()
+        {
+            new ValidationError
+            {
+                ErrorMessage = message
+            }
+        };
+    }
+}

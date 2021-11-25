@@ -5,8 +5,10 @@ namespace SkiAnalyze.Core.PisteAggregate.Specifications;
 
 public class PistesInBoundsSpec : Specification<Piste>
 {
-    public PistesInBoundsSpec(Coordinate southWest, Coordinate northEast)
+    public PistesInBoundsSpec(Bounds bounds)
     {
+        var southWest = bounds.SouthWest;
+        var northEast = bounds.NorthEast;
         Query
             .Include(x => x.Coordinates)
             .Where(x => x.Coordinates.Min(x => x.Longitude) > southWest.Longitude

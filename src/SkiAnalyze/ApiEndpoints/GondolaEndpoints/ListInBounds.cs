@@ -46,19 +46,13 @@ public class ListInBounds : BaseAsyncEndpoint
             Latitude = request.NeLat,
             Longitude = request.NeLon
         };
-        var result = await _gondolaSearchService.GetGondolasInBounds(sw, ne);
-        if (result.IsSuccess)
+        var gondolas = await _gondolaSearchService.GetGondolasInBounds(new Bounds
         {
-            return Ok(ToResponse(result.Value));
-        }
+            SouthWest = sw,
+            NorthEast = ne
+        });
 
-        var newResult = result.ToResult<ListGondolasInBoundsResponse, List<Gondola>>();
-        return this.ToActionResult(newResult);
-    }
-
-    private ListGondolasInBoundsResponse ToResponse(List<Gondola> value)
-    {
-        var dtos = _mapper.Map<List<GondolaDto>>(value);
+        var dtos = _mapper.Map<List<GondolaDto>>(gondolas);
         return new ListGondolasInBoundsResponse(dtos);
     }
 }

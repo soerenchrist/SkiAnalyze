@@ -67,7 +67,7 @@ export default {
       const contents = await this.readContents(this.file);
       const track = {
         name: this.name,
-        gpxFileContents: contents,
+        gpxFileContent: contents,
         color: this.color,
       };
       this.$emit('add', track);

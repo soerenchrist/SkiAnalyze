@@ -44,19 +44,13 @@ public class ListInBounds : BaseAsyncEndpoint
             Latitude = request.NeLat,
             Longitude = request.NeLon
         };
-        var result = await _pisteSearchService.GetPistesInBounds(sw, ne);
-        if (result.IsSuccess)
+        var pistes = await _pisteSearchService.GetPistesInBounds(new Bounds
         {
-            return Ok(ToResponse(result.Value));
-        }
+            SouthWest = sw,
+            NorthEast = ne
+        });
 
-        var newResult = result.ToResult<ListPistesInBoundsResponse, List<Piste>>();
-        return this.ToActionResult(newResult);
-    }
-
-    private ListPistesInBoundsResponse ToResponse(List<Piste> value)
-    {
-        var dtos = _mapper.Map<List<PisteDto>>(value);
+        var dtos = _mapper.Map<List<PisteDto>>(pistes);
         return new ListPistesInBoundsResponse(dtos);
     }
 }

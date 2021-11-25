@@ -20,6 +20,7 @@
         :key="piste.id"
         :piste="piste"
         @onclick="pisteSelected" />
+        <track-polylines />
     </l-map>
   </v-card-text>
 </v-card>
@@ -28,6 +29,7 @@
 <script>
 import { LMap, LTileLayer } from 'vue2-leaflet';
 import { SET_MAP_BOUNDS, SET_MAP_CENTER } from '../../store/mutations';
+import TrackPolylines from '../other/TrackPolylines.vue';
 import GondolaPolyline from './GondolaPolyline.vue';
 import PistePolyline from './PistePolyline.vue';
 
@@ -43,6 +45,7 @@ export default {
     LTileLayer,
     GondolaPolyline,
     PistePolyline,
+    TrackPolylines,
   },
   methods: {
     boundsUpdated(bounds) {

@@ -6,5 +6,5 @@ namespace SkiAnalyze.Core.Interfaces;
 
 public interface IPisteSearchService
 {
-    Task<Result<List<Piste>>> GetPistesInBounds(Coordinate southWest, Coordinate northEast);
+    Task<List<Piste>> GetPistesInBounds(Bounds bounds);
 }

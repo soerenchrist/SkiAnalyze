@@ -5,8 +5,10 @@ namespace SkiAnalyze.Core.GondolaAggregate.Specifications;
 
 public class GondolasInBoundsSpec : Specification<Gondola>
 {
-    public GondolasInBoundsSpec(Coordinate southWest, Coordinate northEast)
+    public GondolasInBoundsSpec(Bounds bounds)
     {
+        var southWest = bounds.SouthWest;
+        var northEast = bounds.NorthEast;
         Query
             .Include(x => x.Coordinates)
             .Where(x => x.Coordinates.Min(x => x.Longitude) > southWest.Longitude

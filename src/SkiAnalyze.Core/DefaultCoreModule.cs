@@ -19,5 +19,8 @@ public class DefaultCoreModule : Autofac.Module
             .As<IUserSessionManager>();
         builder.RegisterType<TracksService>()
             .As<ITracksService>();
+
+        builder.RegisterType<SessionAnalyzer>()
+            .As<ISessionAnalyzer>();
     }
 }

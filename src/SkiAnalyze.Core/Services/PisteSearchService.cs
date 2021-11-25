@@ -17,48 +17,31 @@ public class PisteSearchService : IPisteSearchService
         _pisteRepository = pisteRepository;
     }
 
-    public async Task<Result<List<Piste>>> GetPistesInBounds(Coordinate southWest, Coordinate northEast)
+    public async Task<List<Piste>> GetPistesInBounds(Bounds bounds)
     {
-        var result = ValidateCoordinates(southWest, northEast);
-        if (!result.IsSuccess)
-            return result;
-
-        var spec = new PistesInBoundsSpec(southWest, northEast);
+        ValidateCoordinates(bounds);
+        
+        var spec = new PistesInBoundsSpec(bounds);
         var results = await _pisteRepository.ListAsync(spec);
         return Result<List<Piste>>.Success(results);
     }
 
-    private Result<List<Piste>> ValidateCoordinates(Coordinate southWest, Coordinate northEast)
+    private void ValidateCoordinates(Bounds bounds)
     {
+        var southWest = bounds.SouthWest;
+        var northEast = bounds.NorthEast;
         if (southWest.Longitude > northEast.Longitude)
-            return Result<List<Piste>>.Invalid(new List<ValidationError>() 
-            { 
-                new ValidationError
-                {
-                    ErrorMessage = "NorthWest Longitude must not be greater than southEast Longitude"
-                } 
-            });
+            throw new ArgumentException("NorthWest Longitude must not be greater than southEast Longitude");
+
         if (southWest.Latitude > northEast.Latitude)
-            return Result<List<Piste>>.Invalid(new List<ValidationError>() { 
-                new ValidationError
-                {
-                    ErrorMessage = "NorthWest Latitude must not be smaller than southEast Latitude"
-                } 
-            });
+            throw new ArgumentException("NorthWest Latitude must not be smaller than southEast Latitude");
 
         var latDiff = northEast.Latitude - southWest.Latitude;
         var lonDiff = northEast.Longitude - southWest.Longitude;
 
         if (latDiff > MaxDiff || lonDiff > MaxDiff)
         {
-            return Result<List<Piste>>.Invalid(new List<ValidationError>() { 
-                new ValidationError
-                {
-                    ErrorMessage = $"Range between Latitude and Longitude must not exceed {MaxDiff}"
-                } 
-            });
+            throw new ArgumentException($"Range between Latitude and Longitude must not exceed {MaxDiff}");
         }
-
-        return Result<List<Piste>>.Success(new List<Piste>());;
     }
 }

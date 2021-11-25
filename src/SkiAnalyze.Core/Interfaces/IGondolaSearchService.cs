@@ -6,5 +6,5 @@ namespace SkiAnalyze.Core.Interfaces;
 
 public interface IGondolaSearchService
 {
-    Task<Result<List<Gondola>>> GetGondolasInBounds(Coordinate southWest, Coordinate northEast);
+    Task<List<Gondola>> GetGondolasInBounds(Bounds bounds);
 }

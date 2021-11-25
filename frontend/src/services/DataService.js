@@ -28,4 +28,12 @@ export default {
     const url = `${baseUrl}tracks?UserSessionId=${track.userSessionId}&TrackId=${track.id}`;
     await axios.delete(url);
   },
+  async startAnalysis(userSessionId) {
+    const url = `${baseUrl}analysis/start`;
+    const body = {
+      userSessionId,
+    };
+    const response = await axios.post(url, body);
+    return response.data;
+  },
 };
