@@ -1,11 +1,13 @@
 import DataService from '../../services/DataService';
-import { FETCH_TRACKS, ADD_TRACK } from './actions';
+import { FETCH_TRACKS, ADD_TRACK, REMOVE_TRACK } from './actions';
 import {
   ADD_TRACK_ERROR,
   ADD_TRACK_STARTED,
   FETCH_TRACKS_ERROR,
   FETCH_TRACKS_STARTED,
   FETCH_TRACKS_SUCCESS,
+  REMOVE_TRACK_ERROR,
+  REMOVE_TRACK_STARTED,
 } from './mutations';
 
 export default {
@@ -20,7 +22,9 @@ export default {
       const sessionId = localStorage.getItem('userSessionId');
       try {
         const response = await DataService.getTracks(sessionId);
-        localStorage.setItem('userSessionId', response.userSessionId);
+        if (response.userSessionId) {
+          localStorage.setItem('userSessionId', response.userSessionId);
+        }
         commit(FETCH_TRACKS_SUCCESS, response.tracks);
       } catch (error) {
         commit(FETCH_TRACKS_ERROR, error);
@@ -37,6 +41,20 @@ export default {
         dispatch(FETCH_TRACKS);
       } catch (error) {
         commit(ADD_TRACK_ERROR, error);
+      }
+    },
+    async [REMOVE_TRACK]({ dispatch, commit }, trackId) {
+      commit(REMOVE_TRACK_STARTED);
+      const userSessionId = localStorage.getItem('userSessionId');
+      const track = {
+        id: trackId,
+        userSessionId,
+      };
+      try {
+        await DataService.removeTrack(track);
+        dispatch(FETCH_TRACKS);
+      } catch (error) {
+        commit(REMOVE_TRACK_ERROR, error);
       }
     },
   },
@@ -60,6 +78,13 @@ export default {
       state.loading = true;
     },
     [ADD_TRACK_ERROR](state, error) {
+      state.loading = false;
+      state.error = error;
+    },
+    [REMOVE_TRACK_STARTED](state) {
+      state.loading = true;
+    },
+    [REMOVE_TRACK_ERROR](state, error) {
       state.loading = false;
       state.error = error;
     },

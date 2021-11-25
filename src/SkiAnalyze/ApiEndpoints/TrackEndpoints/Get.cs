@@ -30,7 +30,10 @@ public class Get : BaseAsyncEndpoint
     ]
     public override async Task<ActionResult<GetTracksResponse>> HandleAsync([FromQuery]GetTracksRequest request, CancellationToken cancellationToken = default)
     {
-        var tracks = await _tracksService.GetTracks(request.UserSessionId);
+        if (request.UserSessionId == null)
+            return new GetTracksResponse(new List<TrackDto>(), null);
+
+        var tracks = await _tracksService.GetTracks(request.UserSessionId.Value);
         var dtos = _mapper.Map<List<TrackDto>>(tracks);
 
         return new GetTracksResponse(dtos, request.UserSessionId);

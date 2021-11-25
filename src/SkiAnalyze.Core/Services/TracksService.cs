@@ -18,6 +18,15 @@ public class TracksService : ITracksService
         _userSessionManager = userSessionManager;
     }
 
+    public async Task<Track?> GetTrack(Guid userSessionId, int trackId)
+    {
+        var session = await _userSessionManager.GetUserSession(userSessionId);
+        if (session == null)
+            return null;
+
+        return session.Tracks.FirstOrDefault(x => x.Id == trackId);
+    }
+
     public async Task<Track> AddTrack(Track track)
     {
         var session = await _userSessionManager.GetUserSession(track.UserSessionId);

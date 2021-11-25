@@ -24,4 +24,8 @@ export default {
     const response = await axios.post(url, track);
     return response.data;
   },
+  async removeTrack(track) {
+    const url = `${baseUrl}tracks?UserSessionId=${track.userSessionId}&TrackId=${track.id}`;
+    await axios.delete(url);
+  },
 };

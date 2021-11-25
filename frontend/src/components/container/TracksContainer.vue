@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { FETCH_TRACKS } from '../../store/actions';
+import { FETCH_TRACKS, REMOVE_TRACK } from '../../store/actions';
 import { SET_DISPLAY_ADD_TRACK_DIALOG } from '../../store/mutations';
 import Tracks from '../Tracks.vue';
 
@@ -25,8 +25,8 @@ export default {
     onAddTrack() {
       this.$store.commit(SET_DISPLAY_ADD_TRACK_DIALOG, true);
     },
-    onRemoveTrack() { // track) {
-      // this.$store.commit(REMOVE_TRACK, track);
+    onRemoveTrack(track) {
+      this.$store.dispatch(REMOVE_TRACK, track.id);
     },
   },
   mounted() {
