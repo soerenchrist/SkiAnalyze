@@ -3,6 +3,7 @@ import { FETCH_TRACKS, ADD_TRACK, REMOVE_TRACK } from './actions';
 import {
   ADD_TRACK_ERROR,
   ADD_TRACK_STARTED,
+  DISPLAY_ADD_TRACK_DIALOG,
   FETCH_TRACKS_ERROR,
   FETCH_TRACKS_STARTED,
   FETCH_TRACKS_SUCCESS,
@@ -16,6 +17,7 @@ export default {
     loading: false,
     tracks: [],
     error: null,
+    showAddTrackDialog: false,
   },
   actions: {
     async [FETCH_TRACKS]({ commit }) {
@@ -96,6 +98,9 @@ export default {
         tracks[0].visible = !tracks[0].visible;
       }
     },
+    [DISPLAY_ADD_TRACK_DIALOG](state, value) {
+      state.showAddTrackDialog = value;
+    },
   },
   getters: {
     tracks(state) {
@@ -103,6 +108,9 @@ export default {
     },
     visibleTracks(state) {
       return state.tracks.filter((x) => x.visible);
+    },
+    showAddTrackDialog(state) {
+      return state.showAddTrackDialog;
     },
   },
 };

@@ -6,7 +6,7 @@
 
 <script>
 import { ADD_TRACK } from '../../../store/actions';
-import { SET_DISPLAY_ADD_TRACK_DIALOG } from '../../../store/mutations';
+import { DISPLAY_ADD_TRACK_DIALOG } from '../../../store/mutations';
 import AddTrackDialog from '../../dialogs/AddTrackDialog.vue';
 
 export default {
@@ -16,7 +16,7 @@ export default {
   }),
   computed: {
     storeIsOpen() {
-      return this.$store.state.showAddTrackDialog;
+      return this.$store.getters.showAddTrackDialog;
     },
   },
   watch: {
@@ -25,7 +25,7 @@ export default {
     },
     isOpen() {
       if (this.storeIsOpen !== this.isOpen) {
-        this.$store.commit(SET_DISPLAY_ADD_TRACK_DIALOG, this.isOpen);
+        this.$store.commit(DISPLAY_ADD_TRACK_DIALOG, this.isOpen);
       }
     },
   },

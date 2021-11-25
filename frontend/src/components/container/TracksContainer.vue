@@ -9,7 +9,7 @@
 
 <script>
 import { FETCH_TRACKS, REMOVE_TRACK } from '../../store/actions';
-import { SET_DISPLAY_ADD_TRACK_DIALOG, TOGGLE_TRACK_VISIBILTIY } from '../../store/mutations';
+import { DISPLAY_ADD_TRACK_DIALOG, TOGGLE_TRACK_VISIBILTIY } from '../../store/mutations';
 import Tracks from '../Tracks.vue';
 
 export default {
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     onAddTrack() {
-      this.$store.commit(SET_DISPLAY_ADD_TRACK_DIALOG, true);
+      this.$store.commit(DISPLAY_ADD_TRACK_DIALOG, true);
     },
     onRemoveTrack(track) {
       this.$store.dispatch(REMOVE_TRACK, track.id);

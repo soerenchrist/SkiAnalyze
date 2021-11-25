@@ -9,3 +9,5 @@ export const REMOVE_TRACK_STARTED = 'removeTrackStarted';
 export const REMOVE_TRACK_ERROR = 'removeTrackError';
 
 export const TOGGLE_TRACK_VISIBILTIY = 'toggleTrackVisibility';
+
+export const DISPLAY_ADD_TRACK_DIALOG = 'displayAddTrackDialog';

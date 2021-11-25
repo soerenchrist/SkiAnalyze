@@ -6,7 +6,6 @@ import MapModule from './map';
 import TracksModule from './tracks';
 
 import {
-  SET_DISPLAY_ADD_TRACK_DIALOG,
   SET_SELECTED_GONDOLA,
   SET_SELECTED_PISTE,
 } from './mutations';
@@ -15,7 +14,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    showAddTrackDialog: false,
     selectedGondola: null,
     selectedPiste: null,
   },
@@ -27,9 +25,6 @@ export default new Vuex.Store({
     [SET_SELECTED_PISTE](state, piste) {
       state.selectedPiste = piste;
       state.selectedGondola = null;
-    },
-    [SET_DISPLAY_ADD_TRACK_DIALOG](state, value) {
-      state.showAddTrackDialog = value;
     },
   },
   actions: {
