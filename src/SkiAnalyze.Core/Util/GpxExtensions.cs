@@ -7,6 +7,7 @@ public static class GpxExtensions
 {
     public static Bounds GetBounds(this IEnumerable<TrackPoint> points)
     {
+        var offsets = 0.01f;
         var minLat = points.Min(x => x.Latitude);
         var minLon = points.Min(x => x.Longitude);
         var maxLat = points.Max(x => x.Latitude);
@@ -14,13 +15,13 @@ public static class GpxExtensions
 
         var min = new Coordinate
         {
-            Latitude = minLat,
-            Longitude = minLon
+            Latitude = minLat - offsets,
+            Longitude = minLon - offsets
         };
         var max = new Coordinate
         {
-            Longitude = maxLon,
-            Latitude = maxLat
+            Longitude = maxLon + offsets,
+            Latitude = maxLat + offsets
         };
         return new Bounds
         {

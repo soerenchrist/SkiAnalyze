@@ -11,12 +11,15 @@ public class MatchingService
     {
         var runs = SegmentPoints(points);
         var number = 1;
-        foreach (var run in runs)
+        var filteredRuns = runs.Where(x => x.Coordinates.Any()).ToList();
+        foreach (var run in filteredRuns)
         {
             run.Number = number;
+            if (!run.Downhill)
+                run.Gondola = MatchGondola(run, gondolas);
             number++;
         }
-        return runs;
+        return filteredRuns;
     }
 
     private List<Run> SegmentPoints(List<TrackPoint> points)
@@ -66,8 +69,52 @@ public class MatchingService
 
             segments.Add(point);
         }
+        runs.Add(new Run
+        {
+            Coordinates = segments,
+            Downhill = direction == Direction.Down
+        });
         return runs;
     }
+
+    private Gondola? MatchGondola(Run run, List<Gondola> gondolas)
+    {
+        if (run.Coordinates.Count <= 1)
+            return null;
+        var lastPointOfRun = run.Coordinates.Last();
+        var firstPointOfRun = run.Coordinates.First();
+
+        var diffLat = lastPointOfRun.Latitude - firstPointOfRun.Latitude;
+        var diffLon = lastPointOfRun.Longitude - firstPointOfRun.Longitude;
+        var runDirection = (diffLat, diffLon);
+
+        const double AngleThresh = 0.98;
+
+        foreach(var gondola in gondolas)
+        {
+            var (startPoint, endPoint) = (gondola.Coordinates.First(), gondola.Coordinates.Last());
+            var diffLatGond = endPoint.Latitude - startPoint.Latitude;
+            var diffLonGond = endPoint.Longitude - startPoint.Longitude;
+
+            var gondolaDirection = (diffLatGond, diffLonGond);
+            var angle = CalculateAngle(runDirection, gondolaDirection);
+
+            if (angle > AngleThresh)
+            {
+                Console.WriteLine("Yep");
+                return gondola;
+            }    
+        }
+        return null;
+    }
+
+    private double CalculateAngle((double, double) coord1, (double, double) coord2)
+    {
+        var (dx1, dy1) = coord1;
+        var (dx2, dy2) = coord2;
+        return Math.Abs((dx1 * dx2 + dy1 * dy2) / Math.Sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2)));
+    }
+
 }
 
 internal enum Direction

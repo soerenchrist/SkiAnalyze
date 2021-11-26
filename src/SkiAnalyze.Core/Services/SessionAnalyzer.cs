@@ -2,6 +2,7 @@
 using NetTopologySuite.IO;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Interfaces;
+using SkiAnalyze.Core.Services.Gpx;
 using SkiAnalyze.Core.Services.MapMatching;
 using SkiAnalyze.Core.Util;
 using System.Xml;
@@ -33,7 +34,8 @@ public class SessionAnalyzer : ISessionAnalyzer
         if (tracks.Count == 0)
             return Invalid("No tracks yet!");
 
-        var gpxFiles = LoadGpxFiles(tracks);
+        var fileLoader = new GpxFileLoader();
+        var gpxFiles = fileLoader.LoadGpxFiles(tracks);
 
         var trackPoints = gpxFiles.ToTrackPoints();
         var bounds = trackPoints.GetBounds();
@@ -50,21 +52,6 @@ public class SessionAnalyzer : ISessionAnalyzer
             Bounds = bounds,
             Runs = runs.ToList()
         };
-    }
-
-    private IEnumerable<GpxFile> LoadGpxFiles(List<SessionAggregate.Track> tracks)
-    {
-        foreach(var track in tracks)
-        {
-            using var stringReader = new StringReader(track.GpxFileContents);
-            using var xmlReader = new XmlTextReader(stringReader);
-            var file = GpxFile.ReadFrom(xmlReader, new GpxReaderSettings
-            {
-                TimeZoneInfo = TimeZoneInfo.Local
-            });
-
-            yield return file;
-        }
     }
 
     private Result<AnalysisResult> Invalid(string message)
