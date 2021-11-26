@@ -4,6 +4,7 @@ namespace SkiAnalyze.ApiModels;
 
 public class GondolaDto
 {
+    public long Id { get; set; }
     public string? Name { get; set; }
     public string Type { get; set; } = string.Empty;
     public int? Occupancy { get; set; }

@@ -88,7 +88,7 @@ public class MatchingService
         var diffLon = lastPointOfRun.Longitude - firstPointOfRun.Longitude;
         var runDirection = (diffLat, diffLon);
 
-        const double AngleThresh = 0.98;
+        const double AngleThresh = 0.95;
 
         foreach(var gondola in gondolas)
         {
@@ -101,7 +101,6 @@ public class MatchingService
 
             if (angle > AngleThresh)
             {
-                Console.WriteLine("Yep");
                 return gondola;
             }    
         }

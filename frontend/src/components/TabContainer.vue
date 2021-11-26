@@ -17,6 +17,7 @@
         <v-tab key="tracks">Tracks</v-tab>
         <v-tab key="lifts">Lifts</v-tab>
         <v-tab key="pistes">Pistes</v-tab>
+        <v-tab key="runList" v-if="isAnalyzed">Runs</v-tab>
 
         <v-tab-item>
           <tracks-container />
@@ -26,6 +27,9 @@
         </v-tab-item>
         <v-tab-item>
           <pistes-container />
+        </v-tab-item>
+        <v-tab-item v-if="isAnalyzed">
+          <run-list />
         </v-tab-item>
 
       </v-tabs>
@@ -37,8 +41,19 @@
 import LiftsContainer from './container/LiftsContainer.vue';
 import PistesContainer from './container/PistesContainer.vue';
 import TracksContainer from './container/TracksContainer.vue';
+import RunList from './other/RunList.vue';
 
 export default {
-  components: { TracksContainer, LiftsContainer, PistesContainer },
+  components: {
+    TracksContainer,
+    LiftsContainer,
+    PistesContainer,
+    RunList,
+  },
+  computed: {
+    isAnalyzed() {
+      return this.$store.getters.analysisResult !== null;
+    },
+  },
 };
 </script>

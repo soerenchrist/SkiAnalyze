@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SkiAnalyze.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\chris\\Downloads\\ischgl.gpx\"  \"C:\\Users\\chris\\source\\repos\\SkiAnalyze\\src\\SkiAnalyze\\app.db\""
+    }
+  }
+}

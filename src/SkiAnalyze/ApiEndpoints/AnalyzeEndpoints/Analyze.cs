@@ -1,6 +1,9 @@
 ﻿using Ardalis.ApiEndpoints;
+using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SkiAnalyze.ApiModels;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -9,13 +12,17 @@ namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
 public class Analyze : BaseAsyncEndpoint
     .WithRequest<AnalyzeRequest>
-    .WithResponse<AnalysisResult>
+    .WithResponse<AnalysisResultDto>
 {
 
     private readonly ISessionAnalyzer _sessionAnalyzer;
-    public Analyze(ISessionAnalyzer sessionAnalyzer)
+    private readonly IMapper _mapper;
+
+    public Analyze(ISessionAnalyzer sessionAnalyzer,
+        IMapper mapper)
     {
         _sessionAnalyzer = sessionAnalyzer;
+        _mapper = mapper;
     }
 
     [HttpPost("/api/analysis/start")]
@@ -25,9 +32,21 @@ public class Analyze : BaseAsyncEndpoint
         OperationId = "Analysis.Start",
         Tags = new[] { "AnalysisEndpoints" })
     ]
-    public override async Task<ActionResult<AnalysisResult>> HandleAsync(AnalyzeRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<AnalysisResultDto>> HandleAsync(AnalyzeRequest request, CancellationToken cancellationToken = default)
     {
         var result = await _sessionAnalyzer.StartAnalysis(request.UserSessionId);
-        return this.ToActionResult(result);
+        var dto = ToDto(result);
+        return this.ToActionResult(dto);
+    }
+
+    private Result<AnalysisResultDto> ToDto(Result<AnalysisResult> result)
+    {
+        if (result.IsSuccess)
+        {
+            var dto = _mapper.Map<AnalysisResultDto>(result.Value);
+            return Result<AnalysisResultDto>.Success(dto);
+        }
+
+        return Result<AnalysisResultDto>.Invalid(result.ValidationErrors);
     }
 }

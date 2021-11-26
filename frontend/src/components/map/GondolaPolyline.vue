@@ -19,7 +19,8 @@ export default {
   }),
   computed: {
     isSelected() {
-      return this.$store.state.selectedGondola === this.gondola;
+      if (this.$store.state.selectedGondola === null) return false;
+      return this.$store.state.selectedGondola.id === this.gondola.id;
     },
     weight() {
       if (this.isSelected) return 8;

@@ -1,20 +1,22 @@
 <template>
-<v-row>
-  <tab-container />
-  <v-col>
-    <Map
-      :center="center"
-      :zoom="zoom"
-      :gondolas="gondolas"
-      :pistes="pistes"
-      @gondolaClicked="onGondolaSelected"
-      @pisteClicked="onPisteSelected" />
-  </v-col>
-  <gondola-details-container />
-  <piste-details-container />
+<div>
+  <v-row>
+    <tab-container />
+    <v-col>
+      <Map
+        :center="center"
+        :zoom="zoom"
+        :gondolas="gondolas"
+        :pistes="pistes"
+        @gondolaClicked="onGondolaSelected"
+        @pisteClicked="onPisteSelected" />
+    </v-col>
+    <gondola-details-container />
+    <piste-details-container />
 
+  </v-row>
   <add-track-dialog-container />
-</v-row>
+</div>
 </template>
 
 <script>
@@ -43,7 +45,7 @@ export default {
   },
   data: () => ({
     zoom: 13,
-    center: [46.966709, 11.007390],
+    center: [46.97448992512977, 10.324968962190015],
   }),
   computed: {
     gondolas() {

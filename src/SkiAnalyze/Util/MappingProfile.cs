@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SkiAnalyze.ApiModels;
+using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.SessionAggregate;
@@ -15,6 +16,8 @@ public class MappingProfile : Profile
         CreateMap<Piste, PisteDto>();
         CreateMap<PisteNode, PisteNodeDto>();
         CreateMap<Track, TrackDto>();
+        CreateMap<Run, RunDto>();
+        CreateMap<AnalysisResult, AnalysisResultDto>();
     }
 
 }

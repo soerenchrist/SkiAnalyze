@@ -1,12 +1,18 @@
 import DataService from '../../services/DataService';
 import { START_ANALYSIS } from './actions';
-import { ANALYSIS_ERROR, ANALYSIS_STARTED, ANALYSIS_SUCCESS } from './mutations';
+import {
+  ANALYSIS_ERROR,
+  ANALYSIS_STARTED,
+  ANALYSIS_SUCCESS,
+  SET_SELECTED_RUN,
+} from './mutations';
 
 export default {
   state: {
     loading: false,
     result: null,
     error: null,
+    selectedRun: null,
   },
   actions: {
     async [START_ANALYSIS]({ commit }) {
@@ -32,10 +38,16 @@ export default {
       state.loading = false;
       state.error = error;
     },
+    [SET_SELECTED_RUN](state, run) {
+      state.selectedRun = run;
+    },
   },
   getters: {
     analysisResult(state) {
       return state.result;
+    },
+    selectedRun(state) {
+      return state.selectedRun;
     },
   },
 };

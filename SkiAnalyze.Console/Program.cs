@@ -10,8 +10,11 @@ using SkiAnalyze.Core.Util;
 using SkiAnalyze.Data;
 using SkiAnalyze.Infrastructure.Data;
 
-const string filename = @"C:\Users\cso\Downloads\activity_4421678167.gpx";
-const string dbFile = @"C:\Users\cso\dev\SkiAnalyze\src\SkiAnalyze\app.db";
+if (args.Length < 2)
+    return;
+
+string filename = args[0];
+string dbFile = args[1];
 
 var connectionString = $"Filename={dbFile}";
 var builder = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connectionString);
@@ -45,7 +48,7 @@ var up = result.Where(x => !x.Downhill);
 var down = result.Where(x => x.Downhill);
 
 Console.WriteLine("Found {0} runs, {1} up and {2} down", result.Count(), up.Count(), down.Count());
-Console.WriteLine("{0} out of {1} gondolas matched", down.Count(x => x.Gondola != null), down.Count());
+Console.WriteLine("{0} out of {1} gondolas matched", up.Count(x => x.Gondola != null), up.Count());
 
 var count = 0;
 foreach (var downhill in down)
@@ -56,3 +59,5 @@ foreach (var downhill in down)
     var elevationDiff = firstPoint.Elevation - lastPoint.Elevation;
     Console.WriteLine("{0}: First: {1}, Last: {2}. ElevationDiff = {3}, Bottom = {4}", count, firstPoint.DateTime, lastPoint.DateTime, elevationDiff, lastPoint.Elevation);
 }
+
+Console.ReadKey();

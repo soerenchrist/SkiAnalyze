@@ -4,11 +4,11 @@ const baseUrl = 'https://localhost:5001/api/';
 
 export default {
   async getGondolas() {
-    const response = await axios.get(`${baseUrl}gondolas?SwLat=46.905715&SwLon=10.900997&NeLat=47.000393&NeLon=11.049291`);
+    const response = await axios.get(`${baseUrl}gondolas?SwLat=46.934416924103786&SwLon=10.267196021204024&NeLat=47.02670380359718&NeLon=10.427819169240005`);
     return response.data;
   },
   async getPistes() {
-    const response = await axios.get(`${baseUrl}pistes?SwLat=46.905715&SwLon=10.900997&NeLat=47.000393&NeLon=11.049291`);
+    const response = await axios.get(`${baseUrl}pistes?SwLat=46.934416924103786&SwLon=10.267196021204024&NeLat=47.02670380359718&NeLon=10.427819169240005`);
     return response.data;
   },
   async getTracks(userSessionId) {

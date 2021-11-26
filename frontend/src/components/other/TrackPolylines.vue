@@ -2,7 +2,7 @@
 <div v-if="hasResult">
   <l-polyline
     :lat-lngs="latLngs(line)"
-    color="yellow"
+    :color="color(line)"
     v-for="line in result.runs"
     :key="line.number" />
 </div>
@@ -17,12 +17,21 @@ export default {
     hasResult() {
       return this.result !== null;
     },
+    selectedRun() {
+      return this.$store.getters.selectedRun;
+    },
   },
   methods: {
     latLngs(line) {
       if (!this.hasResult) return [];
-      console.log(line.coordinates);
       return line.coordinates.map((x) => [x.latitude, x.longitude]);
+    },
+    color(line) {
+      if (this.selectedRun === null) return 'yellow';
+      if (line.number === this.selectedRun.number) {
+        return 'orange';
+      }
+      return 'yellow';
     },
   },
 };

@@ -4,6 +4,7 @@
     <l-map
       style="height: 650px; z-index: 1"
       :zoom="zoom"
+      @click="mapClicked"
       :center="center"
       @udpate:center="centerUpdated"
       @update:bounds="boundsUpdated">
@@ -59,6 +60,9 @@ export default {
     },
     pisteSelected(piste) {
       this.$emit('pisteClicked', piste);
+    },
+    mapClicked(x) {
+      console.log(x.latlng);
     },
   },
   data: () => ({

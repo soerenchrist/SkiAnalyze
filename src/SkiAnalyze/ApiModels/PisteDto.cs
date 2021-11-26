@@ -4,6 +4,7 @@ namespace SkiAnalyze.ApiModels;
 
 public class PisteDto
 {
+    public long Id { get; set; }
     public string? Name { get; set; }
     public string? Reference { get; set; }
     public bool? Lit { get; set; }
