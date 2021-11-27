@@ -57,7 +57,7 @@ public class OsmFileDataProvider : IOsmDataProvider
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var gondolaTypes = new string[] { "chair_lift", "t-bar", "gondola", "drag_lift", "platter", "magic_carpet" };
+            var gondolaTypes = new string[] { "chair_lift", "t-bar", "gondola", "drag_lift", "platter", "magic_carpet", "cable_car" };
             using var fileStream = _osmFileProvider.GetOsmFile();
             var source = new XmlOsmStreamSource(fileStream);
 

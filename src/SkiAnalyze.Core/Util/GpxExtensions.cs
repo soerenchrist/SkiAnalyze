@@ -61,17 +61,33 @@ public static class GpxExtensions
         return totalDist;
     }
 
+    public static Coordinate ToCoordinate(this TrackPoint trackPoint)
+    {
+        return new Coordinate
+        {
+            Latitude = trackPoint.Latitude,
+            Longitude = trackPoint.Longitude,
+        };
+    }
+
+    public static double DistanceTo(this TrackPoint coord, TrackPoint other)
+    {
+        return coord.ToCoordinate().DistanceTo(other.ToCoordinate());
+    }
+
     public static double DistanceTo(this Coordinate coord, Coordinate other)
     {
-        var rlat1 = Math.PI * coord.Latitude / 180;
-        var rlat2 = Math.PI * other.Latitude / 180;
-        var theta = coord.Longitude - other.Longitude;
-        var rTheta = Math.PI * theta / 180;
-        double dist = Math.Sin(rlat1) * Math.Sin(rlat2) + Math.Cos(rlat1) * Math.Cos(rlat2) * Math.Cos(rTheta);
+        double dlon = Radians(other.Longitude - coord.Longitude);
+        double dlat = Radians(other.Latitude - coord.Latitude);
 
-        dist = Math.Acos(dist);
-        dist = dist * 180 / Math.PI;
-
-        return dist;
+        double a = (Math.Sin(dlat / 2) * Math.Sin(dlat / 2)) + Math.Cos(Radians(coord.Latitude)) 
+            * Math.Cos(Radians(other.Latitude)) * (Math.Sin(dlon / 2) * Math.Sin(dlon / 2));
+        double angle = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        return angle * Radius * 1000;
     }
+    public static double Radians(double x)
+    {
+        return x * Math.PI / 180;
+    }
+    const double Radius = 6371;
 }

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.Services;
@@ -9,6 +10,7 @@ using SkiAnalyze.Core.SessionAggregate;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.Data;
 using SkiAnalyze.Infrastructure.Data;
+using System.Text.Json;
 
 if (args.Length < 2)
     return;
@@ -37,6 +39,10 @@ var gpxFiles = fileLoader.LoadGpxFiles(tracks);
 var pistes = new List<Piste>();
 
 var points = gpxFiles.ToTrackPoints();
+
+var json = JsonSerializer.Serialize(points);
+File.WriteAllText("trackpoints.json", json);
+
 var bounds = points.GetBounds();
 
 var gondolas = await gondolaSearchService.GetGondolasInBounds(bounds);
@@ -57,7 +63,25 @@ foreach (var downhill in down)
     var firstPoint = downhill.Coordinates.First();
     var lastPoint = downhill.Coordinates.Last();
     var elevationDiff = firstPoint.Elevation - lastPoint.Elevation;
+
+    if (downhill.Number == 2)
+        CalculateSpeeds(downhill);
     Console.WriteLine("{0}: First: {1}, Last: {2}. ElevationDiff = {3}, Bottom = {4}", count, firstPoint.DateTime, lastPoint.DateTime, elevationDiff, lastPoint.Elevation);
+}
+
+void CalculateSpeeds(Run downhill)
+{
+    for (int i = 1; i < downhill.Coordinates.Count; i++)
+    {
+        var prev = downhill.Coordinates[i - 1];
+        var current = downhill.Coordinates[i];
+
+        var distance = prev.DistanceTo(current);
+        var time = current.DateTime - prev.DateTime;
+        var speed = distance / time.TotalSeconds;
+
+        Console.WriteLine("Speed: {0}", speed);
+    }
 }
 
 Console.ReadKey();

@@ -41,9 +41,10 @@ export default {
   },
   methods: {
     runSelected(run) {
-      this.$store.commit(SET_SELECTED_RUN, run);
       if (run.gondola) {
         this.$store.commit(SET_SELECTED_GONDOLA, run.gondola);
+      } else {
+        this.$store.commit(SET_SELECTED_RUN, run);
       }
     },
   },

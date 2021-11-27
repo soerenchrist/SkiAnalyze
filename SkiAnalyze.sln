@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiAnalyze.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiAnalyze.SharedKernel", "src\SkiAnalyze.SharedKernel\SkiAnalyze.SharedKernel.csproj", "{90877C12-018F-4EE6-A5D1-B4DAC94689CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiAnalyze.Console", "SkiAnalyze.Console\SkiAnalyze.Console.csproj", "{5273CCDC-19CF-48E3-A39C-DCB37F59D616}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiAnalyze.Console", "src\SkiAnalyze.Console\SkiAnalyze.Console.csproj", "{5273CCDC-19CF-48E3-A39C-DCB37F59D616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

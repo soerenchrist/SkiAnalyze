@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\SkiAnalyze.Core\SkiAnalyze.Core.csproj" />
-    <ProjectReference Include="..\src\SkiAnalyze.Infrastructure\SkiAnalyze.Infrastructure.csproj" />
+    <ProjectReference Include="..\SkiAnalyze.Core\SkiAnalyze.Core.csproj" />
+    <ProjectReference Include="..\SkiAnalyze.Infrastructure\SkiAnalyze.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

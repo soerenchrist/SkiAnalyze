@@ -13,6 +13,7 @@ public class GondolaConfiguration : IEntityTypeConfiguration<Gondola>
             .ValueGeneratedNever();
         builder.HasMany(x => x.Coordinates)
             .WithOne(x => x.Gondola)
-            .HasForeignKey(x => x.GondolaId);
+            .HasForeignKey(x => x.GondolaId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

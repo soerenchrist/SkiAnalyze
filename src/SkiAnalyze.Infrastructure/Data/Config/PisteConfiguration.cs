@@ -13,6 +13,7 @@ public class PisteConfiguration : IEntityTypeConfiguration<Piste>
             .ValueGeneratedNever();
         builder.HasMany(x => x.Coordinates)
             .WithOne(x => x.Piste)
-            .HasForeignKey(x => x.PisteId);
+            .HasForeignKey(x => x.PisteId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
