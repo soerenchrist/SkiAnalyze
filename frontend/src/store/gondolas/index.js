@@ -1,10 +1,13 @@
-import { FETCH_GONDOLAS } from './actions';
+import { FETCH_GONDOLAS, SELECT_GONDOLA } from './actions';
 import DataService from '../../services/DataService';
 import {
   FETCH_GONDOLAS_ERROR,
   FETCH_GONDOLAS_STARTED,
   FETCH_GONDOLAS_SUCCESS,
+  SET_SELECTED_GONDOLA,
 } from './mutations';
+import { SET_MAP_BOUNDS } from '../mutations';
+import GeoHelper from '../../services/GeoHelper';
 
 export default {
   state: {
@@ -12,6 +15,7 @@ export default {
     gondolas: [],
     loading: false,
     error: '',
+    selectedGondola: null,
   },
   mutations: {
     [FETCH_GONDOLAS_STARTED](state) {
@@ -30,6 +34,9 @@ export default {
       state.gondolasLoading = false;
       state.error = error;
     },
+    [SET_SELECTED_GONDOLA](state, gondola) {
+      state.selectedGondola = gondola;
+    },
   },
   actions: {
     async [FETCH_GONDOLAS]({ commit }) {
@@ -40,6 +47,18 @@ export default {
       } catch (ex) {
         commit(FETCH_GONDOLAS_ERROR, ex);
       }
+    },
+    [SELECT_GONDOLA]({ commit }, gondola) {
+      commit(SET_SELECTED_GONDOLA, gondola);
+      commit(SET_MAP_BOUNDS, GeoHelper.getBounds(gondola.coordinates));
+    },
+  },
+  getters: {
+    selectedGondola(state) {
+      return state.selectedGondola;
+    },
+    gondolas(state) {
+      return state.gondolas;
     },
   },
 };

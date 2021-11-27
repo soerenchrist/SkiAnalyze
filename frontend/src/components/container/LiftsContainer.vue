@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { SET_SELECTED_GONDOLA } from '../../store/mutations';
+import { SELECT_GONDOLA } from '../../store/actions';
 import Lifts from '../Lifts.vue';
 
 export default {
@@ -18,12 +18,12 @@ export default {
       return this.$store.getters.gondolas;
     },
     selectedLift() {
-      return this.$store.state.selectedGondola;
+      return this.$store.getters.selectedGondola;
     },
   },
   methods: {
     onLiftSelected(lift) {
-      this.$store.commit(SET_SELECTED_GONDOLA, lift);
+      this.$store.dispatch(SELECT_GONDOLA, lift);
     },
   },
 };

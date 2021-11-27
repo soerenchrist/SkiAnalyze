@@ -16,6 +16,12 @@ public class MatchingService
         var filteredRuns = runs.Where(x => x.Coordinates.Any()).ToList();
 
         FindGondolasInBetween(filteredRuns, gondolas);
+        var id = 1;
+        foreach (var run in filteredRuns)
+        {
+            run.Id = id;
+            id++;
+        }
   
         return filteredRuns;
     }
@@ -171,36 +177,6 @@ public class MatchingService
             }
         }
         return runs;
-    }
-
-    private Gondola? MatchGondola(Run run, List<Gondola> gondolas)
-    {
-        if (run.Coordinates.Count <= 1)
-            return null;
-        var lastPointOfRun = run.Coordinates.Last();
-        var firstPointOfRun = run.Coordinates.First();
-
-        var diffLat = lastPointOfRun.Latitude - firstPointOfRun.Latitude;
-        var diffLon = lastPointOfRun.Longitude - firstPointOfRun.Longitude;
-        var runDirection = (diffLat, diffLon);
-
-        const double AngleThresh = 0.95;
-
-        foreach(var gondola in gondolas)
-        {
-            var (startPoint, endPoint) = (gondola.Coordinates.First(), gondola.Coordinates.Last());
-            var diffLatGond = endPoint.Latitude - startPoint.Latitude;
-            var diffLonGond = endPoint.Longitude - startPoint.Longitude;
-
-            var gondolaDirection = (diffLatGond, diffLonGond);
-            var angle = CalculateAngle(runDirection, gondolaDirection);
-
-            if (angle > AngleThresh)
-            {
-                return gondola;
-            }    
-        }
-        return null;
     }
 
     private double CalculateAngle((double, double) coord1, (double, double) coord2)

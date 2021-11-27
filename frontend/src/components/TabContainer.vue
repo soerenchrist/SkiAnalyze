@@ -2,9 +2,9 @@
   <v-col
     :xs="12"
     :sm="12"
-    :md="4"
-    :lg="3"
-    :xl="2"
+    :md="6"
+    :lg="4"
+    :xl="3"
     class="mt-4 ml-4">
     <v-card>
       <v-tabs
@@ -29,7 +29,7 @@
           <pistes-container />
         </v-tab-item>
         <v-tab-item v-if="isAnalyzed">
-          <run-list />
+          <run-list-container />
         </v-tab-item>
 
       </v-tabs>
@@ -40,15 +40,15 @@
 <script>
 import LiftsContainer from './container/LiftsContainer.vue';
 import PistesContainer from './container/PistesContainer.vue';
+import RunListContainer from './container/RunListContainer.vue';
 import TracksContainer from './container/TracksContainer.vue';
-import RunList from './other/RunList.vue';
 
 export default {
   components: {
     TracksContainer,
     LiftsContainer,
     PistesContainer,
-    RunList,
+    RunListContainer,
   },
   computed: {
     isAnalyzed() {

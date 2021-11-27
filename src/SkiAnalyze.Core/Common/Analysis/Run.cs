@@ -5,6 +5,7 @@ namespace SkiAnalyze.Core.Common.Analysis;
 
 public class Run
 {
+    public int Id { get; set; }
     public int Number { get; set; }
     public bool Downhill { get; set; }
     public Gondola? Gondola { get; set; }

@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { SET_DIFFICULTY_FILTER, SET_SELECTED_PISTE } from '../../store/mutations';
+import { SELECT_PISTE } from '../../store/actions';
+import { SET_DIFFICULTY_FILTER } from '../../store/mutations';
 import Pistes from '../Pistes.vue';
 
 export default {
@@ -16,16 +17,15 @@ export default {
   },
   computed: {
     pistes() {
-      console.log(this.$store.getters);
       return this.$store.getters.filteredPistes;
     },
     selectedPiste() {
-      return this.$store.state.selectedPiste;
+      return this.$store.getters.selectedPiste;
     },
   },
   methods: {
     onPisteSelected(piste) {
-      this.$store.commit(SET_SELECTED_PISTE, piste);
+      this.$store.dispatch(SELECT_PISTE, piste);
     },
     onDifficultyFilterChanged(filter) {
       this.$store.commit(SET_DIFFICULTY_FILTER, filter);

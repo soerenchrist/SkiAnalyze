@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { SET_SELECTED_PISTE } from '../../store/mutations';
+import { SELECT_PISTE } from '../../store/actions';
 import PisteDetails from '../PisteDetails.vue';
 
 export default {
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     selectedPiste() {
-      return this.$store.state.selectedPiste;
+      return this.$store.getters.selectedPiste;
     },
     isPisteSelected() {
       return this.selectedPiste !== null;
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     onClose() {
-      this.$store.commit(SET_SELECTED_PISTE, null);
+      this.$store.dispatch(SELECT_PISTE, null);
     },
   },
 };

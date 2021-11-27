@@ -57,7 +57,6 @@ public class OsmFileDataProvider : IOsmDataProvider
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var gondolaTypes = new string[] { "chair_lift", "t-bar", "gondola", "drag_lift", "platter", "magic_carpet", "cable_car" };
             using var fileStream = _osmFileProvider.GetOsmFile();
             var source = new XmlOsmStreamSource(fileStream);
 
@@ -76,7 +75,8 @@ public class OsmFileDataProvider : IOsmDataProvider
                         || x.Tags.Contains("aerialway", "gondola")
                         || x.Tags.Contains("aerialway", "drag_lift")
                         || x.Tags.Contains("aerialway", "platter")
-                        || x.Tags.Contains("aerialway", "magic_carpet"))));
+                        || x.Tags.Contains("aerialway", "magic_carpet")
+                        || x.Tags.Contains("aerialway", "cable_car"))));
             var complete = filtered.ToComplete();
             var gondolas = new List<Gondola>();
             foreach (CompleteWay way in complete.Where(x => x.Type == OsmGeoType.Way))

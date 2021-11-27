@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { SET_SELECTED_GONDOLA } from '../../store/mutations';
+import { SELECT_GONDOLA } from '../../store/actions';
 import GondolaDetails from '../GondolaDetails.vue';
 
 export default {
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     selectedGondola() {
-      return this.$store.state.selectedGondola;
+      return this.$store.getters.selectedGondola;
     },
     isGondolaSelected() {
       return this.selectedGondola !== null;
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     onClose() {
-      this.$store.commit(SET_SELECTED_GONDOLA, null);
+      this.$store.dispatch(SELECT_GONDOLA, null);
     },
   },
 };

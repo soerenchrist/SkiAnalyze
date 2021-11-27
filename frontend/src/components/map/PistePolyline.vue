@@ -20,7 +20,7 @@ export default {
       return 'black';
     },
     isSelected() {
-      return this.$store.state.selectedPiste === this.piste;
+      return this.$store.getters.selectedPiste === this.piste;
     },
     weight() {
       if (this.isSelected) return 8;

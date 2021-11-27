@@ -2,9 +2,10 @@
 <div v-if="hasResult">
   <l-polyline
     :lat-lngs="latLngs(line)"
-    :color="color(line)"
-    v-for="line in result.runs"
-    :key="line.number" />
+    :color="line.color"
+    :weight="getWeight(line)"
+    v-for="line in runs"
+    :key="line.id" />
 </div>
 </template>
 
@@ -17,6 +18,9 @@ export default {
     hasResult() {
       return this.result !== null;
     },
+    runs() {
+      return this.result.runs.filter((x) => x.downhill);
+    },
     selectedRun() {
       return this.$store.getters.selectedRun;
     },
@@ -26,12 +30,12 @@ export default {
       if (!this.hasResult) return [];
       return line.coordinates.map((x) => [x.latitude, x.longitude]);
     },
-    color(line) {
-      if (this.selectedRun === null) return 'yellow';
+    getWeight(line) {
+      if (this.selectedRun === null) return 2;
       if (line.number === this.selectedRun.number) {
-        return 'orange';
+        return 6;
       }
-      return 'yellow';
+      return 2;
     },
   },
 };
