@@ -5,6 +5,7 @@ import GondolasModule from './gondolas';
 import MapModule from './map';
 import TracksModule from './tracks';
 import AnalyzeModule from './analyze';
+import LayoutModule from './layout';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     map: MapModule,
     tracks: TracksModule,
     analyze: AnalyzeModule,
+    layout: LayoutModule,
   },
   getters: {
   },

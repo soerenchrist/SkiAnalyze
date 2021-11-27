@@ -1,11 +1,12 @@
 ﻿using NetTopologySuite.IO;
 using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Interfaces.Common;
 
 namespace SkiAnalyze.Core.Util;
 
 public static class GpxExtensions
 {
-    public static Bounds GetBounds(this IEnumerable<TrackPoint> points)
+    public static Bounds GetBounds(this IEnumerable<ICoordinate> points)
     {
         var offsets = 0.01f;
         var minLat = points.Min(x => x.Latitude);
@@ -46,10 +47,10 @@ public static class GpxExtensions
             });
     }
 
-    public static double GetLength(this List<Coordinate> coordinates)
+    public static double GetLength(this List<ICoordinate> coordinates)
     {
         var totalDist = 0.0;
-        for(int i = 1; i < coordinates.Count; i++)
+        for (int i = 1; i < coordinates.Count; i++)
         {
             var prev = coordinates[i - 1];
             var current = coordinates[i];
@@ -61,21 +62,8 @@ public static class GpxExtensions
         return totalDist;
     }
 
-    public static Coordinate ToCoordinate(this TrackPoint trackPoint)
-    {
-        return new Coordinate
-        {
-            Latitude = trackPoint.Latitude,
-            Longitude = trackPoint.Longitude,
-        };
-    }
 
-    public static double DistanceTo(this TrackPoint coord, TrackPoint other)
-    {
-        return coord.ToCoordinate().DistanceTo(other.ToCoordinate());
-    }
-
-    public static double DistanceTo(this Coordinate coord, Coordinate other)
+    public static double DistanceTo(this ICoordinate coord, ICoordinate other)
     {
         double dlon = Radians(other.Longitude - coord.Longitude);
         double dlat = Radians(other.Latitude - coord.Latitude);
@@ -85,6 +73,7 @@ public static class GpxExtensions
         double angle = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         return angle * Radius * 1000;
     }
+
     public static double Radians(double x)
     {
         return x * Math.PI / 180;

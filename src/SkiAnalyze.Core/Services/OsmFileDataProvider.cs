@@ -28,7 +28,10 @@ public class OsmFileDataProvider : IOsmDataProvider
             var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
-                (northWest.Longitude, northWest.Latitude, southEast.Longitude, southEast.Latitude);
+                ((float)northWest.Longitude, 
+                (float)northWest.Latitude, 
+                (float)southEast.Longitude, 
+                (float)southEast.Latitude);
 
             var filtered = source
                 .FilterBox(left, top, right, bottom)
@@ -61,7 +64,10 @@ public class OsmFileDataProvider : IOsmDataProvider
             var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
-                (northWest.Longitude, northWest.Latitude, southEast.Longitude, southEast.Latitude);
+                ((float)northWest.Longitude, 
+                (float)northWest.Latitude, 
+                (float)southEast.Longitude, 
+                (float)southEast.Latitude);
 
             var filtered = source
                 .FilterBox(left, top, right, bottom)

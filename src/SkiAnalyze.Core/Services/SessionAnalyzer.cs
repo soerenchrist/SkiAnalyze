@@ -2,6 +2,7 @@
 using NetTopologySuite.IO;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Interfaces;
+using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.Services.Gpx;
 using SkiAnalyze.Core.Services.MapMatching;
 using SkiAnalyze.Core.Util;
@@ -38,7 +39,7 @@ public class SessionAnalyzer : ISessionAnalyzer
         var gpxFiles = fileLoader.LoadGpxFiles(tracks);
 
         var trackPoints = gpxFiles.ToTrackPoints();
-        var bounds = trackPoints.GetBounds();
+        var bounds = trackPoints.Select(x => (ICoordinate) x).GetBounds();
 
         var pistes = await _pisteSearchService.GetPistesInBounds(bounds);
         var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);

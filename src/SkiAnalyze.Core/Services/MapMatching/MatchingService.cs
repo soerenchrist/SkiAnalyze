@@ -28,8 +28,8 @@ public class MatchingService
 
     private void FindGondolasInBetween(List<Run> runs, List<Gondola> gondolas)
     {
-        var gondolaStartsTree = new KdTree<float, long>(2, new FloatMath());
-        var gondolaEndsTree = new KdTree<float, long>(2, new FloatMath());
+        var gondolaStartsTree = new KdTree<double, long>(2, new DoubleMath());
+        var gondolaEndsTree = new KdTree<double, long>(2, new DoubleMath());
 
         foreach (var gondola in gondolas)
         {
@@ -112,8 +112,8 @@ public class MatchingService
                 Longitude = x.Longitude,
             }).Last();
 
-            var distanceToStart = start.DistanceTo(startPoint.ToCoordinate());
-            var distanceToEnd = end.DistanceTo(endPoint.ToCoordinate());
+            var distanceToStart = start.DistanceTo(startPoint);
+            var distanceToEnd = end.DistanceTo(endPoint);
             var totalDist = distanceToEnd + distanceToStart;
             if (totalDist < min)
             {

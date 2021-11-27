@@ -1,9 +1,11 @@
-﻿namespace SkiAnalyze.Core.Common;
+﻿using SkiAnalyze.Core.Interfaces.Common;
 
-public struct TrackPoint
+namespace SkiAnalyze.Core.Common;
+
+public struct TrackPoint : ICoordinate
 {
-    public float Latitude { get; set; }
-    public float Longitude { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
     public DateTime DateTime { get; set; }
     public double? Elevation { get; set; }
 }

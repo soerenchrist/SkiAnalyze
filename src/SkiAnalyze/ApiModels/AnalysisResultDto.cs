@@ -16,5 +16,7 @@ public class RunDto
     public GondolaDto? Gondola { get; set; }
     public PisteDto? Piste { get; set; }
     public List<TrackPoint> Coordinates { get; set; } = new();
+    public double TotalDistance { get; set; }
+    public double TotalElevation { get; set; }
 
 }

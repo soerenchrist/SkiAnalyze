@@ -1,5 +1,6 @@
 ﻿using SkiAnalyze.Core.GondolaAggregate;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Interfaces.Common;
+using SkiAnalyze.Core.Util;
 
 namespace SkiAnalyze.Core.Common.Analysis;
 
@@ -9,6 +10,29 @@ public class Run
     public int Number { get; set; }
     public bool Downhill { get; set; }
     public Gondola? Gondola { get; set; }
-    public Piste? Piste { get; set; }
     public List<TrackPoint> Coordinates { get; set; } = new();
+
+    public double TotalDistance
+    {
+        get
+        {
+            if (Coordinates.Count < 2)
+                return 0;
+            return Coordinates
+                .Select(x => (ICoordinate) x)
+                .ToList()
+                .GetLength();
+        }
+    }
+    public double TotalElevation
+    {
+        get
+        {
+            if (Coordinates.Count < 2)
+                return 0;
+            var last = Coordinates.Last();
+            var first = Coordinates.First();
+            return last.Elevation - first.Elevation ?? 0;
+        }
+    }
 }

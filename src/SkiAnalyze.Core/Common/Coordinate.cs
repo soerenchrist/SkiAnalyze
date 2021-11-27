@@ -1,9 +1,11 @@
-﻿namespace SkiAnalyze.Core.Common;
+﻿using SkiAnalyze.Core.Interfaces.Common;
 
-public struct Coordinate
+namespace SkiAnalyze.Core.Common;
+
+public struct Coordinate : ICoordinate
 {
-    private float _latitude;
-    public float Latitude { 
+    private double _latitude;
+    public double Latitude { 
         get => _latitude;
         set
         {
@@ -16,8 +18,8 @@ public struct Coordinate
         } 
     }
 
-    private float _longitude;
-    public float Longitude { 
+    private double _longitude;
+    public double Longitude { 
         get => _longitude;
         set
         {
