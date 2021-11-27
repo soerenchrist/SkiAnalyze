@@ -1,7 +1,8 @@
 <template>
   <run-list
     :runs="runs"
-    @runSelected="onRunSelected" />
+    @runSelected="onRunSelected"
+    :isExpanded="isExpanded" />
 </template>
 
 <script>
@@ -16,6 +17,9 @@ export default {
     },
     runs() {
       return this.result.runs;
+    },
+    isExpanded() {
+      return this.$store.getters.detailsExpanded;
     },
   },
   methods: {

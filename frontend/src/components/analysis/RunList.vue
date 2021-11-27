@@ -1,13 +1,14 @@
 <template>
-  <v-virtual-scroll
-    :items="runs"
-    :item-height="60"
-    height="600">
-    <template v-slot:default="{ item }">
-      <v-list>
+  <div>
+    <run-data-table v-if="isExpanded" @runSelected="runSelected" :runs="runs" />
+    <v-virtual-scroll
+      v-if="!isExpanded"
+      :items="runs"
+      :item-height="60"
+      height="600">
+      <template v-slot:default="{ item }">
         <v-list-item
           @click="() => runSelected(item)">
-
           <v-list-item-icon>
             <v-icon>{{item.downhill ? 'mdi-ski' : 'mdi-gondola'}}</v-icon>
           </v-list-item-icon>
@@ -23,16 +24,19 @@
             <span class="dot" :style="getStyle(item)"></span>
           </v-list-item-action>
         </v-list-item>
-  </v-list>
-    </template>
-  </v-virtual-scroll>
+      </template>
+    </v-virtual-scroll>
+  </div>
 </template>
 
 <script>
+import RunDataTable from './RunDataTable.vue';
 
 export default {
+  components: { RunDataTable },
   props: {
     runs: Array,
+    isExpanded: Boolean,
   },
   methods: {
     runSelected(run) {
