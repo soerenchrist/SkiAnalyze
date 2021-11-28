@@ -15,7 +15,7 @@
         <v-spacer></v-spacer>
 
         <v-btn icon @click="expandDialog" class="d-none d-lg-block">
-          <v-icon>mdi-arrow-expand</v-icon>
+          <v-icon>{{ isExpanded ? 'mdi-arrow-collapse' : 'mdi-arrow-expand'}}</v-icon>
         </v-btn>
 
         <template v-slot:extension>

@@ -17,6 +17,12 @@
     <template v-slot:item.totalElevation="{ item }">
       {{formatElevation(item.totalElevation)}}
     </template>
+    <template v-slot:item.averageSpeed="{ item }">
+      {{formatSpeed(item.averageSpeed)}}
+    </template>
+    <template v-slot:item.maxSpeed="{ item }">
+      {{formatSpeed(item.maxSpeed)}}
+    </template>
     <template v-slot:item.color="{ item }">
       <span class="dot" v-if="item.downhill" :style="getStyle(item)"></span>
     </template>
@@ -40,6 +46,8 @@ export default {
       { text: 'Description', value: 'number' },
       { text: 'Distance', value: 'totalDistance' },
       { text: 'Elevation', value: 'totalElevation' },
+      { text: 'Avg. Speed', value: 'averageSpeed' },
+      { text: 'Max. Speed', value: 'maxSpeed' },
       { text: 'Color', value: 'color' },
     ],
   }),
@@ -59,6 +67,9 @@ export default {
     },
     getStyle(run) {
       return `background-color: ${run.color}`;
+    },
+    formatSpeed(speed) {
+      return `${(speed * 3.6).toFixed(2)} km/h`;
     },
   },
 };

@@ -18,5 +18,6 @@ public class RunDto
     public List<TrackPoint> Coordinates { get; set; } = new();
     public double TotalDistance { get; set; }
     public double TotalElevation { get; set; }
-
+    public double AverageSpeed { get; set; }
+    public double MaxSpeed { get; set; }
 }

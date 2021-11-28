@@ -1,8 +1,8 @@
 <template>
   <div>
-    <run-data-table v-if="isExpanded" @runSelected="runSelected" :runs="runs" />
+    <run-data-table v-if="isExpanded && isBigScreen" @runSelected="runSelected" :runs="runs" />
     <v-virtual-scroll
-      v-if="!isExpanded"
+      v-else
       :items="runs"
       :item-height="60"
       height="600">
@@ -44,6 +44,12 @@ export default {
     },
     getStyle(run) {
       return `background-color: ${run.color}`;
+    },
+  },
+  computed: {
+    isBigScreen() {
+      const breakpoint = this.$vuetify.breakpoint.name;
+      return breakpoint === 'lg' || breakpoint === 'xl';
     },
   },
 };

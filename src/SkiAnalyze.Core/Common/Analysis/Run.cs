@@ -35,4 +35,7 @@ public class Run
             return last.Elevation - first.Elevation ?? 0;
         }
     }
+
+    public double AverageSpeed => Coordinates.GetAverageSpeed();
+    public double MaxSpeed => Coordinates.GetMaxSpeed();
 }

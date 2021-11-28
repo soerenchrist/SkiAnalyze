@@ -47,6 +47,39 @@ public static class GpxExtensions
             });
     }
 
+    public static double GetAverageSpeed(this List<TrackPoint> coordinates)
+    {
+        if (coordinates.Count < 2)
+            return 0;
+
+        var first = coordinates.First();
+        var last = coordinates.Last();
+        var length = coordinates.Select(x => (ICoordinate) x).ToList().GetLength();
+        var duration = last.DateTime - first.DateTime;
+
+        return length / duration.TotalSeconds;
+    }
+
+    public static double GetMaxSpeed(this List<TrackPoint> trackPoints)
+    {
+        if (trackPoints.Count < 2)
+            return 0;
+        var maxSpeed = double.MinValue;
+        for (int i = 1; i < trackPoints.Count; i++)
+        {
+            var prev = trackPoints[i - 1];
+            var current = trackPoints[i];
+            var distance = prev.DistanceTo(current);
+            var duration = current.DateTime - prev.DateTime;
+            var speed = distance / duration.TotalSeconds;
+
+            if (speed > maxSpeed)
+                maxSpeed = speed;
+        }
+
+        return maxSpeed;
+    }
+
     public static double GetLength(this List<ICoordinate> coordinates)
     {
         var totalDist = 0.0;
