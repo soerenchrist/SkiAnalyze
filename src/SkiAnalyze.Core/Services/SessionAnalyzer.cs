@@ -38,20 +38,34 @@ public class SessionAnalyzer : ISessionAnalyzer
         var fileLoader = new GpxFileLoader();
         var gpxFiles = fileLoader.LoadGpxFiles(tracks);
 
-        var trackPoints = gpxFiles.ToTrackPoints();
-        var bounds = trackPoints.Select(x => (ICoordinate) x).GetBounds();
+        var matcher = new MatchingService();
 
+        var allTrackPoints = gpxFiles.ToTrackPoints();
+        var bounds = allTrackPoints.Select(x => (ICoordinate)x).GetBounds();
         var pistes = await _pisteSearchService.GetPistesInBounds(bounds);
         var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);
 
-        var matcher = new MatchingService();
-        var runs = matcher.Match(gondolas, pistes, trackPoints.ToList());
+        var index = 0;
+        var allRuns = new List<Run>();
+        foreach (var gpxFile in gpxFiles)
+        {
+            var track = tracks[index];
+            var trackPoints = gpxFile.ToTrackPoints();
+            var runs = matcher.Match(gondolas, pistes, trackPoints.ToList());
+            foreach (var run in runs)
+            {
+                run.Color = track.HexColor;
+                run.TrackId = track.Id;
+            }
+            allRuns.AddRange(runs);
+            index++;
+        }
 
         return new AnalysisResult
         {
             IsRunning = true,
             Bounds = bounds,
-            Runs = runs.ToList()
+            Runs = allRuns.ToList()
         };
     }
 

@@ -13,8 +13,7 @@
         v-for="gondola in gondolas"
         :key="gondola.id"
         :gondola="gondola"
-        @onclick="gondolaSelected"
-        color="green" />
+        @onclick="gondolaSelected" />
 
       <piste-polyline
         v-for="piste in pistes"

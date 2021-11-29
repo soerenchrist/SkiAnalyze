@@ -23,9 +23,6 @@
     <template v-slot:item.maxSpeed="{ item }">
       {{formatSpeed(item.maxSpeed)}}
     </template>
-    <template v-slot:item.color="{ item }">
-      <span class="dot" v-if="item.downhill" :style="getStyle(item)"></span>
-    </template>
   </v-data-table>
 </div>
 </template>
@@ -48,7 +45,6 @@ export default {
       { text: 'Elevation', value: 'totalElevation' },
       { text: 'Avg. Speed', value: 'averageSpeed' },
       { text: 'Max. Speed', value: 'maxSpeed' },
-      { text: 'Color', value: 'color' },
     ],
   }),
   methods: {
@@ -74,12 +70,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 15px;
-  display: block;
-}
-</style>

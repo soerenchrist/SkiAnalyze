@@ -1,9 +1,10 @@
 <template>
   <l-polyline
+      v-if="isSelected"
       ref="polyline"
       :lat-lngs="latLngs"
-      :color="color"
-      :weight="weight"
+      color="#ffff00"
+      :weight="4"
       @click="polylineClicked">
   </l-polyline>
 </template>
@@ -19,12 +20,12 @@ export default {
   }),
   computed: {
     isSelected() {
-      if (this.$store.getters.selectedGondola === null) return false;
+      if (this.$store.getters.selectedGondola === null) {
+        if (this.$store.getters.selectedRun === null) return false;
+        if (this.$store.getters.selectedRun.gondola === null) return false;
+        return this.$store.getters.selectedRun.gondola.id === this.gondola.id;
+      }
       return this.$store.getters.selectedGondola.id === this.gondola.id;
-    },
-    weight() {
-      if (this.isSelected) return 8;
-      return 3;
     },
   },
   methods: {

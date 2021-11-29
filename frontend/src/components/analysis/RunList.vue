@@ -21,9 +21,6 @@
               {{item.gondola.name}}
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action v-if="item.downhill">
-            <span class="dot" :style="getStyle(item)"></span>
-          </v-list-item-action>
         </v-list-item>
       </template>
     </v-virtual-scroll>
@@ -60,11 +57,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 15px;
-}
-</style>

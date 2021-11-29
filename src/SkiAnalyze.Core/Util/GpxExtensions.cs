@@ -31,10 +31,9 @@ public static class GpxExtensions
         };
     }
 
-    public static IEnumerable<TrackPoint> ToTrackPoints(this IEnumerable<GpxFile> files) 
+    public static IEnumerable<TrackPoint> ToTrackPoints(this GpxFile file)
     {
-        return files
-            .SelectMany(x => x.Tracks)
+        return file.Tracks
             .SelectMany(x => x.Segments)
             .SelectMany(x => x.Waypoints)
             .Where(x => x.TimestampUtc != null)
@@ -45,6 +44,11 @@ public static class GpxExtensions
                 DateTime = x.TimestampUtc!.Value,
                 Elevation = x.ElevationInMeters
             });
+    }
+
+    public static IEnumerable<TrackPoint> ToTrackPoints(this IEnumerable<GpxFile> files) 
+    {
+        return files.SelectMany(x => x.ToTrackPoints());
     }
 
     public static double GetAverageSpeed(this List<TrackPoint> coordinates)

@@ -11,7 +11,8 @@ public class Run
     public bool Downhill { get; set; }
     public Gondola? Gondola { get; set; }
     public List<TrackPoint> Coordinates { get; set; } = new();
-
+    public string Color { get; set; } = string.Empty;
+    public int TrackId { get; set; }
     public double TotalDistance
     {
         get
