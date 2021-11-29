@@ -21,6 +21,12 @@
               {{item.gondola.name}}
             </v-list-item-title>
           </v-list-item-content>
+          <v-list-item-actions>
+            <v-btn icon v-if="!item.downhill"
+              @click="() => showGondolaInfo(item.gondola)">
+              <v-icon>mdi-information-outline</v-icon>
+            </v-btn>
+          </v-list-item-actions>
         </v-list-item>
       </template>
     </v-virtual-scroll>
@@ -28,6 +34,7 @@
 </template>
 
 <script>
+import { SELECT_GONDOLA } from '../../store/actions';
 import RunDataTable from './RunDataTable.vue';
 
 export default {
@@ -47,6 +54,9 @@ export default {
     },
     isSelected(run) {
       return run === this.selectedRun;
+    },
+    showGondolaInfo(gondola) {
+      this.$store.dispatch(SELECT_GONDOLA, gondola);
     },
   },
   computed: {

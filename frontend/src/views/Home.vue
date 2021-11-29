@@ -11,8 +11,6 @@
         @gondolaClicked="onGondolaSelected"
         @pisteClicked="onPisteSelected" />
     </v-col>
-    <!--<gondola-details-container />-->
-    <!--<piste-details-container />-->
 
   </v-row>
   <v-row>
@@ -21,13 +19,12 @@
     </v-col>
   </v-row>
   <add-track-dialog-container />
+  <gondola-detail-dialog />
 </div>
 </template>
 
 <script>
 import AddTrackDialogContainer from '../components/container/dialogs/AddTrackDialogContainer.vue';
-// import GondolaDetailsContainer from '../components/container/GondolaDetailsContainer.vue';
-// import PisteDetailsContainer from '../components/container/PisteDetailsContainer.vue';
 import TabContainer from '../components/TabContainer.vue';
 import HeightProfileContainer from '../components/container/charts/HeightProfileContainer.vue';
 import Map from '../components/map/Map.vue';
@@ -35,6 +32,7 @@ import Map from '../components/map/Map.vue';
 import {
   FETCH_GONDOLAS, FETCH_PISTES, SELECT_GONDOLA, SELECT_PISTE,
 } from '../store/actions';
+import GondolaDetailDialog from '../components/dialogs/GondolaDetailDialog.vue';
 
 export default {
   name: 'Home',
@@ -45,6 +43,7 @@ export default {
     AddTrackDialogContainer,
     HeightProfileContainer,
     TabContainer,
+    GondolaDetailDialog,
   },
   data: () => ({
     zoom: 13,

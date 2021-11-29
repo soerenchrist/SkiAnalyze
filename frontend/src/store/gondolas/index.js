@@ -5,9 +5,8 @@ import {
   FETCH_GONDOLAS_STARTED,
   FETCH_GONDOLAS_SUCCESS,
   SET_SELECTED_GONDOLA,
+  SET_SHOW_GONDOLA_DETAILS_DIALOG,
 } from './mutations';
-import { SET_MAP_BOUNDS, SET_SELECTED_RUN } from '../mutations';
-import GeoHelper from '../../services/GeoHelper';
 
 export default {
   state: {
@@ -15,6 +14,7 @@ export default {
     gondolas: [],
     loading: false,
     error: '',
+    showGondolaDetailsDialog: false,
     selectedGondola: null,
   },
   mutations: {
@@ -37,6 +37,9 @@ export default {
     [SET_SELECTED_GONDOLA](state, gondola) {
       state.selectedGondola = gondola;
     },
+    [SET_SHOW_GONDOLA_DETAILS_DIALOG](state, value) {
+      state.showGondolaDetailsDialog = value;
+    },
   },
   actions: {
     async [FETCH_GONDOLAS]({ commit }) {
@@ -50,10 +53,7 @@ export default {
     },
     [SELECT_GONDOLA]({ commit }, gondola) {
       commit(SET_SELECTED_GONDOLA, gondola);
-      commit(SET_SELECTED_RUN, null);
-      if (gondola !== null) {
-        commit(SET_MAP_BOUNDS, GeoHelper.getBounds(gondola.coordinates));
-      }
+      commit(SET_SHOW_GONDOLA_DETAILS_DIALOG, true);
     },
   },
   getters: {
@@ -62,6 +62,9 @@ export default {
     },
     gondolas(state) {
       return state.gondolas;
+    },
+    showGondolaDetailsDialog(state) {
+      return state.showGondolaDetailsDialog;
     },
   },
 };
