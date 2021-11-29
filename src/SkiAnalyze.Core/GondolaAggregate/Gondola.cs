@@ -1,5 +1,6 @@
 ﻿using OsmSharp.Complete;
 using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 using SkiAnalyze.SharedKernel.Interfaces;
@@ -21,6 +22,8 @@ public class Gondola : BaseEntity<long>
     public string? Description { get; set; }
     public double? Duration { get; set; }
     public List<GondolaNode> Coordinates { get; set; } = new();
+
+    public List<Run> Runs { get; set; } = new();
 
     public static Gondola FromWay(CompleteWay way)
     {

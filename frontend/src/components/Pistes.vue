@@ -9,7 +9,7 @@
   <v-virtual-scroll
     :items="sortedPistes"
     :item-height="50"
-    height="600"
+    height="530"
   >
     <template v-slot:default="{ item }">
       <v-list-item

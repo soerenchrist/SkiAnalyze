@@ -15,15 +15,46 @@ public class MatchingService
         var runs = SegmentPoints(points);
         var filteredRuns = runs.Where(x => x.Coordinates.Any()).ToList();
 
+        var pistesTree = BuildPistesKdTree(pistes);
         FindGondolasInBetween(filteredRuns, gondolas);
         var id = 1;
         foreach (var run in filteredRuns)
         {
             run.Id = id;
+            if (run.Downhill)
+            {
+                EstimateDifficulties(run, pistesTree);
+            }
             id++;
         }
   
         return filteredRuns;
+    }
+
+    private void EstimateDifficulties(Run run, KdTree<double, Piste> pistesTree)
+    {
+        foreach (var coord in run.Coordinates)
+        {
+            var nearestNodes = pistesTree.GetNearestNeighbours(new[] { coord.Latitude, coord.Longitude }, 1);
+            if (nearestNodes.Any())
+            {
+                var node = nearestNodes[0];
+                coord.Piste = node.Value;
+            }
+        }
+    }
+
+    private KdTree<double, Piste> BuildPistesKdTree(List<Piste> pistes)
+    {
+        var pistesTree = new KdTree<double, Piste>(2, new DoubleMath());
+        foreach (var piste in pistes)
+        {
+            foreach (var coord in piste.Coordinates)
+            {
+                pistesTree.Add(new[] { coord.Latitude, coord.Longitude }, piste);
+            }
+        }
+        return pistesTree;
     }
 
     private void FindGondolasInBetween(List<Run> runs, List<Gondola> gondolas)

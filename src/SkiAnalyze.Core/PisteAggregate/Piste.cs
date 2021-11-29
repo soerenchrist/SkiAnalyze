@@ -2,7 +2,6 @@
 using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
-using SkiAnalyze.SharedKernel.Interfaces;
 
 namespace SkiAnalyze.Core.PisteAggregate;
 public class Piste : BaseEntity<long>
@@ -13,6 +12,8 @@ public class Piste : BaseEntity<long>
     public bool? Snowmaking { get; set; }
     public PisteDifficulty? Difficulty { get; set; }
     public List<PisteNode> Coordinates { get; set; } = new List<PisteNode>();
+
+    public List<TrackPoint> TrackPoints { get; set; } = new();
 
     public static Piste FromWay(CompleteWay way)
     {

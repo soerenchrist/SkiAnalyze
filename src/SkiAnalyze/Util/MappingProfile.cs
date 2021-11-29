@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SkiAnalyze.ApiModels;
+using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.PisteAggregate;

@@ -1,12 +1,10 @@
 ﻿using Ardalis.Result;
-using NetTopologySuite.IO;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.Services.Gpx;
 using SkiAnalyze.Core.Services.MapMatching;
 using SkiAnalyze.Core.Util;
-using System.Xml;
 
 namespace SkiAnalyze.Core.Services;
 
@@ -46,7 +44,6 @@ public class SessionAnalyzer : ISessionAnalyzer
         var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);
 
         var index = 0;
-        var allRuns = new List<Run>();
         foreach (var gpxFile in gpxFiles)
         {
             var track = tracks[index];
@@ -55,18 +52,21 @@ public class SessionAnalyzer : ISessionAnalyzer
             foreach (var run in runs)
             {
                 run.Color = track.HexColor;
-                run.TrackId = track.Id;
             }
-            allRuns.AddRange(runs);
+
+            var result = new AnalysisResult
+            {
+                TrackId = track.Id,
+                Bounds = bounds,
+                Runs = runs.ToList()
+            };
+
+            track.AnalysisResult = result;
+
+            await _userSessionManager.UpdateUserSession(session);
             index++;
         }
-
-        return new AnalysisResult
-        {
-            IsRunning = true,
-            Bounds = bounds,
-            Runs = allRuns.ToList()
-        };
+        return new AnalysisResult();
     }
 
     private Result<AnalysisResult> Invalid(string message)

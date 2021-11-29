@@ -1,9 +1,13 @@
-﻿namespace SkiAnalyze.Core.Common.Analysis;
+﻿using SkiAnalyze.Core.SessionAggregate;
+using SkiAnalyze.SharedKernel;
 
-public class AnalysisResult
+namespace SkiAnalyze.Core.Common.Analysis;
+
+public class AnalysisResult : BaseEntity<int>
 {
-    public bool IsRunning { get; set; }
-    public Bounds Bounds { get; set; }
-    public Guid AnalyisId { get; set; }
+    public Bounds Bounds { get; set; } = null!;
     public List<Run> Runs { get; set; } = new List<Run>();
+
+    public Track? Track { get; set; }
+    public int TrackId { get; set; }
 }

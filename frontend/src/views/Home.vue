@@ -18,14 +18,16 @@
       </v-row>
     </v-col>
   </v-row>
+  <add-track-dialog-container />
 </div>
 </template>
 
 <script>
+import AddTrackDialogContainer from '../components/container/dialogs/AddTrackDialogContainer.vue';
 import TracksContainer from '../components/container/TracksContainer.vue';
 import MapTile from '../components/tiles/MapTile.vue';
 
 export default {
-  components: { TracksContainer, MapTile },
+  components: { TracksContainer, MapTile, AddTrackDialogContainer },
 };
 </script>
