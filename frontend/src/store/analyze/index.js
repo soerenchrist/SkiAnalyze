@@ -1,10 +1,13 @@
 import DataService from '../../services/DataService';
 import GeoHelper from '../../services/GeoHelper';
-import { SELECT_RUN, START_ANALYSIS } from './actions';
+import { GET_PREVIEW, SELECT_RUN, START_ANALYSIS } from './actions';
 import {
   ANALYSIS_ERROR,
   ANALYSIS_STARTED,
   ANALYSIS_SUCCESS,
+  GET_PREVIEW_ERROR,
+  GET_PREVIEW_STARTED,
+  GET_PREVIEW_SUCCESS,
   SET_SELECTED_RUN,
 } from './mutations';
 import { SET_SELECTED_GONDOLA } from '../gondolas/mutations';
@@ -16,8 +19,10 @@ export default {
   state: {
     loading: false,
     result: null,
+    previewLoading: false,
     error: null,
     selectedRun: null,
+    preview: null,
   },
   actions: {
     async [START_ANALYSIS]({ commit }) {
@@ -37,6 +42,16 @@ export default {
         commit(SET_MAP_BOUNDS, GeoHelper.getBounds(run.coordinates));
       }
     },
+    async [GET_PREVIEW]({ commit }, trackId) {
+      commit(GET_PREVIEW_STARTED);
+      try {
+        const userSessionId = localStorage.getItem('userSessionId');
+        const response = await DataService.getPreview(userSessionId, trackId);
+        commit(GET_PREVIEW_SUCCESS, response);
+      } catch (ex) {
+        commit(GET_PREVIEW_ERROR, ex);
+      }
+    },
   },
   mutations: {
     [ANALYSIS_STARTED](state) {
@@ -53,10 +68,24 @@ export default {
     [SET_SELECTED_RUN](state, run) {
       state.selectedRun = run;
     },
+    [GET_PREVIEW_STARTED](state) {
+      state.previewLoading = true;
+    },
+    [GET_PREVIEW_SUCCESS](state, preview) {
+      state.preview = preview;
+      state.previewLoading = false;
+    },
+    [GET_PREVIEW_ERROR](state) {
+      state.previewLoading = false;
+    },
   },
   getters: {
     analysisResult(state) {
       return state.result;
+    },
+    preview(state) {
+      console.log(state.preview);
+      return state.preview;
     },
     selectedRun(state) {
       return state.selectedRun;

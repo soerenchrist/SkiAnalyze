@@ -30,7 +30,7 @@ import HeightProfileContainer from '../components/container/charts/HeightProfile
 import Map from '../components/map/Map.vue';
 
 import {
-  FETCH_GONDOLAS, FETCH_PISTES, SELECT_GONDOLA, SELECT_PISTE,
+  FETCH_GONDOLAS, FETCH_PISTES, SELECT_GONDOLA, SELECT_PISTE, START_ANALYSIS,
 } from '../store/actions';
 import GondolaDetailDialog from '../components/dialogs/GondolaDetailDialog.vue';
 
@@ -66,6 +66,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch(START_ANALYSIS);
     this.$store.dispatch(FETCH_PISTES);
     this.$store.dispatch(FETCH_GONDOLAS);
   },

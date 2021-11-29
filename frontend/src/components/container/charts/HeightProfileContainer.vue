@@ -22,7 +22,6 @@ export default {
       return this.$store.getters.analysisResult;
     },
     hasAnalysisResult() {
-      console.log(this.analysisResult);
       return this.analysisResult !== null;
     },
     seriesData() {

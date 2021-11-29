@@ -26,27 +26,22 @@
           >
             <v-tabs-slider color="primary lighten-3"></v-tabs-slider>
 
-            <v-tab key="tracks">Tracks</v-tab>
+            <v-tab key="runList">Runs</v-tab>
             <v-tab key="lifts">Lifts</v-tab>
             <v-tab key="pistes">Pistes</v-tab>
-            <v-tab key="runList" v-if="isAnalyzed">Runs</v-tab>
           </v-tabs>
         </template>
       </v-toolbar>
 
       <v-tabs-items v-model="selectedTab">
-
         <v-tab-item>
-          <tracks-container />
+          <run-list-container />
         </v-tab-item>
         <v-tab-item>
           <lifts-container />
         </v-tab-item>
         <v-tab-item>
           <pistes-container />
-        </v-tab-item>
-        <v-tab-item v-if="isAnalyzed">
-          <run-list-container />
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -58,11 +53,9 @@ import { TOGGLE_EXPAND_DETAILS } from '../store/mutations';
 import LiftsContainer from './container/LiftsContainer.vue';
 import PistesContainer from './container/PistesContainer.vue';
 import RunListContainer from './container/RunListContainer.vue';
-import TracksContainer from './container/TracksContainer.vue';
 
 export default {
   components: {
-    TracksContainer,
     LiftsContainer,
     PistesContainer,
     RunListContainer,

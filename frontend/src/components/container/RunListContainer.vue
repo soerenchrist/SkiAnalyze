@@ -1,5 +1,6 @@
 <template>
   <run-list
+    v-if="hasResult"
     :runs="runs"
     @runSelected="onRunSelected"
     :selectedRun="selectedRun"
@@ -15,6 +16,9 @@ export default {
   computed: {
     result() {
       return this.$store.getters.analysisResult;
+    },
+    hasResult() {
+      return this.result !== null;
     },
     runs() {
       return this.result.runs;

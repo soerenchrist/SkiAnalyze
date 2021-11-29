@@ -5,7 +5,7 @@
       v-else
       :items="runs"
       :item-height="60"
-      height="600">
+      height="530">
       <template v-slot:default="{ item }">
         <v-list-item
           @click="() => runSelected(item)"

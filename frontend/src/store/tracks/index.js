@@ -1,5 +1,11 @@
 import DataService from '../../services/DataService';
-import { FETCH_TRACKS, ADD_TRACK, REMOVE_TRACK } from './actions';
+import { GET_PREVIEW } from '../analyze/actions';
+import {
+  FETCH_TRACKS,
+  ADD_TRACK,
+  REMOVE_TRACK,
+  SELECT_TRACK,
+} from './actions';
 import {
   ADD_TRACK_ERROR,
   ADD_TRACK_STARTED,
@@ -21,7 +27,7 @@ export default {
     selectedTrack: null,
   },
   actions: {
-    async [FETCH_TRACKS]({ commit }) {
+    async [FETCH_TRACKS]({ commit, dispatch }) {
       commit(FETCH_TRACKS_STARTED);
       const sessionId = localStorage.getItem('userSessionId');
       try {
@@ -31,7 +37,7 @@ export default {
         }
         commit(FETCH_TRACKS_SUCCESS, response.tracks);
         if (response.tracks && response.tracks.length > 0) {
-          commit(SET_SELECTED_TRACK, response.tracks[0]);
+          dispatch(SELECT_TRACK, response.tracks[0]);
         }
       } catch (error) {
         commit(FETCH_TRACKS_ERROR, error);
@@ -62,6 +68,10 @@ export default {
       } catch (error) {
         commit(REMOVE_TRACK_ERROR, error);
       }
+    },
+    [SELECT_TRACK]({ dispatch, commit }, track) {
+      dispatch(GET_PREVIEW, track.id);
+      commit(SET_SELECTED_TRACK, track);
     },
   },
   mutations: {

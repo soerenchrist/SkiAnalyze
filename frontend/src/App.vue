@@ -2,11 +2,14 @@
   <v-app>
     <v-app-bar
       app
-      color="secondary"
-      dark
-    >
-      <v-spacer />
-      <start-analysis-button />
+      color="primary"
+      dark>
+      <v-app-bar-nav-icon @click="goHome">
+        <v-icon>mdi-home</v-icon>
+      </v-app-bar-nav-icon>
+      <v-toolbar-title>
+        SkiAnalyze
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -16,16 +19,14 @@
 </template>
 
 <script>
-import StartAnalysisButton from './components/other/StartAnalysisButton.vue';
 
 export default {
   name: 'App',
-  components: {
-    StartAnalysisButton,
+  methods: {
+    goHome() {
+      this.$router.push('/');
+    },
   },
-  data: () => ({
-    //
-  }),
 };
 
 </script>

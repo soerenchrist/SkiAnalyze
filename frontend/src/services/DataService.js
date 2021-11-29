@@ -36,4 +36,9 @@ export default {
     const response = await axios.post(url, body);
     return response.data;
   },
+  async getPreview(userSessionId, trackId) {
+    const url = `${baseUrl}analysis/preview?UserSessionId=${userSessionId}&TrackId=${trackId}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
 };
