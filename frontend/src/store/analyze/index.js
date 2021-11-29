@@ -7,6 +7,7 @@ import {
   ANALYSIS_SUCCESS,
   SET_SELECTED_RUN,
 } from './mutations';
+import { SET_SELECTED_GONDOLA } from '../gondolas/mutations';
 import {
   SET_MAP_BOUNDS,
 } from '../mutations';
@@ -47,7 +48,10 @@ export default {
     },
     [SELECT_RUN]({ commit }, run) {
       commit(SET_SELECTED_RUN, run);
-      commit(SET_MAP_BOUNDS, GeoHelper.getBounds(run.coordinates));
+      commit(SET_SELECTED_GONDOLA, null);
+      if (run !== null) {
+        commit(SET_MAP_BOUNDS, GeoHelper.getBounds(run.coordinates));
+      }
     },
   },
   mutations: {

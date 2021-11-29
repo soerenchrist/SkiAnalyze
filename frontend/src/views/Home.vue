@@ -15,6 +15,11 @@
     <!--<piste-details-container />-->
 
   </v-row>
+  <v-row>
+    <v-col>
+      <height-profile-container />
+    </v-col>
+  </v-row>
   <add-track-dialog-container />
 </div>
 </template>
@@ -24,6 +29,7 @@ import AddTrackDialogContainer from '../components/container/dialogs/AddTrackDia
 // import GondolaDetailsContainer from '../components/container/GondolaDetailsContainer.vue';
 // import PisteDetailsContainer from '../components/container/PisteDetailsContainer.vue';
 import TabContainer from '../components/TabContainer.vue';
+import HeightProfileContainer from '../components/container/charts/HeightProfileContainer.vue';
 import Map from '../components/map/Map.vue';
 
 import {
@@ -37,6 +43,7 @@ export default {
     // GondolaDetailsContainer,
     // PisteDetailsContainer,
     AddTrackDialogContainer,
+    HeightProfileContainer,
     TabContainer,
   },
   data: () => ({

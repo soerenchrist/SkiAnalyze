@@ -17,6 +17,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-continue': 'off',
     'no-param-reassign': 'off',
-    'no-plusplus': 'off'
+    'no-plusplus': 'off',
+    'no-template-curly-in-string': 'off'
   },
 };

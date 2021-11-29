@@ -8,7 +8,8 @@
       height="600">
       <template v-slot:default="{ item }">
         <v-list-item
-          @click="() => runSelected(item)">
+          @click="() => runSelected(item)"
+          :class="isSelected(item) ? 'grey lighten-1' : ''">
           <v-list-item-icon>
             <v-icon>{{item.downhill ? 'mdi-ski' : 'mdi-gondola'}}</v-icon>
           </v-list-item-icon>
@@ -36,14 +37,19 @@ export default {
   components: { RunDataTable },
   props: {
     runs: Array,
+    selectedRun: Object,
     isExpanded: Boolean,
   },
   methods: {
     runSelected(run) {
-      this.$emit('runSelected', run);
+      if (this.isSelected(run)) this.$emit('runSelected', null);
+      else this.$emit('runSelected', run);
     },
     getStyle(run) {
       return `background-color: ${run.color}`;
+    },
+    isSelected(run) {
+      return run === this.selectedRun;
     },
   },
   computed: {

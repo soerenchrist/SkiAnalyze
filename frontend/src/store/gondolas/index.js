@@ -6,7 +6,7 @@ import {
   FETCH_GONDOLAS_SUCCESS,
   SET_SELECTED_GONDOLA,
 } from './mutations';
-import { SET_MAP_BOUNDS } from '../mutations';
+import { SET_MAP_BOUNDS, SET_SELECTED_RUN } from '../mutations';
 import GeoHelper from '../../services/GeoHelper';
 
 export default {
@@ -50,7 +50,10 @@ export default {
     },
     [SELECT_GONDOLA]({ commit }, gondola) {
       commit(SET_SELECTED_GONDOLA, gondola);
-      commit(SET_MAP_BOUNDS, GeoHelper.getBounds(gondola.coordinates));
+      commit(SET_SELECTED_RUN, null);
+      if (gondola !== null) {
+        commit(SET_MAP_BOUNDS, GeoHelper.getBounds(gondola.coordinates));
+      }
     },
   },
   getters: {
