@@ -2,6 +2,7 @@
 using MediatR;
 using MediatR.Pipeline;
 using SkiAnalyze.Core.GondolaAggregate;
+using SkiAnalyze.Infrastructure.Backgrounding;
 using SkiAnalyze.Infrastructure.Data;
 using SkiAnalyze.SharedKernel.Interfaces;
 using System.Reflection;
@@ -51,6 +52,10 @@ public class DefaultInfrastructureModule : Autofac.Module
             .As(typeof(IRepository<>))
             .As(typeof(IReadRepository<>))
             .InstancePerLifetimeScope();
+
+        builder.Register(_ => new BackgroundTaskQueue(100))
+            .As<IBackgroundTaskQueue>()
+            .SingleInstance();
 
         builder
             .RegisterType<Mediator>()

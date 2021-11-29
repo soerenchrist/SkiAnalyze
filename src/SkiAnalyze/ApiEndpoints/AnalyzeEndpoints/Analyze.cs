@@ -3,26 +3,28 @@ using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SkiAnalyze.ApiModels;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Interfaces;
+using SkiAnalyze.Data;
+using SkiAnalyze.SharedKernel.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
 public class Analyze : BaseAsyncEndpoint
     .WithRequest<AnalyzeRequest>
-    .WithResponse<AnalysisResultDto>
+    .WithResponse<AnalysisStatus>
 {
-
-    private readonly ISessionAnalyzer _sessionAnalyzer;
     private readonly IMapper _mapper;
+    private readonly IBackgroundTaskQueue _taskQueue;
 
-    public Analyze(ISessionAnalyzer sessionAnalyzer,
+    public Analyze(IBackgroundTaskQueue taskQueue,
         IMapper mapper)
     {
-        _sessionAnalyzer = sessionAnalyzer;
         _mapper = mapper;
+        _taskQueue = taskQueue;
     }
 
     [HttpPost("/api/analysis/start")]
@@ -32,21 +34,25 @@ public class Analyze : BaseAsyncEndpoint
         OperationId = "Analysis.Start",
         Tags = new[] { "AnalysisEndpoints" })
     ]
-    public override async Task<ActionResult<AnalysisResultDto>> HandleAsync(AnalyzeRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<AnalysisStatus>> HandleAsync(AnalyzeRequest request, CancellationToken cancellationToken = default)
     {
-        var result = await _sessionAnalyzer.StartAnalysis(request.UserSessionId);
-        var dto = ToDto(result);
-        return this.ToActionResult(dto);
+        var analysisStatus = new AnalysisStatus
+        {
+            Id = Guid.NewGuid(),
+            IsFinished = false,
+        };
+        await _taskQueue.QueueBackgroundWorkItemAsync(CreateWorkItem(request, analysisStatus));
+        return Ok(analysisStatus);
     }
 
-    private Result<AnalysisResultDto> ToDto(Result<AnalysisResult> result)
+    // put the workload into the background queue to analyze the data in background
+    private Func<IServiceProvider, CancellationToken, ValueTask> CreateWorkItem(AnalyzeRequest request, AnalysisStatus analysisStatus)
     {
-        if (result.IsSuccess)
+        async ValueTask Analyze(IServiceProvider serviceProvider, CancellationToken token)
         {
-            var dto = _mapper.Map<AnalysisResultDto>(result.Value);
-            return Result<AnalysisResultDto>.Success(dto);
+            var analyzer = serviceProvider.GetRequiredService<ISessionAnalyzer>();
+            await analyzer.AnalyzeSession(request.UserSessionId, analysisStatus.Id);
         }
-
-        return Result<AnalysisResultDto>.Invalid(result.ValidationErrors);
+        return Analyze;
     }
 }

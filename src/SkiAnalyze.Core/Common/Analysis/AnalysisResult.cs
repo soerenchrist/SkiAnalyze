@@ -3,7 +3,7 @@ using SkiAnalyze.SharedKernel;
 
 namespace SkiAnalyze.Core.Common.Analysis;
 
-public class AnalysisResult : BaseEntity<int>
+public class AnalysisResult : BaseEntity<Guid>
 {
     public Bounds Bounds { get; set; } = null!;
     private List<Run> _runs { get; set; } = new List<Run>();

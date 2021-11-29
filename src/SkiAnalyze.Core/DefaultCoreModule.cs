@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using Microsoft.Extensions.Hosting;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Services;
+using SkiAnalyze.Core.Workers;
 
 namespace SkiAnalyze.Core;
 
@@ -16,11 +18,18 @@ public class DefaultCoreModule : Autofac.Module
         builder.RegisterType<PisteSearchService>()
             .As<IPisteSearchService>();
         builder.RegisterType<UserSessionManager>()
-            .As<IUserSessionManager>();
+            .As<IUserSessionManager>()
+            .InstancePerDependency();
         builder.RegisterType<TracksService>()
-            .As<ITracksService>();
+            .As<ITracksService>()
+            .InstancePerLifetimeScope();
 
         builder.RegisterType<SessionAnalyzer>()
-            .As<ISessionAnalyzer>();
+            .As<ISessionAnalyzer>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<QueuedHostedService>()
+            .As<IHostedService>()
+            .SingleInstance();
     }
 }

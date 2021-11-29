@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.SessionAggregate;
 
 namespace SkiAnalyze.Infrastructure.Data.Config;
@@ -15,5 +16,11 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
         builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.HasOne(x => x.AnalysisResult)
+            .WithOne(x => x.Track)
+            .HasForeignKey<AnalysisResult>(x => x.TrackId)
+            .OnDelete(DeleteBehavior.Cascade);
+            
     }
 }

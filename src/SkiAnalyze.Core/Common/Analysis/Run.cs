@@ -13,7 +13,7 @@ public class Run : BaseEntity<int>
     public long? GondolaId { get; set; }
     public List<TrackPoint> Coordinates { get; set; } = new();
     public string Color { get; set; } = string.Empty;
-    public int AnalysisId { get; set; }
+    public Guid AnalysisId { get; set; }
     public AnalysisResult? AnalysisResult { get; set; }
 
     public double TotalDistance

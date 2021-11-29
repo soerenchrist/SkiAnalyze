@@ -11,7 +11,7 @@ public class AnalysisResultConfiguration : IEntityTypeConfiguration<AnalysisResu
     public void Configure(EntityTypeBuilder<AnalysisResult> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Property(x => x.Id).ValueGeneratedNever();
         builder.Property(x => x.Bounds)
             .HasConversion(x => JsonSerializer.Serialize(x, new JsonSerializerOptions()), 
             x => JsonSerializer.Deserialize<Bounds>(x, new JsonSerializerOptions())!);

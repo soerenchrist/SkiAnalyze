@@ -15,6 +15,7 @@ public class UserSessionConfiguration : IEntityTypeConfiguration<UserSession>
 
         builder.HasMany(x => x.Tracks)
             .WithOne(x => x.UserSession)
-            .HasForeignKey(x => x.UserSessionId);
+            .HasForeignKey(x => x.UserSessionId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
