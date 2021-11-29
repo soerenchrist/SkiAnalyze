@@ -4,12 +4,12 @@
     :loading="loading"
     @addTrack="onAddTrack"
     @removeTrack="onRemoveTrack"
-    @toggleVisibility="toggleVisibility" />
+    :selectedTrack="selectedTrack"/>
 </template>
 
 <script>
 import { FETCH_TRACKS, REMOVE_TRACK } from '../../store/actions';
-import { DISPLAY_ADD_TRACK_DIALOG, TOGGLE_TRACK_VISIBILTIY } from '../../store/mutations';
+import { DISPLAY_ADD_TRACK_DIALOG } from '../../store/mutations';
 import Tracks from '../Tracks.vue';
 
 export default {
@@ -21,6 +21,9 @@ export default {
     loading() {
       return this.$store.state.tracks.loading;
     },
+    selectedTrack() {
+      return this.$store.getters.selectedTrack;
+    },
   },
   methods: {
     onAddTrack() {
@@ -28,9 +31,6 @@ export default {
     },
     onRemoveTrack(track) {
       this.$store.dispatch(REMOVE_TRACK, track.id);
-    },
-    toggleVisibility(track) {
-      this.$store.commit(TOGGLE_TRACK_VISIBILTIY, track);
     },
   },
   mounted() {

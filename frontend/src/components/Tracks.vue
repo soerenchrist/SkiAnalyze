@@ -8,29 +8,24 @@
       <div v-else-if="tracks.length === 0">
         Start adding tracks
       </div>
-      <v-list-item v-else v-for="track in tracks" :key="track.name">
+      <v-list-item
+        v-else
+        :class="isSelected(track) ? 'grey lighten-2' : ''"
+        v-for="track in tracks" :key="track.name">
         <v-list-item-content>
           <v-list-item-title>
             {{track.name}}
           </v-list-item-title>
         </v-list-item-content>
-
         <v-list-item-action>
           <v-btn icon>
-            <v-icon color="grey" @click="() => toggleVisibility(track)">
-              {{track.visible ? 'mdi-eye-off' : 'mdi-eye'}}
-            </v-icon>
-          </v-btn>
-        </v-list-item-action>
-        <v-list-item-action>
-          <v-btn icon>
-            <v-icon color="grey" @click="() => onRemove(track)">mdi-close</v-icon>
+            <v-icon color="grey" @click="() => onRemove(track)">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
     </v-card-text>
     <v-card-actions>
-      <v-btn text @click="onAdd" >Add track</v-btn>
+      <v-btn text @click="onAdd">Add track</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -40,6 +35,7 @@ export default {
   props: {
     tracks: Array,
     loading: Boolean,
+    selectedTrack: Object,
   },
   methods: {
     onAdd() {
@@ -48,8 +44,8 @@ export default {
     onRemove(track) {
       this.$emit('removeTrack', track);
     },
-    toggleVisibility(track) {
-      this.$emit('toggleVisibility', track);
+    isSelected(track) {
+      return this.selectedTrack && this.selectedTrack.id === track.id;
     },
   },
 };

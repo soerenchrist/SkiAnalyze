@@ -1,6 +1,6 @@
 <template>
-<v-card>
-  <v-card-text class="mt-4 mr-4 pa-0">
+<v-card class="mr-4">
+  <v-card-text class="pa-0">
     <l-map
       ref="map"
       style="height: 650px; z-index: 1"

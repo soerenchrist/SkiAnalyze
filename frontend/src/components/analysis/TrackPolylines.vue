@@ -4,7 +4,7 @@
     :lat-lngs="latLngs(line)"
     :color="getColor(line)"
     :weight="getWeight(line)"
-    v-for="line in visibleRuns"
+    v-for="line in runs"
     :key="line.id" />
 </div>
 </template>
@@ -20,17 +20,6 @@ export default {
     },
     runs() {
       return this.result.runs.filter((x) => x.downhill);
-    },
-    visibleTracks() {
-      return this.$store.getters.visibleTracks;
-    },
-    visibleRuns() {
-      let runs = [];
-      this.visibleTracks.forEach((track) => {
-        const visibleTracks = this.runs.filter((run) => run.trackId === track.id);
-        runs = runs.concat(visibleTracks);
-      });
-      return runs;
     },
     selectedRun() {
       return this.$store.getters.selectedRun;

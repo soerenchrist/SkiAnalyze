@@ -9,7 +9,7 @@ import {
   FETCH_TRACKS_SUCCESS,
   REMOVE_TRACK_ERROR,
   REMOVE_TRACK_STARTED,
-  TOGGLE_TRACK_VISIBILTIY,
+  SET_SELECTED_TRACK,
 } from './mutations';
 
 export default {
@@ -18,6 +18,7 @@ export default {
     tracks: [],
     error: null,
     showAddTrackDialog: false,
+    selectedTrack: null,
   },
   actions: {
     async [FETCH_TRACKS]({ commit }) {
@@ -29,6 +30,9 @@ export default {
           localStorage.setItem('userSessionId', response.userSessionId);
         }
         commit(FETCH_TRACKS_SUCCESS, response.tracks);
+        if (response.tracks && response.tracks.length > 0) {
+          commit(SET_SELECTED_TRACK, response.tracks[0]);
+        }
       } catch (error) {
         commit(FETCH_TRACKS_ERROR, error);
       }
@@ -39,7 +43,6 @@ export default {
       track.userSessionId = sessionId;
       try {
         const response = await DataService.createTrack(track);
-        console.log(response);
         localStorage.setItem('userSessionId', response.userSessionId);
         dispatch(FETCH_TRACKS);
       } catch (error) {
@@ -92,22 +95,19 @@ export default {
       state.loading = false;
       state.error = error;
     },
-    [TOGGLE_TRACK_VISIBILTIY](state, track) {
-      const tracks = state.tracks.filter((x) => x.id === track.id);
-      if (tracks.length === 1) {
-        tracks[0].visible = !tracks[0].visible;
-      }
-    },
     [DISPLAY_ADD_TRACK_DIALOG](state, value) {
       state.showAddTrackDialog = value;
+    },
+    [SET_SELECTED_TRACK](state, track) {
+      state.selectedTrack = track;
     },
   },
   getters: {
     tracks(state) {
       return state.tracks;
     },
-    visibleTracks(state) {
-      return state.tracks.filter((x) => x.visible);
+    selectedTrack(state) {
+      return state.selectedTrack;
     },
     showAddTrackDialog(state) {
       return state.showAddTrackDialog;
