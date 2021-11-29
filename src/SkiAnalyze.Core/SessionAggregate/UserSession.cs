@@ -1,6 +1,5 @@
 ﻿using SkiAnalyze.Core.SessionAggregate.Events;
 using SkiAnalyze.SharedKernel;
-using SkiAnalyze.SharedKernel.Interfaces;
 
 namespace SkiAnalyze.Core.SessionAggregate;
 

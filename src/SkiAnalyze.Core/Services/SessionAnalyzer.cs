@@ -57,15 +57,16 @@ public class SessionAnalyzer : ISessionAnalyzer
             var result = new AnalysisResult
             {
                 TrackId = track.Id,
-                Bounds = bounds,
-                Runs = runs.ToList()
+                Bounds = bounds
             };
+            result.AddRuns(runs);
 
             track.AnalysisResult = result;
 
-            await _userSessionManager.UpdateUserSession(session);
             index++;
         }
+
+        await _userSessionManager.UpdateUserSession(session);
         return new AnalysisResult();
     }
 

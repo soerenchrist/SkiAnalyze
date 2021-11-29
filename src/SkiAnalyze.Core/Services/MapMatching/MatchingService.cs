@@ -17,15 +17,12 @@ public class MatchingService
 
         var pistesTree = BuildPistesKdTree(pistes);
         FindGondolasInBetween(filteredRuns, gondolas);
-        var id = 1;
         foreach (var run in filteredRuns)
         {
-            run.Id = id;
             if (run.Downhill)
             {
                 EstimateDifficulties(run, pistesTree);
             }
-            id++;
         }
   
         return filteredRuns;
