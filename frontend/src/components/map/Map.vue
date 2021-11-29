@@ -72,10 +72,17 @@ export default {
       const bounds = latLngBounds(sw, ne);
       this.$refs.map.fitBounds(bounds, { padding: [50, 50] });
     },
+    isCollapsed() {
+      console.log(this.isCollapsed);
+      this.$refs.map.mapObject.invalidateSize();
+    },
   },
   computed: {
     bounds() {
       return this.$store.getters.bounds;
+    },
+    isCollapsed() {
+      return !this.$store.getters.detailsExpanded;
     },
   },
   data: () => ({

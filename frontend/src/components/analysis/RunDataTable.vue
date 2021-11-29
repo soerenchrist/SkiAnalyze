@@ -4,6 +4,7 @@
     :headers="headers"
     :items="runs"
     @click:row="itemSelected"
+    show-select
     :items-per-page="100">
     <template v-slot:item.downhill="{ item }">
       <v-icon>{{item.downhill ? 'mdi-ski' : 'mdi-gondola'}}</v-icon>
@@ -23,11 +24,19 @@
     <template v-slot:item.maxSpeed="{ item }">
       {{formatSpeed(item.maxSpeed)}}
     </template>
+    <template v-slot:item.info="{ item }">
+      <v-btn icon v-if="!item.downhill"
+        @click="() => showGondolaInfo(item.gondola)">
+        <v-icon>mdi-information-outline</v-icon>
+      </v-btn>
+    </template>
   </v-data-table>
 </div>
 </template>
 
 <script>
+import { SELECT_GONDOLA } from '../../store/actions';
+
 export default {
   props: {
     runs: Array,
@@ -45,6 +54,7 @@ export default {
       { text: 'Elevation', value: 'totalElevation' },
       { text: 'Avg. Speed', value: 'averageSpeed' },
       { text: 'Max. Speed', value: 'maxSpeed' },
+      { text: '', value: 'info' },
     ],
   }),
   methods: {
@@ -66,6 +76,9 @@ export default {
     },
     formatSpeed(speed) {
       return `${(speed * 3.6).toFixed(2)} km/h`;
+    },
+    showGondolaInfo(gondola) {
+      this.$store.dispatch(SELECT_GONDOLA, gondola);
     },
   },
 };

@@ -3,7 +3,7 @@
     max-width="300"
     width="250"
     v-model="internalOpen">
-    <v-card>
+    <v-card v-if="gondola">
       <v-card-title>
         {{gondola.name}}
       </v-card-title>
