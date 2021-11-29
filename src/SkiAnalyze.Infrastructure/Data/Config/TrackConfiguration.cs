@@ -17,10 +17,9 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.HasOne(x => x.AnalysisResult)
+        builder.HasMany(x => x.Runs)
             .WithOne(x => x.Track)
-            .HasForeignKey<AnalysisResult>(x => x.TrackId)
+            .HasForeignKey(x => x.TrackId)
             .OnDelete(DeleteBehavior.Cascade);
-            
     }
 }

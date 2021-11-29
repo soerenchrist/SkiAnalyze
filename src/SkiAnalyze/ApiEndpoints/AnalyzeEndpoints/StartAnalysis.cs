@@ -1,26 +1,22 @@
 ﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SkiAnalyze.ApiModels;
 using SkiAnalyze.Core.Common.Analysis;
 using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Data;
 using SkiAnalyze.SharedKernel.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class Analyze : BaseAsyncEndpoint
-    .WithRequest<AnalyzeRequest>
-    .WithResponse<AnalysisStatus>
+public class StartAnalysis : BaseAsyncEndpoint
+    .WithRequest<StartAnalysisRequest>
+    .WithResponse<AnalysisStatusDto>
 {
     private readonly IMapper _mapper;
     private readonly IBackgroundTaskQueue _taskQueue;
 
-    public Analyze(IBackgroundTaskQueue taskQueue,
+    public StartAnalysis(IBackgroundTaskQueue taskQueue,
         IMapper mapper)
     {
         _mapper = mapper;
@@ -34,7 +30,7 @@ public class Analyze : BaseAsyncEndpoint
         OperationId = "Analysis.Start",
         Tags = new[] { "AnalysisEndpoints" })
     ]
-    public override async Task<ActionResult<AnalysisStatus>> HandleAsync(AnalyzeRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync(StartAnalysisRequest request, CancellationToken cancellationToken = default)
     {
         var analysisStatus = new AnalysisStatus
         {
@@ -42,11 +38,12 @@ public class Analyze : BaseAsyncEndpoint
             IsFinished = false,
         };
         await _taskQueue.QueueBackgroundWorkItemAsync(CreateWorkItem(request, analysisStatus));
-        return Ok(analysisStatus);
+        var dto = _mapper.Map<AnalysisStatusDto>(analysisStatus);
+        return Ok(dto);
     }
 
     // put the workload into the background queue to analyze the data in background
-    private Func<IServiceProvider, CancellationToken, ValueTask> CreateWorkItem(AnalyzeRequest request, AnalysisStatus analysisStatus)
+    private Func<IServiceProvider, CancellationToken, ValueTask> CreateWorkItem(StartAnalysisRequest request, AnalysisStatus analysisStatus)
     {
         async ValueTask Analyze(IServiceProvider serviceProvider, CancellationToken token)
         {

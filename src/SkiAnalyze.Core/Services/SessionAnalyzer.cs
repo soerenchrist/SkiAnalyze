@@ -84,15 +84,7 @@ public class SessionAnalyzer : ISessionAnalyzer
                     run.Color = track.HexColor;
                 }
 
-                var result = new AnalysisResult
-                {
-                    Id = analysisId,
-                    TrackId = track.Id,
-                    Bounds = bounds
-                };
-                result.AddRuns(runs);
-
-                track.AnalysisResult = result;
+                track.Runs = runs.ToList();
 
                 index++;
             }

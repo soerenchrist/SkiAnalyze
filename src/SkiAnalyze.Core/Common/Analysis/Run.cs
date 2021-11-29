@@ -1,5 +1,6 @@
 ﻿using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.Interfaces.Common;
+using SkiAnalyze.Core.SessionAggregate;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
@@ -13,8 +14,8 @@ public class Run : BaseEntity<int>
     public long? GondolaId { get; set; }
     public List<TrackPoint> Coordinates { get; set; } = new();
     public string Color { get; set; } = string.Empty;
-    public Guid AnalysisId { get; set; }
-    public AnalysisResult? AnalysisResult { get; set; }
+    public int TrackId { get; set; }
+    public Track? Track { get; set; }
 
     public double TotalDistance
     {

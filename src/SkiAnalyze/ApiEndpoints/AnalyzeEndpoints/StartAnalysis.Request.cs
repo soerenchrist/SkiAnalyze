@@ -1,6 +1,6 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class AnalyzeRequest
+public class StartAnalysisRequest
 {
     public Guid UserSessionId { get; set; }
 }
