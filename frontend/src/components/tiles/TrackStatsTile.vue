@@ -4,7 +4,10 @@
       Track stats
     </v-card-title>
     <v-card-text class="pa-0">
-      <difficulty-pie-container :trackId="selectedTrack.id" height="250px" />
+      <difficulty-pie-container
+        :trackId="selectedTrack.id"
+        :showLegend="true"
+        height="250px" />
     </v-card-text>
   </v-card>
 </template>

@@ -18,13 +18,11 @@
         <height-profile-container />
       </v-col>
     </v-row>
-    <add-track-dialog-container />
     <gondola-detail-dialog />
   </div>
 </template>
 
 <script>
-import AddTrackDialogContainer from '../components/container/dialogs/AddTrackDialogContainer.vue';
 import TabContainer from '../components/TabContainer.vue';
 import HeightProfileContainer from '../components/container/charts/HeightProfileContainer.vue';
 import Map from '../components/map/Map.vue';
@@ -41,7 +39,6 @@ export default {
   },
   components: {
     Map,
-    AddTrackDialogContainer,
     HeightProfileContainer,
     TabContainer,
     GondolaDetailDialog,

@@ -52,6 +52,7 @@ export default {
       }
     },
     [SELECT_GONDOLA]({ commit }, gondola) {
+      console.log(gondola);
       commit(SET_SELECTED_GONDOLA, gondola);
       commit(SET_SHOW_GONDOLA_DETAILS_DIALOG, true);
     },

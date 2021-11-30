@@ -15,7 +15,7 @@ import {
   GET_PREVIEW_SUCCESS,
   SET_SELECTED_RUN,
 } from './mutations';
-import { SET_SELECTED_GONDOLA, SET_MAP_BOUNDS } from '../mutations';
+import { SET_MAP_BOUNDS } from '../mutations';
 import { FETCH_GONDOLAS, FETCH_TRACKS, FETCH_PISTES } from '../actions';
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -67,9 +67,12 @@ export default {
     },
     [SELECT_RUN]({ commit }, run) {
       commit(SET_SELECTED_RUN, run);
-      commit(SET_SELECTED_GONDOLA, null);
       if (run !== null) {
-        commit(SET_MAP_BOUNDS, GeoHelper.getBounds(run.coordinates));
+        if (run.gondola) {
+          commit(SET_MAP_BOUNDS, GeoHelper.getBounds(run.gondola.coordinates));
+        } else {
+          commit(SET_MAP_BOUNDS, GeoHelper.getBounds(run.coordinates));
+        }
       }
     },
     async [GET_PREVIEW]({ commit }, trackId) {
