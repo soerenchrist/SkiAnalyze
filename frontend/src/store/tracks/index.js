@@ -1,5 +1,6 @@
 import DataService from '../../services/DataService';
-import { GET_PREVIEW } from '../analyze/actions';
+import { GET_PREVIEW, START_ANALYSIS } from '../analyze/actions';
+import { GET_PREVIEW_SUCCESS } from '../mutations';
 import {
   FETCH_TRACKS,
   ADD_TRACK,
@@ -29,15 +30,14 @@ export default {
   actions: {
     async [FETCH_TRACKS]({ commit, dispatch }) {
       commit(FETCH_TRACKS_STARTED);
-      const sessionId = localStorage.getItem('userSessionId');
       try {
-        const response = await DataService.getTracks(sessionId);
-        if (response.userSessionId) {
-          localStorage.setItem('userSessionId', response.userSessionId);
+        const tracks = await DataService.getTracks();
+        commit(FETCH_TRACKS_SUCCESS, tracks);
+        if (tracks && tracks.length > 0) {
+          dispatch(SELECT_TRACK, tracks[0]);
         }
-        commit(FETCH_TRACKS_SUCCESS, response.tracks);
-        if (response.tracks && response.tracks.length > 0) {
-          dispatch(SELECT_TRACK, response.tracks[0]);
+        if (!tracks || tracks.length === 0) {
+          dispatch(SELECT_TRACK, null);
         }
       } catch (error) {
         commit(FETCH_TRACKS_ERROR, error);
@@ -45,32 +45,29 @@ export default {
     },
     async [ADD_TRACK]({ dispatch, commit }, track) {
       commit(ADD_TRACK_STARTED);
-      const sessionId = localStorage.getItem('userSessionId');
-      track.userSessionId = sessionId;
       try {
-        const response = await DataService.createTrack(track);
-        localStorage.setItem('userSessionId', response.userSessionId);
+        const createdTrack = await DataService.createTrack(track);
         dispatch(FETCH_TRACKS);
+        dispatch(START_ANALYSIS, createdTrack.id);
       } catch (error) {
         commit(ADD_TRACK_ERROR, error);
       }
     },
     async [REMOVE_TRACK]({ dispatch, commit }, trackId) {
       commit(REMOVE_TRACK_STARTED);
-      const userSessionId = localStorage.getItem('userSessionId');
-      const track = {
-        id: trackId,
-        userSessionId,
-      };
       try {
-        await DataService.removeTrack(track);
+        await DataService.removeTrack(trackId);
         dispatch(FETCH_TRACKS);
       } catch (error) {
         commit(REMOVE_TRACK_ERROR, error);
       }
     },
     [SELECT_TRACK]({ dispatch, commit }, track) {
-      dispatch(GET_PREVIEW, track.id);
+      if (track !== null) {
+        dispatch(GET_PREVIEW, track.id);
+      } else {
+        commit(GET_PREVIEW_SUCCESS, null);
+      }
       commit(SET_SELECTED_TRACK, track);
     },
   },

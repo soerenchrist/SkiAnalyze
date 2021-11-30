@@ -25,11 +25,10 @@ export default {
     preview: null,
   },
   actions: {
-    async [START_ANALYSIS]({ commit }) {
+    async [START_ANALYSIS]({ commit }, trackId) {
       commit(ANALYSIS_STARTED);
-      const userSessionId = localStorage.getItem('userSessionId');
       try {
-        const response = await DataService.startAnalysis(userSessionId);
+        const response = await DataService.startAnalysis(trackId);
         commit(ANALYSIS_SUCCESS, response);
       } catch (ex) {
         commit(ANALYSIS_ERROR, ex);
@@ -45,8 +44,7 @@ export default {
     async [GET_PREVIEW]({ commit }, trackId) {
       commit(GET_PREVIEW_STARTED);
       try {
-        const userSessionId = localStorage.getItem('userSessionId');
-        const response = await DataService.getPreview(userSessionId, trackId);
+        const response = await DataService.getPreview(trackId);
         commit(GET_PREVIEW_SUCCESS, response);
       } catch (ex) {
         commit(GET_PREVIEW_ERROR, ex);

@@ -1,7 +1,7 @@
 ﻿using KdTree;
 using KdTree.Math;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Common.Analysis;
+using SkiAnalyze.Core.TrackAggregate;
 using SkiAnalyze.Core.GondolaAggregate;
 using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.Core.Util;

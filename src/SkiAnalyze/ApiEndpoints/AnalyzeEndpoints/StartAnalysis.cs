@@ -1,11 +1,4 @@
-﻿using Ardalis.ApiEndpoints;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using SkiAnalyze.ApiModels;
-using SkiAnalyze.Core.Common.Analysis;
-using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.SharedKernel.Interfaces;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
@@ -23,18 +16,18 @@ public class StartAnalysis : BaseAsyncEndpoint
         _taskQueue = taskQueue;
     }
 
-    [HttpPost("/api/analysis/start")]
+    [HttpPost("/api/tracks/{trackId:int}/analysis/start")]
     [SwaggerOperation(
         Summary = "Start an analysis",
         Description = "Start the analysis of a given session",
         OperationId = "Analysis.Start",
         Tags = new[] { "AnalysisEndpoints" })
     ]
-    public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync(StartAnalysisRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync([FromRoute] StartAnalysisRequest request, CancellationToken cancellationToken = default)
     {
         var analysisStatus = new AnalysisStatus
         {
-            Id = Guid.NewGuid(),
+            TrackId = request.TrackId,
             IsFinished = false,
         };
         await _taskQueue.QueueBackgroundWorkItemAsync(CreateWorkItem(request, analysisStatus));
@@ -47,8 +40,8 @@ public class StartAnalysis : BaseAsyncEndpoint
     {
         async ValueTask Analyze(IServiceProvider serviceProvider, CancellationToken token)
         {
-            var analyzer = serviceProvider.GetRequiredService<ISessionAnalyzer>();
-            await analyzer.AnalyzeSession(request.UserSessionId, analysisStatus.Id);
+            var analyzer = serviceProvider.GetRequiredService<IAnalyzer>();
+            await analyzer.AnalyzeTrack(request.TrackId);
         }
         return Analyze;
     }

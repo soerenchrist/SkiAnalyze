@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using SkiAnalyze.ApiModels;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Common.Analysis;
-using SkiAnalyze.Core.GondolaAggregate;
-using SkiAnalyze.Core.PisteAggregate;
-using SkiAnalyze.Core.SessionAggregate;
-
-namespace SkiAnalyze.Util;
+﻿namespace SkiAnalyze.Util;
 
 public class MappingProfile : Profile
 {

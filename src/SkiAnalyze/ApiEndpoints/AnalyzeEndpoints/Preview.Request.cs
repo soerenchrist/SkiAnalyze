@@ -2,6 +2,5 @@
 
 public class PreviewRequest
 {
-    public Guid UserSessionId { get; set; }
-    public int TrackId { get; set; }
+    [FromRoute] public int TrackId { get; set; }
 }

@@ -1,9 +1,13 @@
-﻿namespace SkiAnalyze.ApiModels;
+﻿using SkiAnalyze.SharedKernel;
 
-public class AnalysisStatusDto
+namespace SkiAnalyze.Core.TrackAggregate;
+
+public class AnalysisStatus : BaseEntity<Guid>
 {
     public bool IsFinished { get; set; }
     public bool Success { get; set; }
     public string? ErrorMessage { get; set; }
+
     public int TrackId { get; set; }
+    public Track? Track { get; set; }
 }

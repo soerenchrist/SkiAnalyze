@@ -4,7 +4,7 @@ namespace SkiAnalyze.ApiModels;
 
 public class AnalysisResultDto
 {
-    public Bounds Bounds { get; set; }
+    public Bounds Bounds { get; set; } = new();
     public List<RunDto> Runs { get; set; } = new List<RunDto>();
 }
 

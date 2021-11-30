@@ -1,17 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Common.Analysis;
-using SkiAnalyze.Core.GondolaAggregate;
-using SkiAnalyze.Core.PisteAggregate;
-using SkiAnalyze.Core.Services;
-using SkiAnalyze.Core.Services.Gpx;
-using SkiAnalyze.Core.Services.MapMatching;
-using SkiAnalyze.Core.SessionAggregate;
-using SkiAnalyze.Core.Util;
 using SkiAnalyze.Data;
-using SkiAnalyze.Infrastructure.Data;
-using System.Text.Json;
 
 if (args.Length < 2)
     return;
@@ -21,14 +10,7 @@ string dbFile = args[1];
 
 var connectionString = $"Filename={dbFile}";
 var builder = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connectionString);
-var dbContext = new AppDbContext(builder.Options, null);
-
-var userSessionRepo = new EfRepository<UserSession>(dbContext);
-var sessionManager = new UserSessionManager(userSessionRepo);
-
-var session = await sessionManager.GetUserSession(Guid.Parse("6117d8f0-c725-49be-9729-4c4979c08997"));
-if (session == null)
-    return;
+var dbContext = new AppDbContext(builder.Options);
 
 //var analysis = new AnalysisResult
 //{

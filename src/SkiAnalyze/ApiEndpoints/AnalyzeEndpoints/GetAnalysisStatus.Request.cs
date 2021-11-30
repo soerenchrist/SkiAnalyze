@@ -2,6 +2,5 @@
 
 public class GetAnalysisStatusRequest
 {
-    public Guid UserSessionId { get; set; }
-    public Guid AnalysisId { get; set; }
+    [FromRoute] public int TrackId { get; set; }
 }

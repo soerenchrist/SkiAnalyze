@@ -1,6 +1,8 @@
-﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
 public class GetAnalysisResultRequest
 {
-    public Guid UserSessionId { get; set; }
+    [FromRoute] public int TrackId { get; set; }
 }

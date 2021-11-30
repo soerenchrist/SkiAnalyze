@@ -6,7 +6,7 @@ using SkiAnalyze.Core.Workers;
 
 namespace SkiAnalyze.Core;
 
-public class DefaultCoreModule : Autofac.Module
+public class DefaultCoreModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
@@ -17,15 +17,8 @@ public class DefaultCoreModule : Autofac.Module
             .As<IGondolaSearchService>();
         builder.RegisterType<PisteSearchService>()
             .As<IPisteSearchService>();
-        builder.RegisterType<UserSessionManager>()
-            .As<IUserSessionManager>()
-            .InstancePerDependency();
-        builder.RegisterType<TracksService>()
-            .As<ITracksService>()
-            .InstancePerLifetimeScope();
-
-        builder.RegisterType<SessionAnalyzer>()
-            .As<ISessionAnalyzer>()
+        builder.RegisterType<Analyzer>()
+            .As<IAnalyzer>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<QueuedHostedService>()

@@ -11,11 +11,8 @@ export default {
     const response = await axios.get(`${baseUrl}pistes?SwLat=46.834416924103786&SwLon=10.167196021204024&NeLat=47.02670380359718&NeLon=10.427819169240005`);
     return response.data;
   },
-  async getTracks(userSessionId) {
-    let url = `${baseUrl}tracks`;
-    if (userSessionId) {
-      url += `?UserSessionId=${userSessionId}`;
-    }
+  async getTracks() {
+    const url = `${baseUrl}tracks`;
     const response = await axios.get(url);
     return response.data;
   },
@@ -24,20 +21,17 @@ export default {
     const response = await axios.post(url, track);
     return response.data;
   },
-  async removeTrack(track) {
-    const url = `${baseUrl}tracks?UserSessionId=${track.userSessionId}&TrackId=${track.id}`;
+  async removeTrack(trackId) {
+    const url = `${baseUrl}tracks/${trackId}`;
     await axios.delete(url);
   },
-  async startAnalysis(userSessionId) {
-    const url = `${baseUrl}analysis/start`;
-    const body = {
-      userSessionId,
-    };
-    const response = await axios.post(url, body);
+  async startAnalysis(trackId) {
+    const url = `${baseUrl}tracks/${trackId}/analysis/start`;
+    const response = await axios.post(url);
     return response.data;
   },
-  async getPreview(userSessionId, trackId) {
-    const url = `${baseUrl}analysis/preview?UserSessionId=${userSessionId}&TrackId=${trackId}`;
+  async getPreview(trackId) {
+    const url = `${baseUrl}tracks/${trackId}/analysis/preview`;
     const response = await axios.get(url);
     return response.data;
   },

@@ -1,4 +1,4 @@
-﻿using SkiAnalyze.Core.Common.Analysis;
+﻿using SkiAnalyze.Core.TrackAggregate;
 using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.PisteAggregate;
 using SkiAnalyze.SharedKernel;

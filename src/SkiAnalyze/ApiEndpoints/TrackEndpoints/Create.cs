@@ -1,25 +1,19 @@
-﻿using Ardalis.ApiEndpoints;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using SkiAnalyze.ApiModels;
-using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Core.SessionAggregate;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
 public class Create : BaseAsyncEndpoint
     .WithRequest<CreateTrackRequest>
-    .WithResponse<CreateTrackResponse>
+    .WithResponse<TrackDto>
 {
-    private readonly ITracksService _tracksService;
+    private readonly IRepository<Track> _tracksRepository;
     private readonly IMapper _mapper;
 
-    public Create(ITracksService tracksService,
+    public Create(IRepository<Track> tracksRepository,
         IMapper mapper)
     {
         _mapper = mapper;
-        _tracksService = tracksService;
+        _tracksRepository = tracksRepository;
     }
 
     [HttpPost("/api/tracks")]
@@ -29,20 +23,17 @@ public class Create : BaseAsyncEndpoint
         OperationId = "Tracks.Create",
         Tags = new[] { "TrackEndpoints" })
     ]
-    public override async Task<ActionResult<CreateTrackResponse>> HandleAsync(CreateTrackRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<TrackDto>> HandleAsync(CreateTrackRequest request, CancellationToken cancellationToken = default)
     {
         var track = new Track
         {
             Name = request.Name,
             HexColor = request.Color,
             GpxFileContents = request.GpxFileContent,
-            UserSessionId = request.UserSessionId ?? Guid.Empty
         };
 
-        var result = await _tracksService.AddTrack(track);
+        var result = await _tracksRepository.AddAsync(track, cancellationToken);
         var dto = _mapper.Map<TrackDto>(result);
-        var response = new CreateTrackResponse(dto, result.UserSessionId);
-
-        return response;
+        return dto;
     }
 }

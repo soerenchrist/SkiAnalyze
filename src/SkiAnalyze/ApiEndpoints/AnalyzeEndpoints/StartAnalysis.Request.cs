@@ -2,5 +2,5 @@
 
 public class StartAnalysisRequest
 {
-    public Guid UserSessionId { get; set; }
+    [FromRoute] public int TrackId { get; set; }
 }

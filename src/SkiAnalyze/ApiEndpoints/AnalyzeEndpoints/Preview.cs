@@ -1,43 +1,43 @@
-﻿using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Mvc;
-using SkiAnalyze.ApiModels;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Core.Interfaces.Common;
-using SkiAnalyze.Core.Services.Gpx;
-using SkiAnalyze.Core.SessionAggregate;
-using SkiAnalyze.Core.Util;
-
-namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
 public class Preview : BaseAsyncEndpoint
     .WithRequest<PreviewRequest>
     .WithResponse<MapPreviewDto>
 {
-    private readonly ITracksService _tracksService;
-    public Preview(ITracksService tracksService)
+    private readonly IReadRepository<Track> _tracksRepository;
+    public Preview(IReadRepository<Track> tracksRepository)
     {
-        _tracksService = tracksService;
+        _tracksRepository = tracksRepository;
     }
 
-    [HttpGet("/api/analysis/preview")]
-    public override async Task<ActionResult<MapPreviewDto>> HandleAsync([FromQuery] PreviewRequest request, CancellationToken cancellationToken = default)
+    [HttpGet("/api/tracks/{trackId}/analysis/preview")]
+    public override async Task<ActionResult<MapPreviewDto>> HandleAsync([FromRoute] PreviewRequest request, CancellationToken cancellationToken = default)
     {
-        var track = await _tracksService.GetTrack(request.UserSessionId, request.TrackId);
+        var track = await _tracksRepository.GetBySpecAsync(new GetCompleteTrackSpec(request.TrackId));
         if (track == null)
-            return NotFound("No track with given ids");
+            return NotFound($"No track with given id {request.TrackId}");
 
-        var loader = new GpxFileLoader();
-        var gpx = loader.LoadGpxFiles(new List<Track> { track });
-        var points = gpx.ToTrackPoints();
-        var bounds = points.Select(x => (ICoordinate) x).GetBounds();
+        if (track.AnalysisStatus == null || !track.AnalysisStatus.IsFinished)
+        {
+            var loader = new GpxFileLoader();
+            var gpx = loader.LoadGpxFile(track);
+            var points = gpx.ToTrackPoints();
+            var bounds = points.Select(x => (ICoordinate)x).GetBounds();
+            return new MapPreviewDto
+            {
+                Bounds = bounds,
+                Coordinates = SamplePoints(points.ToList()).ToList(),
+                TrackId = track.Id,
+            };
+        }
 
+        var dbPoints = SamplePoints(track.Runs.SelectMany(x => x.Coordinates).ToList());
+        var dbBounds = dbPoints.Select(x => (ICoordinate)x).GetBounds();
         return new MapPreviewDto
         {
-            Bounds = bounds,
-            Coordinates = SamplePoints(points.ToList()).ToList(),
+            Bounds = dbBounds,
+            Coordinates = dbPoints.ToList(),
             TrackId = track.Id,
-            UserSessionId = track.UserSessionId,
         };
     }
 

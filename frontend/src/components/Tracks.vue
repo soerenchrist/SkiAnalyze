@@ -11,7 +11,7 @@
       <v-list-item
         v-else
         :class="isSelected(track) ? 'grey lighten-2' : ''"
-        v-for="track in tracks" :key="track.name">
+        v-for="track in tracks" :key="track.id">
         <v-list-item-content>
           <v-list-item-title>
             {{track.name}}

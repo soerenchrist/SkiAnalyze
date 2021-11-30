@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SkiAnalyze.Core.Common.Analysis;
+using SkiAnalyze.Core.TrackAggregate;
 
 namespace SkiAnalyze.Infrastructure.Data.Config;
 
@@ -10,6 +10,11 @@ public class AnalysisStatusConfiguration : IEntityTypeConfiguration<AnalysisStat
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .ValueGeneratedNever();
+            .ValueGeneratedOnAdd();
+
+        builder.HasOne(x => x.Track)
+            .WithOne(x => x.AnalysisStatus)
+            .HasForeignKey<AnalysisStatus>(x => x.TrackId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

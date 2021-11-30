@@ -1,9 +1,7 @@
 ﻿using OsmSharp.Complete;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Common.Analysis;
+using SkiAnalyze.Core.TrackAggregate;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
-using SkiAnalyze.SharedKernel.Interfaces;
 
 namespace SkiAnalyze.Core.GondolaAggregate;
 

@@ -1,11 +1,4 @@
-﻿using Ardalis.ApiEndpoints;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using SkiAnalyze.ApiModels;
-using SkiAnalyze.Core.Common.Analysis;
-using SkiAnalyze.Core.Common.Analysis.Specifications;
-using SkiAnalyze.SharedKernel.Interfaces;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
@@ -13,26 +6,26 @@ public class GetAnalysisStatus : BaseAsyncEndpoint
     .WithRequest<GetAnalysisStatusRequest>
     .WithResponse<AnalysisStatusDto>
 {
-    private readonly IReadRepository<AnalysisStatus> _statusRepository;
+    private readonly IReadRepository<Track> _tracksRepository;
     private readonly IMapper _mapper;
-    public GetAnalysisStatus(IReadRepository<AnalysisStatus> statusRepository,
+    public GetAnalysisStatus(IReadRepository<Track> tracksRepository,
         IMapper mapper)
-        => (_statusRepository, _mapper) = (statusRepository, mapper);
+        => (_tracksRepository, _mapper) = (tracksRepository, mapper);
 
-    [HttpGet("/api/analysis/status")]
+    [HttpGet("/api/tracks/{trackId:int}/analysis/status")]
     [SwaggerOperation(
         Summary = "Get the status of an analysis",
         Description = "Check if an analysis is still running or is finished",
         OperationId = "Analysis.Status",
         Tags = new[] { "AnalysisEndpoints" })
     ]
-    public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync([FromQuery] GetAnalysisStatusRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync([FromRoute] GetAnalysisStatusRequest request, CancellationToken cancellationToken = default)
     {
-        var analysis = await _statusRepository.GetBySpecAsync(new AnalysisBySessionAndId(request.UserSessionId, request.AnalysisId));
-        if (analysis == null)
+        var track = await _tracksRepository.GetBySpecAsync(new GetTrackWithStatusSpec(request.TrackId));
+        if (track?.AnalysisStatus == null)
             return NotFound();
 
-        var dto = _mapper.Map<AnalysisResultDto>(analysis);
+        var dto = _mapper.Map<AnalysisStatusDto>(track.AnalysisStatus);
         return Ok(dto);
     }
 }
