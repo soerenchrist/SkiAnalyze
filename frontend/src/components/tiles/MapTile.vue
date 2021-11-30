@@ -16,7 +16,7 @@
         <l-polyline
           v-if="hasPreview"
           :lat-lngs="latLngs"
-          color="blue" />
+          :color="preview.color" />
       </l-map>
     </v-card-text>
   </v-card>

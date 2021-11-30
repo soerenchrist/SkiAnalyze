@@ -29,7 +29,7 @@ public class GetAnalysisResult : BaseAsyncEndpoint
             .Where(x => x.TrackId == request.TrackId)
             .Include(x => x.Coordinates)
             .Include(x => x.Gondola)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var runDtos = _mapper.Map<List<RunDto>>(runs);
         var dto = new AnalysisResultDto

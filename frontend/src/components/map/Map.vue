@@ -1,5 +1,5 @@
 <template>
-<v-card class="mr-4 mt-4">
+<v-card class="mx-4 mt-4">
   <v-card-text class="pa-0">
     <l-map
       ref="map"

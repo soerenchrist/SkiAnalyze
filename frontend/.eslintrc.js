@@ -20,5 +20,6 @@ module.exports = {
     'no-plusplus': 'off',
     'no-template-curly-in-string': 'off',
     'no-await-in-loop': 'off',
+    'vue/valid-v-slot': 'off'
   },
 };

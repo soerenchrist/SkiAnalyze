@@ -36,7 +36,7 @@ export default {
       valueType: 'DateTime',
     },
     yAxis: {
-      title: 'elevation',
+      title: 'Elevation in m',
     },
     crosshair: { enable: true, lineType: 'Vertical' },
     tooltip: { enable: true, shared: true, format: 'Elevation: ${point.y} m' },

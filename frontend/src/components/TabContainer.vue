@@ -4,9 +4,8 @@
     :sm="12"
     :md="6"
     :lg="getClass('lg')"
-    :xl="getClass('xl')"
-    class="mt-4 mx-4">
-    <v-card>
+    :xl="getClass('xl')">
+    <v-card class="mt-4 mx-4">
       <v-toolbar
         dark
         color="primary"

@@ -20,6 +20,8 @@ public class RunDto
     public double MaxSpeed { get; set; }
     public string Color { get; set; } = string.Empty;
     public int TrackId { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
 }
 
 public class TrackPointDto

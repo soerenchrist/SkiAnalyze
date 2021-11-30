@@ -113,7 +113,6 @@ export default {
       return state.result;
     },
     preview(state) {
-      console.log(state.preview);
       return state.preview;
     },
     selectedRun(state) {

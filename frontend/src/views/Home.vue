@@ -4,8 +4,8 @@
     <v-col
       :sm="12"
       :md="6"
-      :lg="4"
-      :xl="3">
+      :lg="5"
+      :xl="4">
       <tracks-container />
     </v-col>
     <v-col>

@@ -8,4 +8,7 @@ public class TrackDto
     public double TotalDistance { get; set; }
     public double TotalElevation { get; set; }
     public double MaxSpeed { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
+    public DateTime Date { get; set; }
 }

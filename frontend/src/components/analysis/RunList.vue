@@ -1,6 +1,10 @@
 <template>
   <div>
-    <run-data-table v-if="isExpanded && isBigScreen" @runSelected="runSelected" :runs="runs" />
+    <run-data-table
+      v-if="isExpanded && isBigScreen"
+      :selectedRun="selectedRun"
+      @runSelected="runSelected"
+      :runs="runs" />
     <v-virtual-scroll
       v-else
       :items="runs"

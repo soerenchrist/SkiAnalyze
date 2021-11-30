@@ -1,6 +1,4 @@
-﻿using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Data;
+﻿using SkiAnalyze.Data;
 using Microsoft.EntityFrameworkCore;
 using EFCore.BulkExtensions;
 

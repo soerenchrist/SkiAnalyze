@@ -33,6 +33,7 @@ public class Preview : BaseAsyncEndpoint
                 Bounds = bounds,
                 Coordinates = SamplePoints(points.ToList()).ToList(),
                 TrackId = track.Id,
+                Color = "#00ff00"
             };
         }
 
@@ -48,12 +49,13 @@ public class Preview : BaseAsyncEndpoint
             Bounds = dbBounds,
             Coordinates = dbPoints.ToList(),
             TrackId = track.Id,
+            Color = track.HexColor
         };
     }
 
     private IEnumerable<Coordinate> SamplePoints(List<TrackPoint> trackPoints)
     {
-        const int sampleRate = 3;
+        const int sampleRate = 5;
         for (int i = 0; i < trackPoints.Count; i += sampleRate)
         {
             yield return new Coordinate

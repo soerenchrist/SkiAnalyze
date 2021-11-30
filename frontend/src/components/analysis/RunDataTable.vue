@@ -4,7 +4,7 @@
     :headers="headers"
     :items="runs"
     @click:row="itemSelected"
-    show-select
+    :item-class="itemClasses"
     :items-per-page="100">
     <template v-slot:item.downhill="{ item }">
       <v-icon>{{item.downhill ? 'mdi-ski' : 'mdi-gondola'}}</v-icon>
@@ -40,6 +40,7 @@ import { SELECT_GONDOLA } from '../../store/actions';
 export default {
   props: {
     runs: Array,
+    selectedRun: Object,
   },
   data: () => ({
     headers: [
@@ -79,6 +80,10 @@ export default {
     },
     showGondolaInfo(gondola) {
       this.$store.dispatch(SELECT_GONDOLA, gondola);
+    },
+    itemClasses(item) {
+      if (item === this.selectedRun) return 'grey lighten-1';
+      return '';
     },
   },
 };

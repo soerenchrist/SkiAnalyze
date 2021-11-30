@@ -1,6 +1,13 @@
 <template>
   <div v-if="hasAnalysisResult">
-    <height-profile :seriesData="seriesData" />
+    <v-card class="mx-4">
+      <v-card-title>
+        Height profile
+      </v-card-title>
+      <v-card-text class="pa-0">
+        <height-profile :seriesData="seriesData" />
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

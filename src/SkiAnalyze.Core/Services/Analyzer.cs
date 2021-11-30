@@ -82,12 +82,17 @@ public class Analyzer : IAnalyzer
                 run.TotalElevation = GetTotalElevation(run);
                 run.MaxSpeed = run.Coordinates.GetMaxSpeed();
                 run.AverageSpeed = run.Coordinates.GetAverageSpeed();
+                run.Start = run.Coordinates.First().DateTime;
+                run.End = run.Coordinates.Last().DateTime;
             }
 
             track.Runs = runs.ToList();
-            track.TotalDistance = track.Runs.Sum(x => x.TotalDistance);
+            track.TotalDistance = track.Runs.Where(x => x.Downhill).Sum(x => x.TotalDistance);
             track.TotalElevation = track.Runs.Where(x => x.Downhill).Sum(x => x.TotalElevation);
             track.MaxSpeed = track.Runs.Max(x => x.MaxSpeed);
+            track.Start = track.Runs.First().Start;
+            track.End = track.Runs.Last().End;
+            track.Date = track.Runs.First().Start.Date;
             await _tracksRepository.UpdateAsync(track);
 
             stopwatch.Stop();
