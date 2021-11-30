@@ -1,5 +1,5 @@
 <template>
-  <ejs-accumulationchart id="difficultyPie" :tooltip="tooltip">
+  <ejs-accumulationchart :style="getStyle()" :tooltip="tooltip">
     <e-accumulation-series-collection>
       <e-accumulation-series
         :dataSource="seriesData"
@@ -16,6 +16,7 @@ import { PieSeries, AccumulationTooltip } from '@syncfusion/ej2-vue-charts';
 export default {
   props: {
     seriesData: Array,
+    height: String,
   },
   data: () => ({
     tooltip: { enable: true, format: '${point.x}: <b>${point.y}%</b>' },
@@ -24,12 +25,14 @@ export default {
   provide: {
     accumulationchart: [PieSeries, AccumulationTooltip],
   },
+  methods: {
+    getStyle() {
+      if (this.height) {
+        return `height: ${this.height}`;
+      }
+      return '';
+    },
+  },
 };
 
 </script>
-
-<style>
-#difficultyPie {
-  height: 250px;
-}
-</style>

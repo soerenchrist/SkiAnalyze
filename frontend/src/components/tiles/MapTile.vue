@@ -1,5 +1,6 @@
 <template>
   <v-card
+    v-if="selectedTrack"
     class="clickable"
     @click="onClick">
     <v-card-title>
