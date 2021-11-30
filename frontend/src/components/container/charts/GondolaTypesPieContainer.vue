@@ -1,5 +1,6 @@
 <template>
   <pie-chart
+    v-if="!loading"
     :tooltip="tooltip"
     :seriesData="series"
     :palettes="palettes"
@@ -21,11 +22,17 @@ export default {
       required: false,
       default: false,
     },
+    propertyName: {
+      type: String,
+      required: false,
+      default: 'type',
+    },
   },
   data: () => ({
     series: [],
     tooltip: { enable: true },
     palettes: [],
+    loading: false,
   }),
   watch: {
     trackId() {
@@ -33,11 +40,18 @@ export default {
         this.fetchStats(this.trackId);
       }
     },
+    propertyName() {
+      if (this.trackId !== null) {
+        this.fetchStats(this.trackId);
+      }
+    },
   },
   methods: {
     async fetchStats(trackId) {
-      const stats = await DataService.getGondolaTypesStats(trackId);
-      await this.buildSeries(stats);
+      this.loading = true;
+      const stats = await DataService.getGondolaCountByPropertyStats(trackId, this.propertyName);
+      this.buildSeries(stats);
+      this.loading = false;
     },
     buildSeries(stats) {
       const s = [];

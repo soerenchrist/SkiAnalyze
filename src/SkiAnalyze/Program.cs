@@ -4,12 +4,9 @@ using Microsoft.OpenApi.Models;
 using Ardalis.ListStartupServices;
 using Autofac;
 using SkiAnalyze.Core;
-using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Data;
-using System.Reflection;
 using SkiAnalyze.Util;
 using SkiAnalyze;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

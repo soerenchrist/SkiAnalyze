@@ -59,21 +59,35 @@ public class StatsService : IStatsService
     }
 
 
-    public async Task<List<BaseStatValue<string, int>>> GetTopGondolaTypes(int trackId)
+    public async Task<List<BaseStatValue<string, int>>> GetGondolaCountByProperty(int trackId, string propertyName)
     {
         var runs = await _runRepository.ListAsync(new GetRunsForTrackSpec(trackId));
 
         var results = new List<BaseStatValue<string, int>>();
         var dictionary = new Dictionary<string, int>();
+
+        string GetValue(Gondola gondola)
+        {
+            return propertyName switch
+            {
+                "bubble" => BoolToString(gondola.Bubble),
+                "heating" => BoolToString(gondola.Heating),
+                "occupancy" => gondola.Occupancy?.ToString() ?? "unknown",
+                _ => gondola.Type
+            };
+        }
+
         foreach (var run in runs.Where(x => x.Gondola != null))
         {
-            if (dictionary.ContainsKey(run.Gondola!.Type))
+            var value = GetValue(run.Gondola!);
+
+            if (dictionary.ContainsKey(value))
             {
-                dictionary[run.Gondola!.Type]++;
+                dictionary[value]++;
             }
             else
             {
-                dictionary[run.Gondola!.Type] = 1;
+                dictionary[value] = 1;
             }
         }
 
@@ -81,5 +95,12 @@ public class StatsService : IStatsService
             .Select(x => new BaseStatValue<string, int>(x.Key, x.Value))
             .OrderByDescending(x => x.Value)
             .ToList();
+    }
+
+    private string BoolToString(bool? value)
+    {
+        if (!value.HasValue)
+            return "unknown";
+        return value.Value ? "yes" : "no";
     }
 }

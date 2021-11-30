@@ -2,6 +2,7 @@
   <ejs-accumulationchart
     :style="getStyle()"
     :tooltip="tooltip"
+    ref="chart"
     :legendSettings="legend">
     <e-accumulation-series-collection>
       <e-accumulation-series
