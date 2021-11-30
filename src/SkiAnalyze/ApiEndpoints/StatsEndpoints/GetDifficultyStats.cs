@@ -1,4 +1,6 @@
-﻿namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
+﻿using Swashbuckle.AspNetCore.Annotations;
+
+namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
 
 public class GetDifficultyStats : BaseAsyncEndpoint
     .WithRequest<GetDifficultyStatsRequest>
@@ -15,6 +17,11 @@ public class GetDifficultyStats : BaseAsyncEndpoint
     }
 
     [HttpGet("/api/tracks/{trackId}/stats/difficulty")]
+    [SwaggerOperation(
+        Summary = "Gets the percentage of points per piste difficulty",
+        OperationId = "Stats.Difficulty",
+        Tags = new[] { "StatsEndpoints" })
+    ]
     public override async Task<ActionResult<List<BaseStatValueDto<PisteDifficulty, double>>>> HandleAsync([FromRoute] GetDifficultyStatsRequest request, CancellationToken cancellationToken = default)
     {
 

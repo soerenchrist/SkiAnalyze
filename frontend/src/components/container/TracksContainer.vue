@@ -38,7 +38,9 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch(FETCH_TRACKS);
+    if (this.track === null || this.tracks.length === 0) {
+      this.$store.dispatch(FETCH_TRACKS);
+    }
   },
 };
 </script>

@@ -43,6 +43,16 @@ export default {
     onClick() {
       this.$router.push(`track/${this.selectedTrack.id}`);
     },
+    fitBounds() {
+      const swLat = this.preview.bounds.southWest.latitude;
+      const swLon = this.preview.bounds.southWest.longitude;
+      const neLat = this.preview.bounds.northEast.latitude;
+      const neLon = this.preview.bounds.northEast.longitude;
+      const sw = latLng(swLat, swLon);
+      const ne = latLng(neLat, neLon);
+      const bounds = latLngBounds(sw, ne);
+      this.$refs.map.fitBounds(bounds, { padding: [-20, -20] });
+    },
   },
   computed: {
     preview() {
@@ -65,15 +75,13 @@ export default {
   watch: {
     preview() {
       if (!this.preview) return;
-      const swLat = this.preview.bounds.southWest.latitude;
-      const swLon = this.preview.bounds.southWest.longitude;
-      const neLat = this.preview.bounds.northEast.latitude;
-      const neLon = this.preview.bounds.northEast.longitude;
-      const sw = latLng(swLat, swLon);
-      const ne = latLng(neLat, neLon);
-      const bounds = latLngBounds(sw, ne);
-      this.$refs.map.fitBounds(bounds, { padding: [-20, -20] });
+      this.fitBounds();
     },
+  },
+  mounted() {
+    if (this.preview !== null) {
+      this.fitBounds();
+    }
   },
 };
 </script>

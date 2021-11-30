@@ -56,4 +56,9 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getGondolaTypesStats(trackId) {
+    const url = `${baseUrl}tracks/${trackId}/stats/gondolatypes`;
+    const response = await axios.get(url);
+    return response.data;
+  },
 };

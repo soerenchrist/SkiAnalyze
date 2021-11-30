@@ -1,5 +1,8 @@
 <template>
-  <ejs-accumulationchart :style="getStyle()" :tooltip="tooltip">
+  <ejs-accumulationchart
+    :style="getStyle()"
+    :tooltip="tooltip"
+    :legendSettings="legend">
     <e-accumulation-series-collection>
       <e-accumulation-series
         :dataSource="seriesData"
@@ -11,19 +14,29 @@
 </template>
 
 <script>
-import { PieSeries, AccumulationTooltip } from '@syncfusion/ej2-vue-charts';
+import { PieSeries, AccumulationTooltip, AccumulationLegend } from '@syncfusion/ej2-vue-charts';
 
 export default {
   props: {
     seriesData: Array,
     height: String,
+    tooltip: Object,
+    palettes: Array,
+    showLegend: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
-  data: () => ({
-    tooltip: { enable: true, format: '${point.x}: <b>${point.y}%</b>' },
-    palettes: ['#3F51B5', '#2196F3', '#F44336', '#212121'],
-  }),
   provide: {
-    accumulationchart: [PieSeries, AccumulationTooltip],
+    accumulationchart: [PieSeries, AccumulationTooltip, AccumulationLegend],
+  },
+  computed: {
+    legend() {
+      return {
+        visible: this.showLegend,
+      };
+    },
   },
   methods: {
     getStyle() {

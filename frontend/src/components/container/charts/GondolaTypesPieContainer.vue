@@ -1,8 +1,8 @@
 <template>
   <pie-chart
     :tooltip="tooltip"
-    :palettes="palettes"
     :seriesData="series"
+    :palettes="palettes"
     :showLegend="showLegend"
     :height="height" />
 </template>
@@ -24,8 +24,8 @@ export default {
   },
   data: () => ({
     series: [],
-    tooltip: { enable: true, format: '${point.x}: <b>${point.y}%</b>' },
-    palettes: ['#3F51B5', '#2196F3', '#F44336', '#212121'],
+    tooltip: { enable: true },
+    palettes: [],
   }),
   watch: {
     trackId() {
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async fetchStats(trackId) {
-      const stats = await DataService.getDifficultyStats(trackId);
+      const stats = await DataService.getGondolaTypesStats(trackId);
       await this.buildSeries(stats);
     },
     buildSeries(stats) {
@@ -44,17 +44,17 @@ export default {
       stats.forEach((stat) => {
         s.push({
           key: this.getName(stat.key),
-          value: (stat.value * 100).toFixed(2),
+          value: stat.value,
         });
       });
       this.series = s;
     },
     getName(key) {
       switch (key) {
-        case 0: return 'Easy';
-        case 1: return 'Novice';
-        case 2: return 'Intermediate';
-        default: return 'Advanced';
+        case 'chair_lift': return 'Chair lift';
+        case 'gondola': return 'Gondola';
+        case 'cable_car': return 'Cable car';
+        default: return key;
       }
     },
   },
