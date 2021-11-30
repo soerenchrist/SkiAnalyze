@@ -7,7 +7,7 @@ import {
   LPolyline,
   LPopup,
 } from 'vue2-leaflet';
-import { ChartPlugin } from '@syncfusion/ej2-vue-charts';
+import { ChartPlugin, AccumulationChartPlugin } from '@syncfusion/ej2-vue-charts';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
 import App from './App.vue';
@@ -26,6 +26,7 @@ Icon.Default.mergeOptions({
 Vue.config.productionTip = false;
 
 Vue.use(ChartPlugin);
+Vue.use(AccumulationChartPlugin);
 Vue.component('l-map', LMap);
 Vue.component('l-popup', LPopup);
 Vue.component('l-tile-layer', LTileLayer);

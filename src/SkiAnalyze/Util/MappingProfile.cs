@@ -1,4 +1,6 @@
-﻿namespace SkiAnalyze.Util;
+﻿using SkiAnalyze.Core.Common;
+
+namespace SkiAnalyze.Util;
 
 public class MappingProfile : Profile
 {
@@ -12,6 +14,7 @@ public class MappingProfile : Profile
         CreateMap<Run, RunDto>();
         CreateMap<AnalysisStatus, AnalysisStatusDto>();
         CreateMap<TrackPoint, TrackPointDto>();
+        CreateMap(typeof(BaseStatValue<,>), typeof(BaseStatValueDto<,>));
     }
 
 }

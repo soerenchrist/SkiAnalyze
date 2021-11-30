@@ -51,4 +51,9 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getDifficultyStats(trackId) {
+    const url = `${baseUrl}tracks/${trackId}/stats/difficulty`;
+    const response = await axios.get(url);
+    return response.data;
+  },
 };
