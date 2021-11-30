@@ -30,24 +30,25 @@ import HeightProfileContainer from '../components/container/charts/HeightProfile
 import Map from '../components/map/Map.vue';
 
 import {
-  FETCH_GONDOLAS, FETCH_PISTES, SELECT_GONDOLA, SELECT_PISTE,
+  GET_ANALYSIS_RESULT, SELECT_GONDOLA, SELECT_PISTE,
 } from '../store/actions';
 import GondolaDetailDialog from '../components/dialogs/GondolaDetailDialog.vue';
 
 export default {
   name: 'MapOverview',
+  props: {
+    trackId: String,
+  },
   components: {
     Map,
-    // GondolaDetailsContainer,
-    // PisteDetailsContainer,
     AddTrackDialogContainer,
     HeightProfileContainer,
     TabContainer,
     GondolaDetailDialog,
   },
   data: () => ({
-    zoom: 13,
-    center: [46.97448992512977, 10.324968962190015],
+    zoom: 10,
+    center: [46.98, 10.3],
   }),
   computed: {
     gondolas() {
@@ -66,8 +67,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch(FETCH_PISTES);
-    this.$store.dispatch(FETCH_GONDOLAS);
+    this.$store.dispatch(GET_ANALYSIS_RESULT, this.trackId);
   },
 };
 </script>

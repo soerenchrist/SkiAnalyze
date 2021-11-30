@@ -18,6 +18,7 @@ module.exports = {
     'no-continue': 'off',
     'no-param-reassign': 'off',
     'no-plusplus': 'off',
-    'no-template-curly-in-string': 'off'
+    'no-template-curly-in-string': 'off',
+    'no-await-in-loop': 'off',
   },
 };

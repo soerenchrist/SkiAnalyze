@@ -7,11 +7,11 @@ public class GetCompleteTrackSpec : Specification<Track>, ISingleResultSpecifica
     public GetCompleteTrackSpec(int id)
     {
         Query.Where(x => x.Id == id)
+            .AsNoTracking()
             .Include(x => x.AnalysisStatus)
-            .Include(x => x.Runs!)
-            .ThenInclude(x => x.Gondola)
-            .Include(x => x.Runs!)
+            .AsNoTracking()
+            .Include(x => x.Runs)
             .ThenInclude(x => x.Coordinates)
-            .ThenInclude(x => x.Piste);
+            .AsNoTracking();
     }
 }

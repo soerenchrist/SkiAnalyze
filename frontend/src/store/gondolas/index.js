@@ -42,10 +42,10 @@ export default {
     },
   },
   actions: {
-    async [FETCH_GONDOLAS]({ commit }) {
+    async [FETCH_GONDOLAS]({ commit }, bounds) {
       commit(FETCH_GONDOLAS_STARTED);
       try {
-        const response = await DataService.getGondolas();
+        const response = await DataService.getGondolas(bounds);
         commit(FETCH_GONDOLAS_SUCCESS, response);
       } catch (ex) {
         commit(FETCH_GONDOLAS_ERROR, ex);

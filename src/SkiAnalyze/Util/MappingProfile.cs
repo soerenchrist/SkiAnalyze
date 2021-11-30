@@ -11,6 +11,7 @@ public class MappingProfile : Profile
         CreateMap<Track, TrackDto>();
         CreateMap<Run, RunDto>();
         CreateMap<AnalysisStatus, AnalysisStatusDto>();
+        CreateMap<TrackPoint, TrackPointDto>();
     }
 
 }

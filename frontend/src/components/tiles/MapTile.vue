@@ -40,7 +40,7 @@ export default {
   }),
   methods: {
     onClick() {
-      this.$router.push('map');
+      this.$router.push(`track/${this.selectedTrack.id}`);
     },
   },
   computed: {
@@ -49,6 +49,9 @@ export default {
     },
     hasPreview() {
       return this.preview !== null;
+    },
+    selectedTrack() {
+      return this.$store.getters.selectedTrack;
     },
     latLngs() {
       const coords = [];

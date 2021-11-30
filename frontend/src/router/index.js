@@ -12,8 +12,9 @@ const routes = [
     component: Home,
   },
   {
-    path: '/map',
+    path: '/track/:trackId',
     name: 'Map',
+    props: true,
     component: MapOverview,
   },
 ];

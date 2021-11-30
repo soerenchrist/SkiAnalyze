@@ -52,10 +52,10 @@ export default {
     },
   },
   actions: {
-    async [FETCH_PISTES]({ commit }) {
+    async [FETCH_PISTES]({ commit }, bounds) {
       commit(FETCH_PISTES_STARTED);
       try {
-        const response = await DataService.getPistes();
+        const response = await DataService.getPistes(bounds);
         commit(FETCH_PISTES_SUCCESS, response);
       } catch (ex) {
         commit(FETCH_PISTES_ERROR, ex);

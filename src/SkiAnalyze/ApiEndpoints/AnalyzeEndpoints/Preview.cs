@@ -1,23 +1,28 @@
-﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
+﻿using Microsoft.EntityFrameworkCore;
+using SkiAnalyze.Data;
+
+namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
 public class Preview : BaseAsyncEndpoint
     .WithRequest<PreviewRequest>
     .WithResponse<MapPreviewDto>
 {
-    private readonly IReadRepository<Track> _tracksRepository;
-    public Preview(IReadRepository<Track> tracksRepository)
+    private readonly AppDbContext _context;
+    public Preview(AppDbContext context)
     {
-        _tracksRepository = tracksRepository;
+        _context = context;
     }
 
     [HttpGet("/api/tracks/{trackId}/analysis/preview")]
     public override async Task<ActionResult<MapPreviewDto>> HandleAsync([FromRoute] PreviewRequest request, CancellationToken cancellationToken = default)
     {
-        var track = await _tracksRepository.GetBySpecAsync(new GetCompleteTrackSpec(request.TrackId));
+        var track = await _context.Tracks.FindAsync(request.TrackId);
         if (track == null)
             return NotFound($"No track with given id {request.TrackId}");
 
-        if (track.AnalysisStatus == null || !track.AnalysisStatus.IsFinished)
+        var status = await _context.AnalysisStatus.FirstOrDefaultAsync(x => x.TrackId == track.Id);
+
+        if (status == null || !status.IsFinished)
         {
             var loader = new GpxFileLoader();
             var gpx = loader.LoadGpxFile(track);
@@ -31,7 +36,12 @@ public class Preview : BaseAsyncEndpoint
             };
         }
 
-        var dbPoints = SamplePoints(track.Runs.SelectMany(x => x.Coordinates).ToList());
+        var trackPoints = await _context.TrackPoints
+            .Include(x => x.Run)
+            .Where(x => x.Run!.TrackId == track.Id)
+            .ToListAsync();
+
+        var dbPoints = SamplePoints(trackPoints).ToList();
         var dbBounds = dbPoints.Select(x => (ICoordinate)x).GetBounds();
         return new MapPreviewDto
         {

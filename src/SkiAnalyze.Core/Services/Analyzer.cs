@@ -72,14 +72,26 @@ public class Analyzer : IAnalyzer
             foreach (var run in runs)
             {
                 run.Color = track.HexColor;
+
+                if (run.Coordinates.Count < 2)
+                    continue;
+                run.TotalDistance = run.Coordinates
+                    .Select(x => (ICoordinate)x)
+                    .ToList()
+                    .GetLength();
+                run.TotalElevation = GetTotalElevation(run);
+                run.MaxSpeed = run.Coordinates.GetMaxSpeed();
+                run.AverageSpeed = run.Coordinates.GetAverageSpeed();
             }
 
             track.Runs = runs.ToList();
-
+            track.TotalDistance = track.Runs.Sum(x => x.TotalDistance);
+            track.TotalElevation = track.Runs.Where(x => x.Downhill).Sum(x => x.TotalElevation);
+            track.MaxSpeed = track.Runs.Max(x => x.MaxSpeed);
             await _tracksRepository.UpdateAsync(track);
 
             stopwatch.Stop();
-            _logger.LogInformation("Finished analyzis of track {TrackId}. Took {Seconds}.", trackId, stopwatch.Elapsed.TotalSeconds);
+            _logger.LogInformation("Finished analysis of track {TrackId}. Took {Seconds}.", trackId, stopwatch.Elapsed.TotalSeconds);
 
             status.IsFinished = true;
             status.Success = true;
@@ -92,5 +104,12 @@ public class Analyzer : IAnalyzer
             await _statusRepository.UpdateAsync(status);
             _logger.LogError(ex, "Error while analyzing track {TrackId}", trackId);
         }
+    }
+
+    public double GetTotalElevation(Run run)
+    {
+        var last = run.Coordinates.Last();
+        var first = run.Coordinates.First();
+        return last.Elevation - first.Elevation ?? 0;
     }
 }

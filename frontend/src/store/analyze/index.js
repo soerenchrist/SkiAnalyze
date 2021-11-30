@@ -1,37 +1,68 @@
 import DataService from '../../services/DataService';
 import GeoHelper from '../../services/GeoHelper';
-import { GET_PREVIEW, SELECT_RUN, START_ANALYSIS } from './actions';
 import {
-  ANALYSIS_ERROR,
-  ANALYSIS_STARTED,
-  ANALYSIS_SUCCESS,
+  GET_ANALYSIS_RESULT,
+  GET_PREVIEW,
+  SELECT_RUN,
+  START_ANALYSIS,
+} from './actions';
+import {
+  GET_ANALYSIS_RESULT_ERROR,
+  GET_ANALYSIS_RESULT_STARTED,
+  GET_ANALYSIS_RESULT_SUCCESS,
   GET_PREVIEW_ERROR,
   GET_PREVIEW_STARTED,
   GET_PREVIEW_SUCCESS,
   SET_SELECTED_RUN,
 } from './mutations';
-import { SET_SELECTED_GONDOLA } from '../gondolas/mutations';
-import {
-  SET_MAP_BOUNDS,
-} from '../mutations';
+import { SET_SELECTED_GONDOLA, SET_MAP_BOUNDS } from '../mutations';
+import { FETCH_GONDOLAS, FETCH_TRACKS, FETCH_PISTES } from '../actions';
+
+const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 export default {
   state: {
     loading: false,
-    result: null,
+    status: {},
     previewLoading: false,
     error: null,
     selectedRun: null,
     preview: null,
+    result: null,
   },
   actions: {
-    async [START_ANALYSIS]({ commit }, trackId) {
-      commit(ANALYSIS_STARTED);
+    async [START_ANALYSIS]({ dispatch }, trackId) {
       try {
-        const response = await DataService.startAnalysis(trackId);
-        commit(ANALYSIS_SUCCESS, response);
+        await DataService.startAnalysis(trackId);
+
+        let status = null;
+        let finished = false;
+
+        while (!finished) {
+          await sleep(2000);
+          status = await DataService.getAnalysisStatus(trackId);
+          if (status.isFinished) {
+            finished = true;
+          }
+        }
+
+        dispatch(FETCH_TRACKS);
       } catch (ex) {
-        commit(ANALYSIS_ERROR, ex);
+        console.error(ex);
+      }
+    },
+    async [GET_ANALYSIS_RESULT]({ commit, dispatch }, trackId) {
+      commit(GET_ANALYSIS_RESULT_STARTED);
+      try {
+        const result = await DataService.getAnalysisResult(trackId);
+        if (result.bounds) {
+          dispatch(FETCH_GONDOLAS, result.bounds);
+          dispatch(FETCH_PISTES, result.bounds);
+          commit(SET_MAP_BOUNDS, result.bounds);
+        }
+        commit(GET_ANALYSIS_RESULT_SUCCESS, result);
+      } catch (ex) {
+        commit(GET_ANALYSIS_RESULT_ERROR, ex);
       }
     },
     [SELECT_RUN]({ commit }, run) {
@@ -52,17 +83,6 @@ export default {
     },
   },
   mutations: {
-    [ANALYSIS_STARTED](state) {
-      state.loading = true;
-    },
-    [ANALYSIS_SUCCESS](state, result) {
-      state.loading = false;
-      state.result = result;
-    },
-    [ANALYSIS_ERROR](state, error) {
-      state.loading = false;
-      state.error = error;
-    },
     [SET_SELECTED_RUN](state, run) {
       state.selectedRun = run;
     },
@@ -75,6 +95,17 @@ export default {
     },
     [GET_PREVIEW_ERROR](state) {
       state.previewLoading = false;
+    },
+    [GET_ANALYSIS_RESULT_STARTED](state) {
+      state.loading = true;
+    },
+    [GET_ANALYSIS_RESULT_SUCCESS](state, result) {
+      state.loading = false;
+      state.result = result;
+    },
+    [GET_ANALYSIS_RESULT_ERROR](state, err) {
+      state.loading = false;
+      state.error = err;
     },
   },
   getters: {

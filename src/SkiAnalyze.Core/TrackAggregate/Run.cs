@@ -17,30 +17,8 @@ public class Run : BaseEntity<int>
     public int TrackId { get; set; }
     public Track? Track { get; set; }
 
-    public double TotalDistance
-    {
-        get
-        {
-            if (Coordinates.Count < 2)
-                return 0;
-            return Coordinates
-                .Select(x => (ICoordinate) x)
-                .ToList()
-                .GetLength();
-        }
-    }
-    public double TotalElevation
-    {
-        get
-        {
-            if (Coordinates.Count < 2)
-                return 0;
-            var last = Coordinates.Last();
-            var first = Coordinates.First();
-            return last.Elevation - first.Elevation ?? 0;
-        }
-    }
-
-    public double AverageSpeed => Coordinates.GetAverageSpeed();
-    public double MaxSpeed => Coordinates.GetMaxSpeed();
+    public double TotalDistance { get; set; }
+    public double TotalElevation { get; set; }
+    public double AverageSpeed { get; set; }
+    public double MaxSpeed { get; set; }
 }
