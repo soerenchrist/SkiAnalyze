@@ -15,8 +15,9 @@
     <PackageReference Include="Ardalis.Result.AspNetCore" Version="3.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.21" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="all" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" PrivateAssets="All" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -27,9 +28,35 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkiAnalyze.Infrastructure\SkiAnalyze.Infrastructure.csproj" />
-    <ProjectReference Include="..\SkiAnalyze.Blazor\SkiAnalyze.Blazor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
+
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+	    <Exec Command="node --version" ContinueOnError="true">
+		    <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+	    </Exec>
+	    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project" />
+	    <Message Importance="high" Text="Restoring dependencies using 'npm'" />
+	    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    </Target>
+
+
+	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+
+		<ItemGroup>
+			<DistFiles Include="$(SpaRoot)dist\**" />
+			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+				<RelativePath>%(DistFiles.Identity)</RelativePath>
+				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
 </Project>

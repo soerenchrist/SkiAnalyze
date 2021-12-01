@@ -21,7 +21,6 @@ builder.Services.AddOsmFile(osmPath);
 builder.Services.AddScoped<DataInitializer>();
 
 builder.Services.AddControllers();
-builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
 
 builder.Services.AddSwaggerGen(c =>
@@ -32,6 +31,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<ServiceConfig>(config =>
 {
     config.Services = new List<ServiceDescriptor>(builder.Services);
+});
+builder.Services.AddSpaStaticFiles(config =>
+{
+    config.RootPath = "ClientApp/dist";
 });
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -50,20 +53,27 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseWebAssemblyDebugging();
 }
 
 app.UseHttpsRedirection();
-app.UseBlazorFrameworkFiles();
 
 app.UseStaticFiles();
+app.UseSpaStaticFiles();
 app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapRazorPages();
     endpoints.MapControllers();
-    endpoints.MapFallbackToFile("index.html");
+});
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+    }
 });
 
 using var scope = app.Services.CreateScope();
