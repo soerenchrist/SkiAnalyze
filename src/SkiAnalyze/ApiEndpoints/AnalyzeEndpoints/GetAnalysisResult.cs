@@ -28,7 +28,7 @@ public class GetAnalysisResult : BaseAsyncEndpoint
         var runs = await _context.Runs
             .Where(x => x.TrackId == request.TrackId)
             .Include(x => x.Coordinates)
-            .Include(x => x.Gondola)
+            .Include(x => x.Gondola!)
             .ThenInclude(x => x.Coordinates)
             .ToListAsync(cancellationToken);
 
