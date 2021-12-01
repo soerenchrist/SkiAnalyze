@@ -12,3 +12,4 @@ global using SkiAnalyze.Core.GondolaAggregate;
 global using SkiAnalyze.Core.PisteAggregate;
 global using SkiAnalyze.Core.Common;
 global using SkiAnalyze.Core.Services.Gpx;
+global using SkiAnalyze.SharedKernel.ApiModels;

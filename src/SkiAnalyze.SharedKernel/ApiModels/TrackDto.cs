@@ -1,4 +1,4 @@
-﻿namespace SkiAnalyze.ApiModels;
+﻿namespace SkiAnalyze.SharedKernel.ApiModels;
 
 public class TrackDto
 {

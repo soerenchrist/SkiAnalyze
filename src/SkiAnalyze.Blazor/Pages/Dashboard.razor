@@ -1,0 +1,49 @@
+﻿@page "/"
+@using Models.Maps
+@inject ITracksService _tracksService
+
+<PageTitle>Dashboard</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" md="8" lg="6" xl="4">
+        <MudCard Class="mt-6">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Tracks</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Default" />
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <TrackList Tracks="@_tracks" Loading="@_loading" />
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem>
+        <MudButton OnClick="Test">Test</MudButton>
+        <DefaultMap PolyLines="@_polylines" />
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    
+    private List<Polyline>? _polylines;
+    private List<TrackDto> _tracks = new List<TrackDto>();
+    private bool _loading;
+    protected override async Task OnInitializedAsync()
+    {
+        _loading = true;
+        _tracks = await _tracksService.GetTracks();
+        _loading = false;
+    }
+
+    private void Test() 
+    {
+        _polylines = new List<Polyline>
+        {
+            new Polyline(new double[][]{new double[]{49.1, 10.1}, new double []{49, 10}})    
+        };
+    }
+}

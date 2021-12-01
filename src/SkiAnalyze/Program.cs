@@ -14,20 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    options.CheckConsentNeeded = context => true;
-    options.MinimumSameSitePolicy = SameSiteMode.None;
-});
-
 string connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
 string osmPath = builder.Configuration.GetValue<string>("OsmDataPath");
 builder.Services.AddDbContext(connectionString);
 builder.Services.AddOsmFile(osmPath);
 builder.Services.AddScoped<DataInitializer>();
 
-builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
 
 builder.Services.AddSwaggerGen(c =>
@@ -38,15 +32,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<ServiceConfig>(config =>
 {
     config.Services = new List<ServiceDescriptor>(builder.Services);
-});
-builder.Services.AddCors(x =>
-{
-    x.AddPolicy("CorsPolicy", cors =>
-    {
-        cors.AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowAnyOrigin();
-    });
 });
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -65,15 +50,21 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseWebAssemblyDebugging();
 }
 
 app.UseHttpsRedirection();
+app.UseBlazorFrameworkFiles();
 
-app.UseAuthorization();
+app.UseStaticFiles();
+app.UseRouting();
 
-app.UseCors("CorsPolicy");
-app.MapControllers();
-app.UseCookiePolicy();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllers();
+    endpoints.MapFallbackToFile("index.html");
+});
 
 using var scope = app.Services.CreateScope();
 
