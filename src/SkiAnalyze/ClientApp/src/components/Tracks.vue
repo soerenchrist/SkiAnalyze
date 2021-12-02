@@ -47,6 +47,7 @@ export default {
     headers: [
       { text: '', value: 'color' },
       { text: 'Name', value: 'name' },
+      { text: 'Ski area', value: 'skiArea.name' },
       { text: 'Date', value: 'date' },
       { text: 'Distance', value: 'totalDistance' },
       { text: 'Elevation', value: 'totalElevation' },

@@ -27,7 +27,7 @@ public class Get : BaseAsyncEndpoint
     ]
     public override async Task<ActionResult<List<TrackDto>>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        var tracks = await _tracksRepository.ListAsync(cancellationToken);
+        var tracks = await _tracksRepository.ListAsync(new GetTracksWithSkiAreaSpec(), cancellationToken);
         var dtos = _mapper.Map<List<TrackDto>>(tracks);
 
         return dtos;
