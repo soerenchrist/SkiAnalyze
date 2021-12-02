@@ -20,5 +20,9 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
             .WithOne(x => x.Track)
             .HasForeignKey(x => x.TrackId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(x => x.SkiArea)
+            .WithMany(x => x.Tracks)
+            .HasForeignKey(x => x.SkiAreaId);
     }
 }

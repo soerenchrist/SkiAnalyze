@@ -1,4 +1,5 @@
 ﻿using OsmSharp.Complete;
+using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
@@ -11,6 +12,7 @@ public class SkiArea : BaseEntity<long>
     public string? Website { get; set; }
     public string? AlternativeName { get; set; }
     public List<SkiAreaNode> Nodes { get; set; } = new List<SkiAreaNode>();
+    public List<Track> Tracks { get; set; } = new();
 
     public static SkiArea FromWay(CompleteWay way)
     {

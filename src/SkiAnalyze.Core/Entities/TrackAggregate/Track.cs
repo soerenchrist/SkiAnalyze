@@ -1,4 +1,5 @@
-﻿using SkiAnalyze.SharedKernel;
+﻿using SkiAnalyze.Core.Entities.SkiAreaAggregate;
+using SkiAnalyze.SharedKernel;
 
 namespace SkiAnalyze.Core.Entities.TrackAggregate;
 
@@ -15,6 +16,8 @@ public class Track : BaseEntity<int>
     public DateTime Start { get; set; }
     public DateTime End { get; set; }
     public DateTime Date { get; set; }
+    public SkiArea? SkiArea { get; set; }
+    public long? SkiAreaId { get; set; }
 
     public AnalysisStatus? AnalysisStatus { get; set; }
 }

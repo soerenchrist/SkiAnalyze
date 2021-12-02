@@ -8,6 +8,9 @@ using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel.Interfaces;
 using System.Diagnostics;
 using SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
+using SkiAnalyze.Core.Entities.SkiAreaAggregate;
+using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Entities.SkiAreaAggregate.Specifications;
 
 namespace SkiAnalyze.Core.Services;
 
@@ -17,14 +20,17 @@ public class Analyzer : IAnalyzer
     private readonly ILogger<Analyzer> _logger;
     private readonly IPisteSearchService _pisteSearchService;
     private readonly IRepository<AnalysisStatus> _statusRepository;
+    private readonly IReadRepository<SkiArea> _skiAreaRepository;
     private readonly IRepository<Track> _tracksRepository;
     public Analyzer(IRepository<Track> tracksRepository,
         IRepository<AnalysisStatus> statusRepository,
+        IReadRepository<SkiArea> skiAreaRepository,
         IGondolaSearchService gondolaSearchService,
         ILogger<Analyzer> logger,
         IPisteSearchService pisteSearchService)
     {
         _statusRepository = statusRepository;
+        _skiAreaRepository = skiAreaRepository;
         _tracksRepository = tracksRepository;
         _gondolaSearchService = gondolaSearchService;
         _logger = logger;
@@ -93,6 +99,7 @@ public class Analyzer : IAnalyzer
             track.Start = track.Runs.First().Start;
             track.End = track.Runs.Last().End;
             track.Date = track.Runs.First().Start.Date;
+            track.SkiArea = await GetSkiAreaForTrack(trackPoints.ToList(), bounds);
             await _tracksRepository.UpdateAsync(track);
 
             stopwatch.Stop();
@@ -109,6 +116,54 @@ public class Analyzer : IAnalyzer
             await _statusRepository.UpdateAsync(status);
             _logger.LogError(ex, "Error while analyzing track {TrackId}", trackId);
         }
+    }
+
+    private async Task<SkiArea?> GetSkiAreaForTrack(List<TrackPoint> trackPoints, Bounds bounds)
+    {
+        var results = await _skiAreaRepository.ListAsync(new GetSkiAreasInBoundsSpec(bounds));
+        if (results.Count == 0)
+            return null;
+        if (results.Count == 1)
+            return results[1];
+
+        var random = new Random();
+        foreach (var result in results)
+        {
+            var areaWithNodes = await _skiAreaRepository.GetBySpecAsync(new GetSkiAreaWithNodesSpec(result.Id));
+            if (areaWithNodes == null) continue;
+            // Check some random points in the track
+            var allInBounds = true;
+            for (int i = 0; i < 3; i++)
+            {
+                var index = random.Next(0, trackPoints.Count);
+                var indexIsInBounds = IsPointInPolygon(areaWithNodes.Nodes, trackPoints[index]);
+                if (!indexIsInBounds)
+                {
+                    allInBounds = false;
+                    break;
+                }
+            }
+            if (allInBounds)
+                return result;
+        }
+        return null;
+    }
+    public static bool IsPointInPolygon(List<SkiAreaNode> polygon, ICoordinate testPoint)
+    {
+        bool result = false;
+        int j = polygon.Count() - 1;
+        for (int i = 0; i < polygon.Count(); i++)
+        {
+            if (polygon[i].Latitude < testPoint.Latitude && polygon[j].Latitude >= testPoint.Latitude || polygon[j].Latitude < testPoint.Latitude && polygon[i].Latitude >= testPoint.Latitude)
+            {
+                if (polygon[i].Longitude + (testPoint.Latitude - polygon[i].Latitude) / (polygon[j].Latitude - polygon[i].Latitude) * (polygon[j].Longitude - polygon[i].Longitude) < testPoint.Longitude)
+                {
+                    result = !result;
+                }
+            }
+            j = i;
+        }
+        return result;
     }
 
     public double GetTotalElevation(Run run)
