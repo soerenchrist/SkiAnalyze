@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import MapOverview from '../views/MapOverview.vue';
 import TrackStats from '../views/TrackStats.vue';
+import SkiAreas from '../views/SkiAreas.vue';
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const routes = [
     name: 'TrackStats',
     props: true,
     component: TrackStats,
+  },
+  {
+    path: '/skiareas',
+    name: 'SkiAreas',
+    component: SkiAreas,
   },
 ];
 

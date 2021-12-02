@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Core.GondolaAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
 using AutoMapper;
 using SkiAnalyze.ApiModels;
 using SkiAnalyze.Util;

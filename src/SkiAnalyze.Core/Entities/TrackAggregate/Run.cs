@@ -1,10 +1,10 @@
 ﻿using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.GondolaAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
 using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
-namespace SkiAnalyze.Core.TrackAggregate;
+namespace SkiAnalyze.Core.Entities.TrackAggregate;
 
 public class Run : BaseEntity<int>
 {

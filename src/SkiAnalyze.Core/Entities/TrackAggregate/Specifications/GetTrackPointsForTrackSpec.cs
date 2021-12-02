@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using SkiAnalyze.Core.Common;
 
-namespace SkiAnalyze.Core.TrackAggregate.Specifications;
+namespace SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 
 internal class GetTrackPointsForTrackSpec : Specification<TrackPoint>
 {

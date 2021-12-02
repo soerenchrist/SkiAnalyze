@@ -3,7 +3,7 @@ using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
-namespace SkiAnalyze.Core.PisteAggregate;
+namespace SkiAnalyze.Core.Entities.PisteAggregate;
 public class Piste : BaseEntity<long>
 {
     public string? Name { get; set; }

@@ -1,6 +1,6 @@
 ﻿using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.GondolaAggregate;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 
 namespace SkiAnalyze.Core.Interfaces;
 

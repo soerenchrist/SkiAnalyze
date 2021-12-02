@@ -1,6 +1,6 @@
 ﻿using SkiAnalyze.SharedKernel;
 
-namespace SkiAnalyze.Core.GondolaAggregate;
+namespace SkiAnalyze.Core.Entities.GondolaAggregate;
 
 public class GondolaNode : BaseEntity<long>
 {

@@ -31,6 +31,20 @@ public class DataInitializer
             Latitude = 46.477213f,
             Longitude = 15.674944f
         };
+
+        var skiAreaCount = await _appDbContext.SkiAreas.CountAsync();
+        _logger.LogInformation("Found {Count} ski areas already in db", skiAreaCount);
+        if (skiAreaCount == 0)
+        {
+            var skiAreas = await _dataProvider.GetSkiAreas(alpsNw, alpsSe);
+            var skiAreaList = skiAreas.ToList();
+            var nodes = skiAreaList.SelectMany(x => x.Nodes).ToList();
+            _logger.LogInformation("Found {Count} SkiAreas with {CoordCount} nodes from data provider - Inserting them...", skiAreaList.Count, nodes.Count);
+            await _appDbContext.BulkInsertAsync(skiAreaList);
+            await _appDbContext.BulkInsertAsync(nodes);
+        }
+
+
         var gondolaCount = await _appDbContext.Gondolas.CountAsync();
         _logger.LogInformation("Found {Count} gondolas already in db", gondolaCount);
         if (gondolaCount == 0)

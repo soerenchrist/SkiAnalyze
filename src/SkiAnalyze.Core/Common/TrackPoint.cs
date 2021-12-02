@@ -1,6 +1,6 @@
-﻿using SkiAnalyze.Core.TrackAggregate;
+﻿using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Interfaces.Common;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 using SkiAnalyze.SharedKernel;
 
 namespace SkiAnalyze.Core.Common;

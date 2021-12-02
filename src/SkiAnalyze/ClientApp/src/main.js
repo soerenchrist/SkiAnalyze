@@ -6,6 +6,7 @@ import {
   LMarker,
   LPolyline,
   LPopup,
+  LTooltip,
 } from 'vue2-leaflet';
 import { ChartPlugin, AccumulationChartPlugin } from '@syncfusion/ej2-vue-charts';
 import 'leaflet/dist/leaflet.css';
@@ -31,6 +32,8 @@ Vue.component('l-map', LMap);
 Vue.component('l-popup', LPopup);
 Vue.component('l-tile-layer', LTileLayer);
 Vue.component('l-marker', LMarker);
+Vue.component('l-tootlip', LTooltip);
+Vue.component('l-popup', LPopup);
 Vue.component('l-polyline', LPolyline);
 
 new Vue({

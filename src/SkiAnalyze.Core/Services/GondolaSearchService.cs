@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.GondolaAggregate;
-using SkiAnalyze.Core.GondolaAggregate.Specifications;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate.Specifications;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.SharedKernel.Interfaces;
 
@@ -9,7 +9,7 @@ namespace SkiAnalyze.Core.Services;
 
 public class GondolaSearchService : IGondolaSearchService
 {
-    private const int MaxDiff = 2;
+    private const int _maxDiff = 2;
 
     private readonly IReadRepository<Gondola> _gondolaRepository;
     public GondolaSearchService(IReadRepository<Gondola> gondolaRepository)
@@ -38,9 +38,9 @@ public class GondolaSearchService : IGondolaSearchService
         var latDiff = northEast.Latitude - southWest.Latitude;
         var lonDiff = northEast.Longitude - southWest.Longitude;
 
-        if (latDiff > MaxDiff || lonDiff > MaxDiff)
+        if (latDiff > _maxDiff || lonDiff > _maxDiff)
         {
-            throw new ArgumentException($"Range between Latitude and Longitude must not exceed {MaxDiff}");
+            throw new ArgumentException($"Range between Latitude and Longitude must not exceed {_maxDiff}");
         }
 
     }

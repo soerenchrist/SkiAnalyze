@@ -14,6 +14,9 @@ public class MappingProfile : Profile
         CreateMap<Run, RunDto>();
         CreateMap<AnalysisStatus, AnalysisStatusDto>();
         CreateMap<TrackPoint, TrackPointDto>();
+        CreateMap<SkiArea, SkiAreaDto>();
+        CreateMap<SkiArea, SkiAreaDetailDto>();
+        CreateMap<SkiAreaNode, SkiAreaNodeDto>();
         CreateMap(typeof(BaseStatValue<,>), typeof(BaseStatValueDto<,>));
     }
 

@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.GondolaAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
 
 namespace SkiAnalyze.Core.Interfaces;
 

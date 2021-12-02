@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 
 namespace SkiAnalyze.Infrastructure.Data.Config;
 

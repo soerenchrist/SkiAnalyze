@@ -1,5 +1,5 @@
 ﻿using NetTopologySuite.IO;
-using SkiAnalyze.Core.TrackAggregate;
+using SkiAnalyze.Core.Entities.TrackAggregate;
 using System.Xml;
 
 namespace SkiAnalyze.Core.Services.Gpx;

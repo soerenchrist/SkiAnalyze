@@ -1,9 +1,9 @@
 ﻿using OsmSharp.Complete;
-using SkiAnalyze.Core.TrackAggregate;
+using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
-namespace SkiAnalyze.Core.GondolaAggregate;
+namespace SkiAnalyze.Core.Entities.GondolaAggregate;
 
 public class Gondola : BaseEntity<long>
 {

@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using SkiAnalyze.Core.Common;
 
-namespace SkiAnalyze.Core.GondolaAggregate.Specifications;
+namespace SkiAnalyze.Core.Entities.GondolaAggregate.Specifications;
 
 public class GondolasInBoundsSpec : Specification<Gondola>
 {

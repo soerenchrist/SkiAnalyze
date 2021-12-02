@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using SkiAnalyze.Core.TrackAggregate;
+using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.Services.Gpx;
@@ -7,7 +7,7 @@ using SkiAnalyze.Core.Services.MapMatching;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel.Interfaces;
 using System.Diagnostics;
-using SkiAnalyze.Core.TrackAggregate.Specifications;
+using SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 
 namespace SkiAnalyze.Core.Services;
 

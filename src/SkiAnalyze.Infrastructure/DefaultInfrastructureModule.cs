@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using MediatR;
 using MediatR.Pipeline;
-using SkiAnalyze.Core.GondolaAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
 using SkiAnalyze.Infrastructure.Backgrounding;
 using SkiAnalyze.Infrastructure.Data;
 using SkiAnalyze.SharedKernel.Interfaces;

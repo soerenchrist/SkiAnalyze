@@ -16,6 +16,17 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 string connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
 string osmPath = builder.Configuration.GetValue<string>("OsmDataPath");
+
+builder.Services.AddCors(x =>
+{
+    x.AddPolicy("MyPolicy", policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    });
+});
+
 builder.Services.AddDbContext(connectionString);
 builder.Services.AddOsmFile(osmPath);
 builder.Services.AddScoped<DataInitializer>();
@@ -53,6 +64,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("MyPolicy");
 }
 
 app.UseHttpsRedirection();

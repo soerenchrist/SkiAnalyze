@@ -1,6 +1,6 @@
 ﻿using Ardalis.Specification;
 
-namespace SkiAnalyze.Core.TrackAggregate.Specifications;
+namespace SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 
 public class GetTrackWithRunsSpec : Specification<Track>, ISingleResultSpecification
 {

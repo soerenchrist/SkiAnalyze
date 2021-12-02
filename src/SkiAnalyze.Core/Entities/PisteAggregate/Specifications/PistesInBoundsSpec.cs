@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using SkiAnalyze.Core.Common;
 
-namespace SkiAnalyze.Core.PisteAggregate.Specifications;
+namespace SkiAnalyze.Core.Entities.PisteAggregate.Specifications;
 
 public class PistesInBoundsSpec : Specification<Piste>
 {

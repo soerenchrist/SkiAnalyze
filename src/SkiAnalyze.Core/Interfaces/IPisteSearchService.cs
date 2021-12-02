@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 
 namespace SkiAnalyze.Core.Interfaces;
 

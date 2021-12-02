@@ -1,4 +1,4 @@
-﻿using SkiAnalyze.Core.PisteAggregate;
+﻿using SkiAnalyze.Core.Entities.PisteAggregate;
 
 namespace SkiAnalyze.ApiModels;
 

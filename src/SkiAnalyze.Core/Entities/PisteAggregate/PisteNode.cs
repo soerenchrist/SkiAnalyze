@@ -1,6 +1,6 @@
 ﻿using SkiAnalyze.SharedKernel;
 
-namespace SkiAnalyze.Core.PisteAggregate;
+namespace SkiAnalyze.Core.Entities.PisteAggregate;
 
 public class PisteNode : BaseEntity<long>
 {

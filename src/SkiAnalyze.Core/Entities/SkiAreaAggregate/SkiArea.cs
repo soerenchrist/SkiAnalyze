@@ -1,0 +1,35 @@
+﻿using OsmSharp.Complete;
+using SkiAnalyze.Core.Util;
+using SkiAnalyze.SharedKernel;
+
+namespace SkiAnalyze.Core.Entities.SkiAreaAggregate;
+
+public class SkiArea : BaseEntity<long>
+{
+    public string Name { get; set; } = string.Empty;
+    public string? Wikidata { get; set; }
+    public string? Website { get; set; }
+    public string? AlternativeName { get; set; }
+    public List<SkiAreaNode> Nodes { get; set; } = new List<SkiAreaNode>();
+
+    public static SkiArea FromWay(CompleteWay way)
+    {
+        return new SkiArea
+        {
+            Id = way.Id,
+            Name = way.Tags.GetNullableString("name") ?? "",
+            Wikidata = way.Tags.GetNullableString("wikidata"),
+            Website = way.Tags.GetNullableString("website"),
+            AlternativeName = way.Tags.GetNullableString("alt_name"),
+            Nodes = way.Nodes
+                .Where(x => x.Id.HasValue)
+                .Select(x => new SkiAreaNode
+                {
+                    OsmId = x.Id!.Value,
+                    Latitude = (float)(x.Latitude ?? 0f),
+                    Longitude = (float)(x.Longitude ?? 0f),
+                    SkiAreaId = way.Id
+                }).ToList()
+        };
+    }
+}

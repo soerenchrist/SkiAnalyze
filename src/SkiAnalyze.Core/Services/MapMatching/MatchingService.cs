@@ -1,9 +1,9 @@
 ﻿using KdTree;
 using KdTree.Math;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.TrackAggregate;
-using SkiAnalyze.Core.GondolaAggregate;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Entities.TrackAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 using SkiAnalyze.Core.Util;
 
 namespace SkiAnalyze.Core.Services.MapMatching;

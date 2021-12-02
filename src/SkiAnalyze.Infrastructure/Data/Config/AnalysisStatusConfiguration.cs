@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SkiAnalyze.Core.TrackAggregate;
+using SkiAnalyze.Core.Entities.TrackAggregate;
 
 namespace SkiAnalyze.Infrastructure.Data.Config;
 

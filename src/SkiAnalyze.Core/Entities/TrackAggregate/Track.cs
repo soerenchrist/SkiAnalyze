@@ -1,6 +1,6 @@
 ﻿using SkiAnalyze.SharedKernel;
 
-namespace SkiAnalyze.Core.TrackAggregate;
+namespace SkiAnalyze.Core.Entities.TrackAggregate;
 
 public class Track : BaseEntity<int>
 {

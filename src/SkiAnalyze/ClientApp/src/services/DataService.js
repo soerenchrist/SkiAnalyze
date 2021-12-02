@@ -62,4 +62,16 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getSkiAreas(bounds) {
+    let url = `${baseUrl}skiareas`;
+    url += `?SwLat=${bounds.southWest.latitude}&SwLon=${bounds.southWest.longitude}`;
+    url += `&NeLat=${bounds.northEast.latitude}&NeLon=${bounds.northEast.longitude}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
+  async getSkiArea(id) {
+    const url = `${baseUrl}skiareas/${id}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
 };

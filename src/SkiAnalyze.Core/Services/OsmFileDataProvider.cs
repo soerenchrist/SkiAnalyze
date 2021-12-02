@@ -1,11 +1,12 @@
 ﻿using OsmSharp;
 using OsmSharp.Complete;
 using OsmSharp.Streams;
-using SkiAnalyze.Core.PisteAggregate;
-using SkiAnalyze.Core.GondolaAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Common;
 using System.Diagnostics;
+using SkiAnalyze.Core.Entities.SkiAreaAggregate;
 
 namespace SkiAnalyze.Core.Services;
 
@@ -16,6 +17,43 @@ public class OsmFileDataProvider : IOsmDataProvider
     public OsmFileDataProvider(IOsmFileProvider osmFileProvider)
     {
         _osmFileProvider = osmFileProvider;
+    }
+
+    public Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northWest, Coordinate southEast)
+    {
+        return Task.Run<IEnumerable<SkiArea>>(() =>
+        {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            using var fileStream = _osmFileProvider.GetOsmFile();
+            var source = new XmlOsmStreamSource(fileStream);
+
+            var (left, top, right, bottom) =
+                ((float)northWest.Longitude,
+                (float)northWest.Latitude,
+                (float)southEast.Longitude,
+                (float)southEast.Latitude);
+
+            var filtered = source
+                .FilterBox(left, top, right, bottom)
+                .Where(x =>
+                x.Type == OsmGeoType.Node
+                || (
+                x.Type == OsmGeoType.Way
+                    && x.Tags != null
+                    && x.Tags.Contains("landuse", "winter_sports")));
+
+            var complete = filtered.ToComplete();
+            var skiAreas = new List<SkiArea>();
+            foreach (CompleteWay way in complete.Where(x => x.Type == OsmGeoType.Way))
+            {
+                var skiarea = SkiArea.FromWay(way);
+                skiAreas.Add(skiarea);
+            }
+            stopWatch.Stop();
+            Console.WriteLine("Took {0} seconds", stopWatch.Elapsed.TotalSeconds);
+            return skiAreas.Where(x => !string.IsNullOrWhiteSpace(x.Name));
+        });
     }
 
     public Task<IEnumerable<Piste>> GetPistes(Coordinate northWest, Coordinate southEast)

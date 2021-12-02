@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkiAnalyze.ApiModels;
 using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Core.PisteAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 using SkiAnalyze.Util;
 using Swashbuckle.AspNetCore.Annotations;
 
