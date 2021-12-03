@@ -21,12 +21,12 @@ public class OsmFileDataProvider : IOsmDataProvider
 
     public Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northWest, Coordinate southEast)
     {
-        return Task.Run<IEnumerable<SkiArea>>(() =>
+        return Task.Run(() =>
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             using var fileStream = _osmFileProvider.GetOsmFile();
-            var source = new XmlOsmStreamSource(fileStream);
+            using var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
                 ((float)northWest.Longitude,
@@ -63,7 +63,7 @@ public class OsmFileDataProvider : IOsmDataProvider
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             using var fileStream = _osmFileProvider.GetOsmFile();
-            var source = new XmlOsmStreamSource(fileStream);
+            using var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
                 ((float)northWest.Longitude, 
@@ -99,7 +99,7 @@ public class OsmFileDataProvider : IOsmDataProvider
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             using var fileStream = _osmFileProvider.GetOsmFile();
-            var source = new XmlOsmStreamSource(fileStream);
+            using var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
                 ((float)northWest.Longitude, 

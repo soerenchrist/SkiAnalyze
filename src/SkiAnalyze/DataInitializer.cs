@@ -44,7 +44,6 @@ public class DataInitializer
             await _appDbContext.BulkInsertAsync(nodes);
         }
 
-
         var gondolaCount = await _appDbContext.Gondolas.CountAsync();
         _logger.LogInformation("Found {Count} gondolas already in db", gondolaCount);
         if (gondolaCount == 0)
