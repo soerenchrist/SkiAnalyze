@@ -1,6 +1,4 @@
-﻿using SkiAnalyze.Core.Common;
-
-namespace SkiAnalyze.ApiModels;
+﻿namespace SkiAnalyze.ApiModels;
 
 public class AnalysisResultDto
 {
@@ -18,6 +16,8 @@ public class RunDto
     public double TotalElevation { get; set; }
     public double AverageSpeed { get; set; }
     public double MaxSpeed { get; set; }
+    public double AverageHeartRate { get; set; }
+    public int MaxHeartRate { get; set; }
     public string Color { get; set; } = string.Empty;
     public int TrackId { get; set; }
     public DateTime Start { get; set; }

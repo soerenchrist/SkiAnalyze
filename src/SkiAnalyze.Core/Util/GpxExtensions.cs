@@ -39,6 +39,21 @@ public static class GpxExtensions
 
     public static IEnumerable<TrackPoint> ToTrackPoints(this GpxFile file)
     {
+        int GetHeartRate(GpxWaypoint waypoint)
+        {
+            if (waypoint.Extensions is ImmutableXElementContainer arr)
+            {
+                if (arr.Count == 0)
+                    return 0;
+                var strVal = arr[0].Value;
+                if (int.TryParse(strVal, out var hr))
+                {
+                    return hr;
+                }
+            }
+            return 0;
+        } 
+
         return file.Tracks
             .SelectMany(x => x.Segments)
             .SelectMany(x => x.Waypoints)
@@ -49,6 +64,7 @@ public static class GpxExtensions
                 Longitude = (float)x.Longitude.Value,
                 DateTime = x.TimestampUtc!.Value,
                 Elevation = x.ElevationInMeters,
+                HeartRate = GetHeartRate(x),
             });
     }
 

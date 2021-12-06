@@ -20,18 +20,25 @@ public class GpxFileParserStrategy : ITrackFileParserStrategy
 
         foreach (var run in filteredRuns)
         {
-            run.TotalDistance = run.Coordinates
-                    .Select(x => (ICoordinate)x)
-                    .ToList()
-                    .GetLength();
-            run.TotalElevation = GetTotalElevation(run);
-            run.MaxSpeed = run.Coordinates.GetMaxSpeed();
-            run.AverageSpeed = run.Coordinates.GetAverageSpeed();
-            run.Start = run.Coordinates.First().DateTime;
-            run.End = run.Coordinates.Last().DateTime;
+            CalculateStatistics(run);
         }
 
         return filteredRuns;
+    }
+
+    private void CalculateStatistics(Run run)
+    {
+        run.AverageHeartRate = run.Coordinates.Average(x => x.HeartRate);
+        run.MaxHeartRate = run.Coordinates.Max(x => x.HeartRate);
+        run.TotalDistance = run.Coordinates
+                .Select(x => (ICoordinate)x)
+                .ToList()
+                .GetLength();
+        run.TotalElevation = GetTotalElevation(run);
+        run.MaxSpeed = run.Coordinates.GetMaxSpeed();
+        run.AverageSpeed = run.Coordinates.GetAverageSpeed();
+        run.Start = run.Coordinates.First().DateTime;
+        run.End = run.Coordinates.Last().DateTime;
     }
 
     public double GetTotalElevation(Run run)
