@@ -18,6 +18,7 @@ public class Run : BaseEntity<int>
     public Track? Track { get; set; }
 
     public double AverageHeartRate { get; set; }
+    public int MaxHeartRate { get; set; }
     public double TotalDistance { get; set; }
     public double TotalElevation { get; set; }
     public double AverageSpeed { get; set; }

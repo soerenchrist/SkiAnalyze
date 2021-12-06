@@ -16,9 +16,6 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
         if (decoder.Messages.Activity == null)
             throw new FitException("Could not decode activity");
 
-        if (decoder.Messages.Sessions.Count != 1)
-            throw new FitException("Currently only one session per fit file supported");
-
         var runs = ReadRuns(decoder);
 
         return runs;
@@ -77,6 +74,7 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
     {
         run.AverageHeartRate = lap.GetAvgHeartRate() ?? 0;
         run.AverageSpeed = lap.GetAvgSpeed() ?? 0;
+        run.MaxHeartRate = lap.GetMaxHeartRate() ?? 0;
         run.MaxSpeed = lap.GetMaxSpeed() ?? 0;
         run.TotalDistance = lap.GetTotalDistance() ?? 0;
         run.TotalElevation = (lap.GetTotalDescent() ?? 0) * -1;

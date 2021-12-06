@@ -87,12 +87,8 @@ public class Analyzer : IAnalyzer
             }
 
             track.Runs = runs.ToList();
-            track.TotalDistance = track.Runs.Where(x => x.Downhill).Sum(x => x.TotalDistance);
-            track.TotalElevation = track.Runs.Where(x => x.Downhill).Sum(x => x.TotalElevation);
-            track.MaxSpeed = track.Runs.Max(x => x.MaxSpeed);
-            track.Start = track.Runs.First().Start;
-            track.End = track.Runs.Last().End;
-            track.Date = track.Runs.First().Start.Date;
+
+            UpdateTrackStats(track);
             track.SkiArea = await GetSkiAreaForTrack(trackPoints.ToList(), bounds);
             await _tracksRepository.UpdateAsync(track);
 
@@ -110,6 +106,21 @@ public class Analyzer : IAnalyzer
             await _statusRepository.UpdateAsync(status);
             _logger.LogError(ex, "Error while analyzing track {TrackId}", trackId);
         }
+    }
+
+    private void UpdateTrackStats(Track track)
+    {
+        var downhillRuns = track.Runs.Where(x => x.Downhill);
+
+        track.TotalDistance = downhillRuns.Sum(x => x.TotalDistance);
+        track.TotalElevation = downhillRuns.Sum(x => x.TotalElevation);
+        track.MaxSpeed = track.Runs.Max(x => x.MaxSpeed);
+        track.AverageSpeed = downhillRuns.Average(x => x.AverageSpeed);
+        track.Start = track.Runs.First().Start;
+        track.End = track.Runs.Last().End;
+        track.MaxHeartRate = downhillRuns.Max(x => x.MaxHeartRate);
+        track.AverageHeartRate = downhillRuns.Average(x => x.AverageHeartRate);
+        track.Date = track.Runs.First().Start.Date;
     }
 
     private ITrackFileParserStrategy GetStrategy(Track track)
