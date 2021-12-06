@@ -15,8 +15,8 @@ public class Track : BaseEntity<int>
     public double TotalElevation { get; set; }
     public double MaxSpeed { get; set; }
     public double AverageSpeed { get; set; }
-    public double AverageHeartRate { get; set; }
-    public int MaxHeartRate { get; set; }
+    public double? AverageHeartRate { get; set; }
+    public int? MaxHeartRate { get; set; }
     public DateTime Start { get; set; }
     public DateTime End { get; set; }
     public DateTime Date { get; set; }

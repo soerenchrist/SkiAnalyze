@@ -60,9 +60,9 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
                 Longitude = lon.Value,
                 DateTime = record.GetTimestamp().GetDateTime(),
                 Elevation = record.GetEnhancedAltitude() ?? record.GetAltitude(),
-                Speed = record.GetSpeed() ?? 0f,
-                Distance = record.GetDistance() ?? 0f,
-                HeartRate = record.GetHeartRate() ?? 0,
+                Speed = record.GetEnhancedSpeed() ?? record.GetSpeed(),
+                Distance = record.GetDistance(),
+                HeartRate = record.GetHeartRate(),
             };
             runs[lapId].Coordinates.Add(trackPoint);
         }

@@ -28,11 +28,16 @@ var pisteRepository = new EfRepository<Piste>(dbContext);
 var gondolaSearchService = new GondolaSearchService(gondolaRepository);
 var pisteSearchService = new PisteSearchService(pisteRepository);
 
+
+var contents = File.OpenRead(filename);
+var strategy = new FitFileParserStrategy();
+strategy.ReadFileContents(contents);
+/*
 var logger = LoggerFactory.Create(x => x.ClearProviders()).CreateLogger<Analyzer>();
 var analyzer = new Analyzer(trackRepository, statusRepository, skiAreaRepository, gondolaSearchService, logger, pisteSearchService);
 
 await analyzer.AnalyzeTrack(1);
-/*
+
 var contents = File.ReadAllBytes(filename);
 
 var track = new Track
