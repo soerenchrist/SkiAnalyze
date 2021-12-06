@@ -11,7 +11,7 @@
 <script>
 import { FETCH_TRACKS, REMOVE_TRACK, SELECT_TRACK } from '../../store/actions';
 import { DISPLAY_ADD_TRACK_DIALOG } from '../../store/mutations';
-import Tracks from '../Tracks.vue';
+import Tracks from '../tracks/Tracks.vue';
 
 export default {
   components: { Tracks },

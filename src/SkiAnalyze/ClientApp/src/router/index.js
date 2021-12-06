@@ -1,17 +1,23 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Tracks from '../views/Tracks.vue';
 import MapOverview from '../views/MapOverview.vue';
 import TrackStats from '../views/TrackStats.vue';
 import SkiAreas from '../views/SkiAreas.vue';
+import Dashboard from '../views/Dashboard.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Dashboard',
+    component: Dashboard,
+  },
+  {
+    path: '/tracks',
+    name: 'Tracks',
+    component: Tracks,
   },
   {
     path: '/track/:trackId',

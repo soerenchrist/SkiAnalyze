@@ -11,16 +11,20 @@
         SkiAnalyze
       </v-toolbar-title>
     </v-app-bar>
-
+    <navigation-drawer />
     <v-main>
-      <router-view/>
+      <v-container fluid>
+        <router-view/>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import NavigationDrawer from './components/layout/NavigationDrawer.vue';
 
 export default {
+  components: { NavigationDrawer },
   name: 'App',
   methods: {
     goHome() {
