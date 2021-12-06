@@ -1,13 +1,11 @@
 <template>
-<v-card class="mx-4 mt-4">
+<v-card>
   <v-card-text class="pa-0">
     <l-map
       ref="map"
-      style="height: 650px; z-index: 1"
+      style="height: 500px; z-index: 1"
       :zoom="zoom"
-      @click="mapClicked"
-      :center="center"
-      @udpate:center="centerUpdated">
+      :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <gondola-polyline
         v-for="gondola in gondolas"
@@ -29,7 +27,6 @@
 <script>
 import { latLng, latLngBounds } from 'leaflet';
 import { LMap, LTileLayer } from 'vue2-leaflet';
-import { SET_MAP_BOUNDS, SET_MAP_CENTER } from '../../store/mutations';
 import TrackPolylines from '../analysis/TrackPolylines.vue';
 import GondolaPolyline from './GondolaPolyline.vue';
 import PistePolyline from './PistePolyline.vue';
@@ -40,6 +37,7 @@ export default {
     pistes: Array,
     center: Array,
     zoom: Number,
+    bounds: Object,
   },
   components: {
     LMap,
@@ -48,41 +46,13 @@ export default {
     PistePolyline,
     TrackPolylines,
   },
-  methods: {
-    boundsUpdated(bounds) {
-      this.$store.commit(SET_MAP_BOUNDS, bounds);
-    },
-    centerUpdated(center) {
-      this.$store.commit(SET_MAP_CENTER, center);
-    },
-    gondolaSelected(gondola) {
-      this.$emit('gondolaClicked', gondola);
-    },
-    pisteSelected(piste) {
-      this.$emit('pisteClicked', piste);
-    },
-    mapClicked(x) {
-      console.log(x.latlng);
-    },
-  },
   watch: {
     bounds() {
+      if (!this.bounds) return;
       const sw = latLng(this.bounds.southWest.latitude, this.bounds.southWest.longitude);
       const ne = latLng(this.bounds.northEast.latitude, this.bounds.northEast.longitude);
       const bounds = latLngBounds(sw, ne);
       this.$refs.map.fitBounds(bounds, { padding: [50, 50] });
-    },
-    isCollapsed() {
-      console.log(this.isCollapsed);
-      this.$refs.map.mapObject.invalidateSize();
-    },
-  },
-  computed: {
-    bounds() {
-      return this.$store.getters.bounds;
-    },
-    isCollapsed() {
-      return !this.$store.getters.detailsExpanded;
     },
   },
   data: () => ({

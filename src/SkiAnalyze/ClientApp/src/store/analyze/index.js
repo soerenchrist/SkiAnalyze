@@ -121,5 +121,8 @@ export default {
     selectedRun(state) {
       return state.selectedRun;
     },
+    analysisLoading(state) {
+      return state.loading;
+    },
   },
 };

@@ -22,6 +22,11 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getTrack(id) {
+    const url = `${baseUrl}tracks/${id}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
   async createTrack(track) {
     const formData = new FormData();
     formData.append('file', track.file);

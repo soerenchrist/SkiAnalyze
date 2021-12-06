@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { FETCH_TRACKS, REMOVE_TRACK, SELECT_TRACK } from '../../store/actions';
+import { FETCH_TRACKS, REMOVE_TRACK } from '../../store/actions';
 import { DISPLAY_ADD_TRACK_DIALOG } from '../../store/mutations';
-import Tracks from '../tracks/Tracks.vue';
+import Tracks from '../tracks/TracksCard.vue';
 
 export default {
   components: { Tracks },
@@ -34,7 +34,7 @@ export default {
       this.$store.dispatch(REMOVE_TRACK, track.id);
     },
     onTrackSelected(track) {
-      this.$store.dispatch(SELECT_TRACK, track);
+      this.$router.push(`/tracks/${track.id}`);
     },
   },
   mounted() {

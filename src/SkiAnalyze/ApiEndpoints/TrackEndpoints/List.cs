@@ -2,14 +2,14 @@
 
 namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
-public class Get : BaseAsyncEndpoint
+public class List : BaseAsyncEndpoint
     .WithoutRequest
     .WithResponse<List<TrackDto>>
 {
     private readonly IReadRepository<Track> _tracksRepository;
     private readonly IMapper _mapper;
 
-    public Get(IReadRepository<Track> tracksRepository,
+    public List(IReadRepository<Track> tracksRepository,
         IMapper mapper)
     {
         _tracksRepository = tracksRepository;

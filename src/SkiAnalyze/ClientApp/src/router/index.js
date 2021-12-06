@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Tracks from '../views/Tracks.vue';
-import MapOverview from '../views/MapOverview.vue';
+import TrackDetail from '../views/TrackDetail.vue';
 import TrackStats from '../views/TrackStats.vue';
 import SkiAreas from '../views/SkiAreas.vue';
 import Dashboard from '../views/Dashboard.vue';
@@ -20,10 +20,10 @@ const routes = [
     component: Tracks,
   },
   {
-    path: '/track/:trackId',
-    name: 'Map',
+    path: '/tracks/:trackId',
+    name: 'TrackDetail',
     props: true,
-    component: MapOverview,
+    component: TrackDetail,
   },
   {
     path: '/stats/:trackId',
