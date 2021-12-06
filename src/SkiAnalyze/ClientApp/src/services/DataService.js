@@ -23,8 +23,18 @@ export default {
     return response.data;
   },
   async createTrack(track) {
+    const formData = new FormData();
+    formData.append('file', track.file);
+    formData.append('name', track.name);
+    formData.append('color', track.color);
+    formData.append('fileType', track.fileType);
+
     const url = `${baseUrl}tracks`;
-    const response = await axios.post(url, track);
+    const response = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
   async removeTrack(trackId) {

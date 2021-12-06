@@ -10,8 +10,8 @@ public class GpxFileLoader
     {
         foreach (var track in tracks)
         {
-            using var stringReader = new StringReader(track.GpxFileContents);
-            using var xmlReader = new XmlTextReader(stringReader);
+            using var stream = new MemoryStream(track.FileContents);
+            using var xmlReader = new XmlTextReader(stream);
             var file = GpxFile.ReadFrom(xmlReader, new GpxReaderSettings
             {
                 TimeZoneInfo = TimeZoneInfo.Local
@@ -23,8 +23,30 @@ public class GpxFileLoader
 
     public GpxFile LoadGpxFile(Track track)
     {
-        using var stringReader = new StringReader(track.GpxFileContents);
+        using var stream = new MemoryStream(track.FileContents);
+        using var xmlReader = new XmlTextReader(stream);
+        var file = GpxFile.ReadFrom(xmlReader, new GpxReaderSettings
+        {
+            TimeZoneInfo = TimeZoneInfo.Local
+        });
+        return file;
+    }
+
+
+    public GpxFile LoadGpxFile(string content)
+    {
+        using var stringReader = new StringReader(content);
         using var xmlReader = new XmlTextReader(stringReader);
+        var file = GpxFile.ReadFrom(xmlReader, new GpxReaderSettings
+        {
+            TimeZoneInfo = TimeZoneInfo.Local
+        });
+        return file;
+    }
+
+    public GpxFile LoadGpxFile(Stream content)
+    {
+        using var xmlReader = new XmlTextReader(content);
         var file = GpxFile.ReadFrom(xmlReader, new GpxReaderSettings
         {
             TimeZoneInfo = TimeZoneInfo.Local

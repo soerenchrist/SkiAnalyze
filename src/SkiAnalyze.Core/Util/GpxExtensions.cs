@@ -1,5 +1,6 @@
 ﻿using NetTopologySuite.IO;
 using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Interfaces.Common;
 
 namespace SkiAnalyze.Core.Util;
@@ -31,6 +32,11 @@ public static class GpxExtensions
         };
     }
 
+    public static IEnumerable<TrackPoint> ToTrackPoints(this IEnumerable<Run> runs)
+    {
+        return runs.SelectMany(x => x.Coordinates);
+    }
+
     public static IEnumerable<TrackPoint> ToTrackPoints(this GpxFile file)
     {
         return file.Tracks
@@ -42,7 +48,7 @@ public static class GpxExtensions
                 Latitude = (float)x.Latitude.Value,
                 Longitude = (float)x.Longitude.Value,
                 DateTime = x.TimestampUtc!.Value,
-                Elevation = x.ElevationInMeters
+                Elevation = x.ElevationInMeters,
             });
     }
 

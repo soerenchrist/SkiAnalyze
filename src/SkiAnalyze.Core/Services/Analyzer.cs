@@ -11,6 +11,7 @@ using SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 using SkiAnalyze.Core.Entities.SkiAreaAggregate;
 using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Entities.SkiAreaAggregate.Specifications;
+using SkiAnalyze.Core.Services.FileStrategies;
 
 namespace SkiAnalyze.Core.Services;
 
@@ -64,32 +65,25 @@ public class Analyzer : IAnalyzer
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var fileLoader = new GpxFileLoader();
-            var gpxFile = fileLoader.LoadGpxFile(track);
+            var strategy = GetStrategy(track);
+            var stream = new MemoryStream(track.FileContents);
 
+            var runs = strategy.ReadFileContents(stream);
+            var trackPoints = runs.ToTrackPoints();
             var matcher = new MatchingService();
-            var trackPoints = gpxFile.ToTrackPoints();
 
             var bounds = trackPoints.Select(x => (ICoordinate)x).GetBounds();
             var pistes = await _pisteSearchService.GetPistesInBounds(bounds);
             var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);
 
-            var runs = matcher.Match(gondolas, pistes, trackPoints.ToList());
+            runs = matcher.Match(gondolas, pistes, runs).ToList();
             foreach (var run in runs)
             {
                 run.Color = track.HexColor;
 
                 if (run.Coordinates.Count < 2)
                     continue;
-                run.TotalDistance = run.Coordinates
-                    .Select(x => (ICoordinate)x)
-                    .ToList()
-                    .GetLength();
-                run.TotalElevation = GetTotalElevation(run);
-                run.MaxSpeed = run.Coordinates.GetMaxSpeed();
-                run.AverageSpeed = run.Coordinates.GetAverageSpeed();
-                run.Start = run.Coordinates.First().DateTime;
-                run.End = run.Coordinates.Last().DateTime;
+                
             }
 
             track.Runs = runs.ToList();
@@ -116,6 +110,15 @@ public class Analyzer : IAnalyzer
             await _statusRepository.UpdateAsync(status);
             _logger.LogError(ex, "Error while analyzing track {TrackId}", trackId);
         }
+    }
+
+    private ITrackFileParserStrategy GetStrategy(Track track)
+    {
+        return track.FileType switch
+        {
+            TrackFileType.Fit => new FitFileParserStrategy(),
+            _ => new GpxFileParserStrategy()
+        };
     }
 
     private async Task<SkiArea?> GetSkiAreaForTrack(List<TrackPoint> trackPoints, Bounds bounds)
@@ -164,12 +167,5 @@ public class Analyzer : IAnalyzer
             j = i;
         }
         return result;
-    }
-
-    public double GetTotalElevation(Run run)
-    {
-        var last = run.Coordinates.Last();
-        var first = run.Coordinates.First();
-        return last.Elevation - first.Elevation ?? 0;
     }
 }

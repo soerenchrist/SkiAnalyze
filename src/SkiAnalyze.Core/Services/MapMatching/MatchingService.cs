@@ -10,14 +10,11 @@ namespace SkiAnalyze.Core.Services.MapMatching;
 
 public class MatchingService
 {
-    public IEnumerable<Run> Match(List<Gondola> gondolas, List<Piste> pistes, List<TrackPoint> points)
+    public IEnumerable<Run> Match(List<Gondola> gondolas, List<Piste> pistes, List<Run> runs)
     {
-        var runs = SegmentPoints(points);
-        var filteredRuns = runs.Where(x => x.Coordinates.Any()).ToList();
-
         var pistesTree = BuildPistesKdTree(pistes);
-        FindGondolasInBetween(filteredRuns, gondolas);
-        foreach (var run in filteredRuns)
+        FindGondolasInBetween(runs, gondolas);
+        foreach (var run in runs)
         {
             if (run.Downhill)
             {
@@ -25,7 +22,7 @@ public class MatchingService
             }
         }
   
-        return filteredRuns;
+        return runs;
     }
 
     private void EstimateDifficulties(Run run, KdTree<double, Piste> pistesTree)
@@ -121,8 +118,8 @@ public class MatchingService
         }
     }
 
-    private Gondola FindMinimumDistanceGondola(List<Gondola> matchingGondolas, 
-        TrackPoint endPoint, 
+    private Gondola FindMinimumDistanceGondola(List<Gondola> matchingGondolas,
+        TrackPoint endPoint,
         TrackPoint startPoint)
     {
         var min = double.MaxValue;
@@ -151,73 +148,4 @@ public class MatchingService
         }
         return minGondola!;
     }
-
-    /// <summary>
-    /// Lonely points are mostly single points in the gondola that are pretty irrellevant
-    /// </summary>
-    private List<TrackPoint> RemoveLonelyPoints(List<TrackPoint> trackPoints)
-    {
-        const int heightOffset = 30;
-        var results = new List<TrackPoint>();
-        results.Add(trackPoints[0]);
-        results.Add(trackPoints[trackPoints.Count - 1]);
-        for (int i = 1; i < trackPoints.Count - 1; i++)
-        {
-            var previous = trackPoints[i - 1];
-            var current = trackPoints[i];
-            var next = trackPoints[i + 1];
-
-            if (previous.Elevation + heightOffset < current.Elevation
-                && current.Elevation + heightOffset < next.Elevation)
-            {
-                // this is a lonely point
-            }
-            else
-            {
-                results.Add(current);
-            }
-        }
-        return results;
-    }
-
-    private List<Run> SegmentPoints(List<TrackPoint> points)
-    {
-        var filtered = RemoveLonelyPoints(points);
-        var runs = new List<Run>();
-        var currentSegment = new List<TrackPoint>();
-        const int offset = 100;
-        for (var i = 1; i < filtered.Count; i++)
-        {
-            var previous = filtered[i - 1];
-            var current = filtered[i];
-
-            currentSegment.Add(previous);
-
-            if (previous.Elevation + offset < current.Elevation)
-            {
-                runs.Add(new Run
-                {
-                    Downhill = true,
-                    Number = runs.Count + 1,
-                    Coordinates = currentSegment
-                });
-                currentSegment = new List<TrackPoint>();
-            }
-        }
-        return runs;
-    }
-
-    private double CalculateAngle((double, double) coord1, (double, double) coord2)
-    {
-        var (dx1, dy1) = coord1;
-        var (dx2, dy2) = coord2;
-        return Math.Abs((dx1 * dx2 + dy1 * dy2) / Math.Sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2)));
-    }
-
 }
-
-internal enum Direction
-{
-    Up, Down
-}
-

@@ -2,7 +2,7 @@
   "profiles": {
     "SkiAnalyze.Console": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\chris\\Downloads\\ischgl.gpx\"  \"C:\\Users\\chris\\source\\repos\\SkiAnalyze\\src\\SkiAnalyze\\app.db\""
+      "commandLineArgs": "\"C:\\Users\\cso\\Downloads\\4421678167\\4421678167_ACTIVITY.fit\" \"C:\\Users\\cso\\dev\\SkiAnalyze\\src\\SkiAnalyze\\app.db\""
     }
   }
 }

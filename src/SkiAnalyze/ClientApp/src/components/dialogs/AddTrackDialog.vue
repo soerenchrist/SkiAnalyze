@@ -64,21 +64,18 @@ export default {
   methods: {
     async onAdd() {
       this.internalOpen = false;
-      const contents = await this.readContents(this.file);
       const track = {
         name: this.name,
-        gpxFileContent: contents,
+        file: this.file,
+        fileType: this.getFileType(this.file),
         color: this.color,
       };
       this.$emit('add', track);
     },
-    readContents(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = (evt) => resolve(evt.target.result);
-        reader.onerror = (evt) => reject(evt);
-      });
+    getFileType(file) {
+      console.log(file);
+      if (file.name.toLowerCase().endsWith('fit')) return 1;
+      return 0;
     },
     getRandomColor() {
       return `#${Math.floor(Math.random() * 16777215).toString(16)}`;

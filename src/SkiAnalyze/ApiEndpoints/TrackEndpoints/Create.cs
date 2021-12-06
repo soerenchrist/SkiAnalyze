@@ -23,13 +23,19 @@ public class Create : BaseAsyncEndpoint
         OperationId = "Tracks.Create",
         Tags = new[] { "TrackEndpoints" })
     ]
-    public override async Task<ActionResult<TrackDto>> HandleAsync(CreateTrackRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<TrackDto>> HandleAsync([FromForm] CreateTrackRequest request, CancellationToken cancellationToken = default)
     {
+        using var memoryStream = new MemoryStream();
+        await request.File.CopyToAsync(memoryStream);
+
+        var bytes = memoryStream.ToArray();
+
         var track = new Track
         {
             Name = request.Name,
             HexColor = request.Color,
-            GpxFileContents = request.GpxFileContent,
+            FileContents = bytes,
+            FileType = request.FileType,
         };
 
         var result = await _tracksRepository.AddAsync(track, cancellationToken);

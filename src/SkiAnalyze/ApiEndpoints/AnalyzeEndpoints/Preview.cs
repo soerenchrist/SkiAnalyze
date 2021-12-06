@@ -24,6 +24,8 @@ public class Preview : BaseAsyncEndpoint
 
         if (status == null || !status.IsFinished)
         {
+            if (track.FileType != TrackFileType.Gpx)
+                return NotFound();
             var loader = new GpxFileLoader();
             var gpx = loader.LoadGpxFile(track);
             var points = gpx.ToTrackPoints();
