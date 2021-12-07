@@ -45,7 +45,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <collapsable-card title="Charts" textClass="pa-0">
+          <collapsable-card :title="chartsTitle" textClass="pa-0">
             <height-profile :runs="runs" :selectedRun="selectedRun" />
           </collapsable-card>
         </v-col>
@@ -173,6 +173,13 @@ export default {
     },
     runsTitle() {
       return `Runs (${this.downhillRuns.length})`;
+    },
+    chartsTitle() {
+      const title = 'Charts';
+      if (this.selectedRun && this.selectedRun.downhill) {
+        return `${title} - Descent ${this.selectedRun.number}`;
+      }
+      return title;
     },
     expandIcon() {
       return this.runsExpanded ? 'mdi-arrow-collapse' : 'mdi-arrow-expand';

@@ -16,6 +16,7 @@
       :marker="marker"
       xName="time"
       yName="elevation"
+      yAxisName="elevationAxis"
       name="Height profile" />
     <e-series
       :dataSource="speedProfile"
@@ -58,6 +59,12 @@ export default {
     },
     axes: [
       {
+        rowIndex: 0,
+        name: 'elevationAxis',
+        title: 'Elevation in m',
+        labelFormat: '{value} m',
+      },
+      {
         rowIndex: 1,
         opposedPosition: true,
         name: 'speedAxis',
@@ -86,7 +93,7 @@ export default {
     ],
     sampleFactor: 2,
     crosshair: { enable: true, lineType: 'Vertical' },
-    tooltip: { enable: true, shared: true, format: '${point.y} m' },
+    tooltip: { enable: true, shared: true },
     marker: { visible: false },
     palettes: ['#3F51B5', '#4CAF50', '#E53935'],
   }),
@@ -94,14 +101,14 @@ export default {
     heightProfile() {
       if (this.selectedRun && this.selectedRun.downhill) {
         const series = [];
-        this.getRunPoints(this.selectedRun, series);
+        this.getRunPoints(this.selectedRun, 0, series);
         return series;
       }
 
       if (this.runs) {
         const series = [];
         this.runs.forEach((run) => {
-          this.getRunPoints(run, series);
+          this.getRunPoints(run, this.sampleFactor, series);
         });
         return series;
       }
@@ -110,14 +117,14 @@ export default {
     speedProfile() {
       if (this.selectedRun && this.selectedRun.downhill) {
         const series = [];
-        this.getRunSpeeds(this.selectedRun, series);
+        this.getRunSpeeds(this.selectedRun, 0, series);
         return series;
       }
 
       if (this.runs) {
         const series = [];
         this.runs.forEach((run) => {
-          this.getRunSpeeds(run, series);
+          this.getRunSpeeds(run, this.sampleFactor, series);
         });
         return series;
       }
@@ -126,13 +133,13 @@ export default {
     heartProfile() {
       if (this.selectedRun && this.selectedRun.downhill) {
         const series = [];
-        this.getRunHeartRates(this.selectedRun, series);
+        this.getRunHeartRates(this.selectedRun, 0, series);
         return series;
       }
       if (this.runs) {
         const series = [];
         this.runs.forEach((run) => {
-          this.getRunHeartRates(run, series);
+          this.getRunHeartRates(run, this.sampleFactor, series);
         });
         return series;
       }
@@ -169,25 +176,25 @@ export default {
     },
   },
   methods: {
-    getRunPoints(run, arr) {
+    getRunPoints(run, sampleFactor, arr) {
       run.coordinates.forEach((x, index) => {
-        if (index % this.sampleFactor === 0) return;
+        if (index % sampleFactor === 0) return;
         arr.push({
           time: x.dateTime,
           elevation: x.elevation,
         });
       });
     },
-    getRunSpeeds(run, arr) {
+    getRunSpeeds(run, sampleFactor, arr) {
       run.coordinates.forEach((x, index) => {
-        if (index % this.sampleFactor === 0) return;
+        if (index % sampleFactor === 0) return;
         arr.push({
           time: x.dateTime,
           speed: (x.speed * 3.6).toFixed(2),
         });
       });
     },
-    getRunHeartRates(run, arr) {
+    getRunHeartRates(run, sampleFactor, arr) {
       run.coordinates.forEach((x, index) => {
         if (index % this.sampleFactor === 0) return;
         arr.push({
