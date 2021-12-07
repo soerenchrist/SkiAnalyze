@@ -1,9 +1,10 @@
 <template>
-  <v-navigation-drawer app v-model="drawer">
-    <v-sheet color="grey lighten-4" class="pa-4">
-      <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
-
-      <div>john@vuetifyjs.com</div>
+  <v-navigation-drawer app v-model="drawer" dark>
+    <v-sheet class="d-flex align-center justify-space-between pa-6" dark style="height: 150px">
+      <v-avatar color="grey darken-1" size="64">
+        <v-icon size="32">mdi-ski</v-icon>
+      </v-avatar>
+      <h1>SkiAnalyze</h1>
     </v-sheet>
     <v-divider />
 
