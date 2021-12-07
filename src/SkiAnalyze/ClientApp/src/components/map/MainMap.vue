@@ -7,9 +7,11 @@
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
 
     <run-polyline
-      v-for="run in runs"
+      v-for="run in downhillRuns"
       :key="run.id"
+      @runSelected="onRunSelected"
       :selectedRun="selectedRun"
+      :showRunNumber="showRunNumbers"
       :run="run" />
 
     <div v-if="showPistes">
@@ -28,6 +30,7 @@
           elevation="3"
           rounded="md"
           class="controlSheet" >
+          <v-checkbox label="Show run numbers" v-model="showRunNumbers" class="ma-0" />
           <v-checkbox label="Show pistes" v-model="showPistes" class="ma-0" />
         </v-sheet>
     </l-control>
@@ -80,13 +83,22 @@ export default {
       const b = latLngBounds(sw, ne);
       this.$refs.map.fitBounds(b, { padding: [50, 50] });
     },
+    onRunSelected(run) {
+      this.$emit('runSelected', run);
+    },
   },
   data: () => ({
     showPistes: false,
+    showRunNumbers: false,
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }),
+  computed: {
+    downhillRuns() {
+      return this.runs.filter((x) => x.downhill);
+    },
+  },
 };
 </script>
 

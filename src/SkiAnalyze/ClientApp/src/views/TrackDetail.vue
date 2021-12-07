@@ -24,6 +24,7 @@
               :runs="runs"
               :pistes="pistes"
               :gondola="gondola"
+              @runSelected="onRunSelected"
               :selectedRun="selectedRun"
               :zoom="zoom" />
           </collapsable-card>
@@ -153,7 +154,7 @@ export default {
     onRunSelected(run) {
       this.gondola = null;
       this.selectedRun = run;
-      if (!this.selectedRun.downhill) {
+      if (this.selectedRun && !this.selectedRun.downhill) {
         this.fetchGondolaDetails(this.selectedRun.gondola.id);
       }
     },
