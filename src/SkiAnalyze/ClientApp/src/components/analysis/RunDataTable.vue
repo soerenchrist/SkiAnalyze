@@ -24,18 +24,21 @@
     <template v-slot:item.maxSpeed="{ item }">
       {{formatSpeed(item.maxSpeed)}}
     </template>
-    <template v-slot:item.info="{ item }">
-      <v-btn icon v-if="!item.downhill"
-        @click="() => showGondolaInfo(item.gondola)">
-        <v-icon>mdi-information-outline</v-icon>
-      </v-btn>
+    <template v-slot:item.averageHeartRate="{ item }">
+      <span v-if="item.averageHeartRate">
+      {{item.averageHeartRate}} bpm
+      </span>
+    </template>
+    <template v-slot:item.maxHeartRate="{ item }">
+      <span v-if="item.maxHeartRate">
+      {{item.maxHeartRate}} bpm
+      </span>
     </template>
   </v-data-table>
 </div>
 </template>
 
 <script>
-import { SELECT_GONDOLA } from '../../store/actions';
 
 export default {
   props: {
@@ -55,7 +58,8 @@ export default {
       { text: 'Elevation', value: 'totalElevation' },
       { text: 'Avg. Speed', value: 'averageSpeed' },
       { text: 'Max. Speed', value: 'maxSpeed' },
-      { text: '', value: 'info' },
+      { text: 'Avg. Heart rate', value: 'averageHeartRate' },
+      { text: 'Max Heart rate', value: 'maxHeartRate' },
     ],
   }),
   methods: {
@@ -77,9 +81,6 @@ export default {
     },
     formatSpeed(speed) {
       return `${(speed * 3.6).toFixed(2)} km/h`;
-    },
-    showGondolaInfo(gondola) {
-      this.$store.dispatch(SELECT_GONDOLA, gondola);
     },
     itemClasses(item) {
       if (item === this.selectedRun) return 'grey lighten-1';

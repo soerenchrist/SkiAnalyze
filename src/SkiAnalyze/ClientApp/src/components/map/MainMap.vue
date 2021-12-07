@@ -15,6 +15,8 @@
       :key="run.id"
       :selectedRun="selectedRun"
       :run="run" />
+
+    <gondola-polyline :gondola="gondola" />
   </l-map>
 </template>
 
@@ -22,11 +24,13 @@
 import { latLng, latLngBounds } from 'leaflet';
 import { LMap, LTileLayer } from 'vue2-leaflet';
 import PistePolyline from './PistePolyline.vue';
+import GondolaPolyline from './GondolaPolyline.vue';
 import RunPolyline from './RunPolyline.vue';
 
 export default {
   props: {
     pistes: Array,
+    gondola: Object,
     runs: Array,
     selectedRun: Object,
     center: Array,
@@ -38,6 +42,7 @@ export default {
     LTileLayer,
     PistePolyline,
     RunPolyline,
+    GondolaPolyline,
   },
   watch: {
     bounds() {

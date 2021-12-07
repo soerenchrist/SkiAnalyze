@@ -10,6 +10,11 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getGondola(id) {
+    const url = `${baseUrl}gondolas/${id}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
   async getPistes(bounds) {
     let url = `${baseUrl}pistes`;
     url += `?SwLat=${bounds.southWest.latitude}&SwLon=${bounds.southWest.longitude}`;

@@ -19,9 +19,9 @@
           v-for="marker in markers"
           :key="marker.id"
           :lat-lng="marker.latLng">
-          <l-tootlip :options="{ permanent: true, interactive: true}">
+          <l-tooltip :options="{ permanent: true, interactive: true}">
             {{marker.name}}
-          </l-tootlip>
+          </l-tooltip>
           <l-popup>
             {{marker.name}}
           </l-popup>

@@ -22,6 +22,7 @@
               :center="center"
               :bounds="bounds"
               :runs="runs"
+              :gondola="gondola"
               :selectedRun="selectedRun"
               :zoom="zoom" />
           </collapsable-card>
@@ -85,6 +86,7 @@ export default {
     analysisResult: null,
     track: null,
     selectedRun: null,
+    gondola: null,
     loading: true,
   }),
   methods: {
@@ -97,8 +99,15 @@ export default {
       this.analysisResult = await DataService.getAnalysisResult(this.trackId);
       console.log(this.analysisResult);
     },
+    async fetchGondolaDetails(id) {
+      this.gondola = await DataService.getGondola(id);
+    },
     onRunSelected(run) {
+      this.gondola = null;
       this.selectedRun = run;
+      if (!this.selectedRun.downhill) {
+        this.fetchGondolaDetails(this.selectedRun.gondola.id);
+      }
     },
     toggleExpandRuns() {
       this.runsExpanded = !this.runsExpanded;
