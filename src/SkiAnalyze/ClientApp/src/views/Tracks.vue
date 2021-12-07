@@ -1,5 +1,8 @@
 <template>
 <div>
+  <v-overlay :value="analysisPending">
+    <v-progress-circular indeterminate size="64" />
+  </v-overlay>
   <v-row>
     <v-col>
       <v-card>
@@ -16,7 +19,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <add-track-dialog v-model="showCreateDialog" />
+  <add-track-dialog v-model="showCreateDialog" @addTrack="onAddTrack" />
 </div>
 </template>
 
@@ -33,6 +36,7 @@ export default {
   data: () => ({
     tracks: [],
     loading: true,
+    analysisPending: false,
     showCreateDialog: false,
   }),
   methods: {
@@ -46,6 +50,20 @@ export default {
     },
     addTrack() {
       this.showCreateDialog = true;
+    },
+    async onAddTrack(track) {
+      this.analysisPending = true;
+      const createdTrack = await DataService.createTrack(track);
+      await DataService.startAnalysis(createdTrack.id);
+
+      const interval = setInterval(async () => {
+        const status = await DataService.getAnalysisStatus(createdTrack.id);
+        if (status.isFinished) {
+          this.analysisPending = false;
+          this.fetchTracks();
+          clearInterval(interval);
+        }
+      }, 1000);
     },
   },
   mounted() {

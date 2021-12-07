@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import DataService from '../../services/DataService';
-
 export default {
   props: {
     open: Boolean,
@@ -66,8 +64,7 @@ export default {
         file: this.file,
         fileType: this.getFileType(this.file),
       };
-      const createdTrack = await DataService.createTrack(track);
-      await DataService.startAnalysis(createdTrack.id);
+      this.$emit('addTrack', track);
     },
     getFileType(file) {
       if (file.name.toLowerCase().endsWith('fit')) return 1;

@@ -8,7 +8,7 @@
     <div  v-if="!loading">
       <v-row>
         <v-col>
-          <track-detail-header :track="track" />
+          <track-detail-header @delete="onDelete" :track="track" />
         </v-col>
       </v-row>
       <track-stat-cards :track="track" />
@@ -159,6 +159,10 @@ export default {
           });
         }, 500);
       }
+    },
+    async onDelete() {
+      await DataService.removeTrack(this.trackId);
+      this.$router.go(-1);
     },
   },
   watch: {
