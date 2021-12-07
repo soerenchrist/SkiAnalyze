@@ -51,14 +51,14 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col :cols="6">
+        <v-col :cols="4">
           <collapsable-card title="Piste difficulties">
             <difficulty-pie-chart
               :showLegend="true"
               :trackId="parseInt(trackId)" />
           </collapsable-card>
         </v-col>
-        <v-col :cols="6">
+        <v-col :cols="4">
           <collapsable-card title="Gondola types">
             <template slot="headerButtons">
               <button-bar v-model="selectedProperty" :items="propertyItems" />
@@ -66,6 +66,12 @@
             <gondola-types-pie
               :showLegend="true"
               :propertyName="selectedPropertyName"
+              :trackId="parseInt(trackId)" />
+          </collapsable-card>
+        </v-col>
+        <v-col :cols="4">
+          <collapsable-card title="Heart rate average">
+            <heart-rate-averages
               :trackId="parseInt(trackId)" />
           </collapsable-card>
         </v-col>
@@ -78,6 +84,7 @@
 import RunList from '../components/analysis/RunList.vue';
 import DifficultyPieChart from '../components/charts/DifficultyPieChart.vue';
 import GondolaTypesPie from '../components/charts/GondolaTypesPie.vue';
+import HeartRateAverages from '../components/charts/HeartRateAverages.vue';
 import HeightProfile from '../components/charts/HeightProfile.vue';
 import ButtonBar from '../components/common/ButtonBar.vue';
 import CollapsableCard from '../components/common/CollapsableCard.vue';
@@ -101,6 +108,7 @@ export default {
     DifficultyPieChart,
     GondolaTypesPie,
     ButtonBar,
+    HeartRateAverages,
   },
   data: () => ({
     zoom: 10,

@@ -77,8 +77,12 @@ export default {
     return response.data;
   },
   async getGondolaCountByPropertyStats(trackId, propertyName) {
-    console.log(propertyName);
     const url = `${baseUrl}tracks/${trackId}/stats/gondolacount?propertyName=${propertyName}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
+  async getHeartRatesPerPisteDifficulty(trackId) {
+    const url = `${baseUrl}tracks/${trackId}/stats/heartRatesPerDiff`;
     const response = await axios.get(url);
     return response.data;
   },

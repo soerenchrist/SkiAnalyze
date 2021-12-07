@@ -58,6 +58,21 @@ public class StatsService : IStatsService
             .ToList();
     }
 
+    public async Task<List<BaseStatValue<PisteDifficulty, double>>> GetAverageHeartRatePerPisteDifficulty(int trackId)
+    {
+        var trackPoints = await _trackPointRepository.ListAsync(new GetTrackPointsForTrackSpec(trackId));
+        var grouped = trackPoints
+            .Where(x => x.Piste != null)
+            .GroupBy(x => x.Piste!.Difficulty);
+
+        var stats = grouped
+            .Where(x => x.Key != null)
+            .Select(x => new BaseStatValue<PisteDifficulty, double?>(x.Key!.Value, x.Average(x => x.HeartRate)));
+        return stats.Where(x => x.Value.HasValue)
+            .Select(x => new BaseStatValue<PisteDifficulty, double>(x.Key, x.Value!.Value))
+            .OrderBy(x => x.Key)
+            .ToList();
+    }
 
     public async Task<List<BaseStatValue<string, int>>> GetGondolaCountByProperty(int trackId, string propertyName)
     {

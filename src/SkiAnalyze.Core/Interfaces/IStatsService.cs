@@ -9,4 +9,5 @@ public interface IStatsService
     Task<List<BaseStatValue<PisteDifficulty, double>>> GetDifficultyStats(int trackId);
     Task<List<BaseStatValue<Gondola, int>>> GetTopGondolas(int trackId);
     Task<List<BaseStatValue<string, int>>> GetGondolaCountByProperty(int trackId, string property);
+    Task<List<BaseStatValue<PisteDifficulty, double>>> GetAverageHeartRatePerPisteDifficulty(int trackId);
 }
