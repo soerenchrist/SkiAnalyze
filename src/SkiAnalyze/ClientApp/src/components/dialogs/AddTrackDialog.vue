@@ -2,22 +2,21 @@
   <v-dialog
     max-width="300"
     v-model="internalOpen">
-    <v-card>
+    <v-card style="width: 300px">
       <v-card-title>
         Add track
       </v-card-title>
       <v-card-text>
         <v-text-field
-          label="Name"
+          v-model="name"
           outlined
           dense
-          v-model="name" />
+          label="Name" />
         <v-file-input
           outlined
           dense
           v-model="file"
-          label="GPX file" />
-        <v-color-picker v-model="color"></v-color-picker>
+          label=".gpx or .fit file" />
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -31,6 +30,8 @@
 </template>
 
 <script>
+import DataService from '../../services/DataService';
+
 export default {
   props: {
     open: Boolean,
@@ -40,17 +41,13 @@ export default {
     event: 'openChanged',
   },
   data: () => ({
-    name: '',
     file: null,
-    color: '#ff0000',
+    name: '',
     internalOpen: false,
   }),
   watch: {
     open() {
       this.internalOpen = this.open;
-      if (this.open) {
-        this.color = this.getRandomColor();
-      }
     },
     internalOpen() {
       this.$emit('openChanged', this.internalOpen);
@@ -68,17 +65,13 @@ export default {
         name: this.name,
         file: this.file,
         fileType: this.getFileType(this.file),
-        color: this.color,
       };
-      this.$emit('add', track);
+      const createdTrack = await DataService.createTrack(track);
+      await DataService.startAnalysis(createdTrack.id);
     },
     getFileType(file) {
-      console.log(file);
       if (file.name.toLowerCase().endsWith('fit')) return 1;
       return 0;
-    },
-    getRandomColor() {
-      return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     },
   },
 };

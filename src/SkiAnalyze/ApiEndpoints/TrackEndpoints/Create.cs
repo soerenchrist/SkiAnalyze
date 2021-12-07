@@ -33,7 +33,6 @@ public class Create : BaseAsyncEndpoint
         var track = new Track
         {
             Name = request.Name,
-            HexColor = request.Color,
             FileContents = bytes,
             FileType = request.FileType,
         };

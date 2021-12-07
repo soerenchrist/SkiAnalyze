@@ -51,7 +51,6 @@ public class Preview : BaseAsyncEndpoint
             Bounds = dbBounds,
             Coordinates = dbPoints.ToList(),
             TrackId = track.Id,
-            Color = track.HexColor
         };
     }
 

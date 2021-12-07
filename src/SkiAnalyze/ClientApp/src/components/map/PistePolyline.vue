@@ -19,11 +19,7 @@ export default {
       if (this.piste.difficulty === 2) return 'red';
       return 'black';
     },
-    isSelected() {
-      return this.$store.getters.selectedPiste === this.piste;
-    },
     weight() {
-      if (this.isSelected) return 8;
       return 1;
     },
   },

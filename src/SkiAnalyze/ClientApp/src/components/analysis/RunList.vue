@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { SELECT_GONDOLA } from '../../store/actions';
 import RunDataTable from './RunDataTable.vue';
 
 export default {
@@ -59,8 +58,8 @@ export default {
     isSelected(run) {
       return run === this.selectedRun;
     },
-    showGondolaInfo(gondola) {
-      this.$store.dispatch(SELECT_GONDOLA, gondola);
+    showGondolaInfo() {
+
     },
   },
   computed: {

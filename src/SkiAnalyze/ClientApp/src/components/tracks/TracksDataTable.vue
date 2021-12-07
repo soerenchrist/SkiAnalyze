@@ -9,9 +9,6 @@
     :hide-default-header="hideHeader"
     :item-class="itemClasses"
   >
-    <template v-slot:item.color="{ item }">
-      <span class="dot" :style="getStyle(item.hexColor)"></span>
-    </template>
     <template v-slot:item.date="{ item }">
       {{ formatDate(item.date) }}
     </template>
@@ -34,11 +31,6 @@
         {{ formatHeartRate(item.averageHeartRate) }}
       </span>
     </template>
-    <template v-slot:item.delete="{ item }">
-      <v-btn icon @click="() => onRemove(item)">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
@@ -58,15 +50,9 @@ export default {
       default: false,
       type: Boolean,
     },
-    hideDelete: {
-      required: false,
-      default: false,
-      type: Boolean,
-    },
   },
   data: () => ({
     headers: [
-      { text: '', value: 'color' },
       { text: 'Name', value: 'name' },
       { text: 'Ski area', value: 'skiArea.name' },
       { text: 'Date', value: 'date' },
@@ -75,7 +61,6 @@ export default {
       { text: 'Avg. Speed', value: 'averageSpeed' },
       { text: 'Max Speed', value: 'maxSpeed', class: ['d-none', 'd-xl-table-cell'] },
       { text: 'Avg. HeartRate', value: 'averageHeartRate', class: ['d-none', 'd-xl-table-cell'] },
-      { text: '', value: 'delete' },
     ],
   }),
   methods: {
@@ -97,9 +82,6 @@ export default {
     formatSpeed(speed) {
       return `${(speed * 3.6).toFixed(2)} km/h`;
     },
-    getStyle(color) {
-      return `background-color: ${color}`;
-    },
     formatHeartRate(heartRate) {
       return `${parseInt(heartRate, 10)} bpm`;
     },
@@ -118,12 +100,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.dot {
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  display: block;
-}
-</style>

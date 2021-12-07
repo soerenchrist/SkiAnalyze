@@ -5,8 +5,7 @@
       <tracks-data-table
         :loading="loading"
         :tracks="tracks"
-        :hideFooter="true"
-        :hideDelete="true" />
+        :hideFooter="true" />
     </v-card-text>
   </v-card>
 </template>

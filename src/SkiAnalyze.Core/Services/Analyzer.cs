@@ -79,8 +79,6 @@ public class Analyzer : IAnalyzer
             runs = matcher.Match(gondolas, pistes, runs).ToList();
             foreach (var run in runs)
             {
-                run.Color = track.HexColor;
-
                 if (run.Coordinates.Count < 2)
                     continue;
                 

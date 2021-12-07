@@ -1,17 +1,17 @@
-import { TOGGLE_EXPAND_DETAILS } from './mutations';
+import { SET_NAVIGATION_DRAWER } from './mutations';
 
 export default {
   state: {
-    detailsExpanded: false,
+    navigationDrawer: true,
   },
   mutations: {
-    [TOGGLE_EXPAND_DETAILS](state) {
-      state.detailsExpanded = !state.detailsExpanded;
+    [SET_NAVIGATION_DRAWER](state, drawer) {
+      state.navigationDrawer = drawer;
     },
   },
   getters: {
-    detailsExpanded(state) {
-      return state.detailsExpanded;
+    navigationDrawer(state) {
+      return state.navigationDrawer;
     },
   },
 };

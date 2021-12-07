@@ -16,7 +16,12 @@
         <v-col
           :xs="12"
           :lg="8">
-          <main-map :center="center" :bounds="bounds" :zoom="zoom" />
+          <main-map
+            :center="center"
+            :bounds="bounds"
+            :runs="runs"
+            :selectedRun="selectedRun"
+            :zoom="zoom" />
         </v-col>
         <v-col>
           <v-card>
@@ -24,7 +29,22 @@
               Runs ({{downhillRuns.length}})
             </v-card-title>
             <v-card-text>
-              <run-list :runs="runs" />
+              <run-list
+                :runs="runs"
+                :selectedRun="selectedRun"
+                @runSelected="onRunSelected" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-card-title>
+              Charts
+            </v-card-title>
+            <v-card-text class="pa-0">
+              <height-profile :runs="runs" :selectedRun="selectedRun" />
             </v-card-text>
           </v-card>
         </v-col>
@@ -35,6 +55,7 @@
 
 <script>
 import RunList from '../components/analysis/RunList.vue';
+import HeightProfile from '../components/charts/HeightProfile.vue';
 import MainMap from '../components/map/MainMap.vue';
 import TrackDetailHeader from '../components/tracks/TrackDetailHeader.vue';
 import TrackStatCards from '../components/tracks/TrackStatCards.vue';
@@ -50,6 +71,7 @@ export default {
     TrackDetailHeader,
     TrackStatCards,
     RunList,
+    HeightProfile,
   },
   data: () => ({
     zoom: 10,
@@ -58,17 +80,21 @@ export default {
     pistes: [],
     analysisResult: null,
     track: null,
+    selectedRun: null,
     loading: true,
   }),
   methods: {
     async fetchTrack() {
       this.loading = true;
       this.track = await DataService.getTrack(this.trackId);
-      console.log(this.track);
       this.loading = false;
     },
     async fetchAnalysisResult() {
       this.analysisResult = await DataService.getAnalysisResult(this.trackId);
+      console.log(this.analysisResult);
+    },
+    onRunSelected(run) {
+      this.selectedRun = run;
     },
   },
   computed: {

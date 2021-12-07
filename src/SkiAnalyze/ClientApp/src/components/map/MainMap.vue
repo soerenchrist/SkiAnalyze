@@ -7,18 +7,16 @@
       :zoom="zoom"
       :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <gondola-polyline
-        v-for="gondola in gondolas"
-        :key="gondola.id"
-        :gondola="gondola"
-        @onclick="gondolaSelected" />
 
       <piste-polyline
         v-for="piste in pistes"
         :key="piste.id"
-        :piste="piste"
-        @onclick="pisteSelected" />
-        <track-polylines />
+        :piste="piste" />
+      <run-polyline
+        v-for="run in runs"
+        :key="run.id"
+        :selectedRun="selectedRun"
+        :run="run" />
     </l-map>
   </v-card-text>
 </v-card>
@@ -27,14 +25,14 @@
 <script>
 import { latLng, latLngBounds } from 'leaflet';
 import { LMap, LTileLayer } from 'vue2-leaflet';
-import TrackPolylines from '../analysis/TrackPolylines.vue';
-import GondolaPolyline from './GondolaPolyline.vue';
 import PistePolyline from './PistePolyline.vue';
+import RunPolyline from './RunPolyline.vue';
 
 export default {
   props: {
-    gondolas: Array,
     pistes: Array,
+    runs: Array,
+    selectedRun: Object,
     center: Array,
     zoom: Number,
     bounds: Object,
@@ -42,9 +40,8 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    GondolaPolyline,
     PistePolyline,
-    TrackPolylines,
+    RunPolyline,
   },
   watch: {
     bounds() {

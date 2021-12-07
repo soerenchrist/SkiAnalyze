@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { SET_NAVIGATION_DRAWER } from '../../store/mutations';
+
 export default {
   data: () => ({
     drawer: null,
@@ -48,5 +50,22 @@ export default {
       },
     ],
   }),
+  watch: {
+    drawer() {
+      if (this.drawer !== this.storeDrawer) {
+        this.$store.commit(SET_NAVIGATION_DRAWER, this.drawer);
+      }
+    },
+    storeDrawer() {
+      if (this.drawer !== this.storeDrawer) {
+        this.drawer = this.storeDrawer;
+      }
+    },
+  },
+  computed: {
+    storeDrawer() {
+      return this.$store.getters.navigationDrawer;
+    },
+  },
 };
 </script>

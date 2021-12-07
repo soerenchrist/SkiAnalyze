@@ -1,16 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark>
-      <v-app-bar-nav-icon @click="goHome">
-        <v-icon>mdi-home</v-icon>
-      </v-app-bar-nav-icon>
-      <v-toolbar-title>
-        SkiAnalyze
-      </v-toolbar-title>
-    </v-app-bar>
+    <application-bar />
     <navigation-drawer />
     <v-main>
       <v-container fluid>
@@ -21,16 +11,12 @@
 </template>
 
 <script>
+import ApplicationBar from './components/layout/ApplicationBar.vue';
 import NavigationDrawer from './components/layout/NavigationDrawer.vue';
 
 export default {
-  components: { NavigationDrawer },
+  components: { NavigationDrawer, ApplicationBar },
   name: 'App',
-  methods: {
-    goHome() {
-      this.$router.push('/');
-    },
-  },
 };
 
 </script>

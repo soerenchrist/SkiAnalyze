@@ -1,39 +1,55 @@
 <template>
-<div class="pa-4">
+<div>
   <v-row>
     <v-col>
-      <tracks-container />
+      <v-card>
+        <v-card-title>Your tracks</v-card-title>
+        <v-card-text>
+          <tracks-data-table
+            :loading="loading"
+            :tracks="tracks"
+            @trackSelected="onTrackSelected" />
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text @click="addTrack">Add track</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-col>
   </v-row>
-  <add-track-dialog-container />
+  <add-track-dialog v-model="showCreateDialog" />
 </div>
 </template>
 
 <script>
-import AddTrackDialogContainer from '../components/container/dialogs/AddTrackDialogContainer.vue';
-import TracksContainer from '../components/container/TracksContainer.vue';
+import AddTrackDialog from '../components/dialogs/AddTrackDialog.vue';
+import TracksDataTable from '../components/tracks/TracksDataTable.vue';
+import DataService from '../services/DataService';
 
 export default {
   components: {
-    TracksContainer,
-    AddTrackDialogContainer,
+    TracksDataTable,
+    AddTrackDialog,
   },
-  computed: {
-    tracks() {
-      return this.$store.getters.tracks;
+  data: () => ({
+    tracks: [],
+    loading: true,
+    showCreateDialog: false,
+  }),
+  methods: {
+    async fetchTracks() {
+      this.loading = true;
+      this.tracks = await DataService.getTracks();
+      this.loading = false;
     },
-    hasTracks() {
-      return this.tracks.length > 0;
+    onTrackSelected(track) {
+      this.$router.push(`/tracks/${track.id}`);
     },
+    addTrack() {
+      this.showCreateDialog = true;
+    },
+  },
+  mounted() {
+    this.fetchTracks();
   },
 };
 </script>
-
-<style scoped>
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-</style>
