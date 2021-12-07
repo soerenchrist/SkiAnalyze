@@ -1,7 +1,7 @@
 <template>
   <div>
     <run-data-table
-      v-if="isExpanded && isBigScreen"
+      v-if="isExpanded"
       :selectedRun="selectedRun"
       @runSelected="runSelected"
       :runs="runs" />
@@ -60,12 +60,6 @@ export default {
     },
     showGondolaInfo() {
 
-    },
-  },
-  computed: {
-    isBigScreen() {
-      const breakpoint = this.$vuetify.breakpoint.name;
-      return breakpoint === 'lg' || breakpoint === 'xl';
     },
   },
 };

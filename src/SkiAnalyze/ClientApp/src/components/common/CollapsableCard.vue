@@ -3,6 +3,7 @@
     <v-card-title>
       {{title}}
       <v-spacer />
+      <slot name="headerButtons" />
       <v-btn icon @click="toggleExpand">
         <v-icon>{{icon}}</v-icon>
       </v-btn>

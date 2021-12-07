@@ -42,10 +42,24 @@ export default {
   watch: {
     bounds() {
       if (!this.bounds) return;
-      const sw = latLng(this.bounds.southWest.latitude, this.bounds.southWest.longitude);
-      const ne = latLng(this.bounds.northEast.latitude, this.bounds.northEast.longitude);
-      const bounds = latLngBounds(sw, ne);
-      this.$refs.map.fitBounds(bounds, { padding: [50, 50] });
+      this.fitBounds(this.bounds);
+    },
+  },
+  methods: {
+    resize() {
+      // weird behavior without timeout
+      setTimeout(() => {
+        this.$refs.map.mapObject.invalidateSize(true);
+        if (this.bounds) {
+          this.fitBounds(this.bounds);
+        }
+      }, 500);
+    },
+    fitBounds(bounds) {
+      const sw = latLng(bounds.southWest.latitude, bounds.southWest.longitude);
+      const ne = latLng(bounds.northEast.latitude, bounds.northEast.longitude);
+      const b = latLngBounds(sw, ne);
+      this.$refs.map.fitBounds(b, { padding: [50, 50] });
     },
   },
   data: () => ({

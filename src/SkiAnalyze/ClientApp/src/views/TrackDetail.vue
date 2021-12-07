@@ -15,9 +15,10 @@
       <v-row>
         <v-col
           :xs="12"
-          :lg="8">
+          :lg="mapCols">
           <collapsable-card title="Map" textClass="pa-0">
             <main-map
+              ref="mapRef"
               :center="center"
               :bounds="bounds"
               :runs="runs"
@@ -25,9 +26,15 @@
               :zoom="zoom" />
           </collapsable-card>
         </v-col>
-        <v-col>
+        <v-col id="runsContainer">
           <collapsable-card :title="runsTitle">
+            <template slot="headerButtons">
+              <v-btn icon @click="toggleExpandRuns">
+                <v-icon>{{expandIcon}}</v-icon>
+              </v-btn>
+            </template>
             <run-list
+              :isExpanded="runsExpanded"
               :runs="runs"
               :selectedRun="selectedRun"
               @runSelected="onRunSelected" />
@@ -71,6 +78,7 @@ export default {
   },
   data: () => ({
     zoom: 10,
+    runsExpanded: false,
     center: [46.98, 10.3],
     gondolas: [],
     pistes: [],
@@ -92,6 +100,18 @@ export default {
     onRunSelected(run) {
       this.selectedRun = run;
     },
+    toggleExpandRuns() {
+      this.runsExpanded = !this.runsExpanded;
+      this.$refs.mapRef.resize();
+      if (this.runsExpanded) {
+        setTimeout(() => {
+          this.$vuetify.goTo('#runsContainer', {
+            duration: 500,
+            easing: 'easeInOutCubic',
+          });
+        }, 500);
+      }
+    },
   },
   computed: {
     runs() {
@@ -107,6 +127,12 @@ export default {
     },
     runsTitle() {
       return `Runs (${this.downhillRuns.length})`;
+    },
+    expandIcon() {
+      return this.runsExpanded ? 'mdi-arrow-collapse' : 'mdi-arrow-expand';
+    },
+    mapCols() {
+      return this.runsExpanded ? 12 : 8;
     },
   },
   mounted() {
