@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import DataService from '../../../services/DataService';
-import PieChart from '../../charts/PieChart.vue';
+import DataService from '../../services/DataService';
+import PieChart from './PieChart.vue';
 
 export default {
   components: { PieChart },

@@ -45,9 +45,27 @@
       <v-row>
         <v-col>
           <collapsable-card title="Charts" textClass="pa-0">
-            <v-card-text class="pa-0">
-              <height-profile :runs="runs" :selectedRun="selectedRun" />
-            </v-card-text>
+            <height-profile :runs="runs" :selectedRun="selectedRun" />
+          </collapsable-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col :cols="6">
+          <collapsable-card title="Piste difficulties">
+            <difficulty-pie-chart
+              :showLegend="true"
+              :trackId="parseInt(trackId)" />
+          </collapsable-card>
+        </v-col>
+        <v-col :cols="6">
+          <collapsable-card title="Gondola types">
+            <template slot="headerButtons">
+              <button-bar v-model="selectedProperty" :items="propertyItems" />
+            </template>
+            <gondola-types-pie
+              :showLegend="true"
+              :propertyName="selectedPropertyName"
+              :trackId="parseInt(trackId)" />
           </collapsable-card>
         </v-col>
       </v-row>
@@ -57,7 +75,10 @@
 
 <script>
 import RunList from '../components/analysis/RunList.vue';
+import DifficultyPieChart from '../components/charts/DifficultyPieChart.vue';
+import GondolaTypesPie from '../components/charts/GondolaTypesPie.vue';
 import HeightProfile from '../components/charts/HeightProfile.vue';
+import ButtonBar from '../components/common/ButtonBar.vue';
 import CollapsableCard from '../components/common/CollapsableCard.vue';
 import MainMap from '../components/map/MainMap.vue';
 import TrackDetailHeader from '../components/tracks/TrackDetailHeader.vue';
@@ -76,6 +97,9 @@ export default {
     RunList,
     HeightProfile,
     CollapsableCard,
+    DifficultyPieChart,
+    GondolaTypesPie,
+    ButtonBar,
   },
   data: () => ({
     zoom: 10,
@@ -88,6 +112,12 @@ export default {
     selectedRun: null,
     gondola: null,
     loading: true,
+    selectedProperty: 1,
+    propertyItems: [
+      { id: 1, name: 'Type', key: 'type' },
+      { id: 2, name: 'Heating', key: 'heating' },
+      { id: 3, name: 'Occupancy', key: 'occupancy' },
+    ],
   }),
   methods: {
     async fetchTrack() {
@@ -142,6 +172,9 @@ export default {
     },
     mapCols() {
       return this.runsExpanded ? 12 : 8;
+    },
+    selectedPropertyName() {
+      return this.propertyItems.filter((x) => x.id === this.selectedProperty)[0].key;
     },
   },
   mounted() {
