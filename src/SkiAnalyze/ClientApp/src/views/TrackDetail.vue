@@ -31,9 +31,18 @@
         <v-col id="runsContainer">
           <collapsable-card :title="runsTitle">
             <template slot="headerButtons">
-              <v-btn icon @click="toggleExpandRuns">
-                <v-icon>{{expandIcon}}</v-icon>
-              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    @click="toggleExpandRuns"
+                    v-on="on"
+                    v-bind="attrs">
+                    <v-icon>{{expandIcon}}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{tooltipText}}</span>
+              </v-tooltip>
             </template>
             <run-list
               :isExpanded="runsExpanded"
@@ -151,14 +160,12 @@ export default {
     toggleExpandRuns() {
       this.runsExpanded = !this.runsExpanded;
       this.$refs.mapRef.resize();
-      if (this.runsExpanded) {
-        setTimeout(() => {
-          this.$vuetify.goTo('#runsContainer', {
-            duration: 500,
-            easing: 'easeInOutCubic',
-          });
-        }, 500);
-      }
+      setTimeout(() => {
+        this.$vuetify.goTo('#runsContainer', {
+          duration: 500,
+          easing: 'easeInOutCubic',
+        });
+      }, 500);
     },
     async onDelete() {
       await DataService.removeTrack(this.trackId);
@@ -195,6 +202,9 @@ export default {
     },
     expandIcon() {
       return this.runsExpanded ? 'mdi-arrow-collapse' : 'mdi-arrow-expand';
+    },
+    tooltipText() {
+      return this.runsExpanded ? 'Hide details' : 'Show details';
     },
     mapCols() {
       return this.runsExpanded ? 12 : 8;

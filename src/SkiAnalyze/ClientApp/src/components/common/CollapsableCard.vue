@@ -4,9 +4,18 @@
       {{title}}
       <v-spacer />
       <slot name="headerButtons" />
-      <v-btn icon @click="toggleExpand">
-        <v-icon>{{icon}}</v-icon>
-      </v-btn>
+
+      <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon @click="toggleExpand"
+          v-bind="attrs"
+          v-on="on">
+          <v-icon>{{icon}}</v-icon>
+        </v-btn>
+      </template>
+      <span>{{tooltipText}}</span>
+    </v-tooltip>
+
     </v-card-title>
     <v-expand-transition>
       <v-card-text
@@ -33,6 +42,9 @@ export default {
     },
     classes() {
       return `transition-fast-in-fast-out v-card--reveal ${this.textClass}`;
+    },
+    tooltipText() {
+      return this.isExpanded ? 'Collapse card' : 'Expand card';
     },
   },
   methods: {

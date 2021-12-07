@@ -1,7 +1,6 @@
 <template>
   <v-app-bar
     app
-    color="primary"
     dark>
     <v-app-bar-nav-icon @click="toggleDrawer">
       <v-icon>mdi-menu</v-icon>

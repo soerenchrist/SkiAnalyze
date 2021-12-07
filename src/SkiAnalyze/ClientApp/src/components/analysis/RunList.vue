@@ -25,12 +25,6 @@
               {{item.gondola.name}}
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action>
-            <v-btn icon v-if="!item.downhill"
-              @click="() => showGondolaInfo(item.gondola)">
-              <v-icon>mdi-information-outline</v-icon>
-            </v-btn>
-          </v-list-item-action>
         </v-list-item>
       </template>
     </v-virtual-scroll>
@@ -57,9 +51,6 @@ export default {
     },
     isSelected(run) {
       return run === this.selectedRun;
-    },
-    showGondolaInfo() {
-
     },
   },
 };

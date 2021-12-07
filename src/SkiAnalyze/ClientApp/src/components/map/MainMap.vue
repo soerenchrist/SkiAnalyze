@@ -22,9 +22,14 @@
     <gondola-polyline :gondola="gondola" />
 
     <l-control
-        :position="'bottomleft'"
-        class="custom-control">
-        <v-checkbox label="Show pistes" v-model="showPistes" class="ma-0" />
+        :position="'bottomleft'">
+        <v-sheet
+          color="white"
+          elevation="3"
+          rounded="md"
+          class="controlSheet" >
+          <v-checkbox label="Show pistes" v-model="showPistes" class="ma-0" />
+        </v-sheet>
     </l-control>
   </l-map>
 </template>
@@ -86,7 +91,7 @@ export default {
 </script>
 
 <style>
-.custom-control {
-  background-color: #fff;
+.controlSheet {
+  padding: 1em 1em 0 1em
 }
 </style>
