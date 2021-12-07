@@ -6,17 +6,26 @@
     :center="center">
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
 
-    <piste-polyline
-      v-for="piste in pistes"
-      :key="piste.id"
-      :piste="piste" />
     <run-polyline
       v-for="run in runs"
       :key="run.id"
       :selectedRun="selectedRun"
       :run="run" />
 
+    <div v-if="showPistes">
+      <piste-polyline
+        v-for="piste in pistes"
+        :key="piste.id"
+        :piste="piste" />
+    </div>
+
     <gondola-polyline :gondola="gondola" />
+
+    <l-control
+        :position="'bottomleft'"
+        class="custom-control">
+        <v-checkbox label="Show pistes" v-model="showPistes" class="ma-0" />
+    </l-control>
   </l-map>
 </template>
 
@@ -68,9 +77,16 @@ export default {
     },
   },
   data: () => ({
+    showPistes: false,
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }),
 };
 </script>
+
+<style>
+.custom-control {
+  background-color: #fff;
+}
+</style>

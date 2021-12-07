@@ -30,7 +30,7 @@
         title="Max speed"
         unit="km/h"
         :floatingPoints="1"
-        :value="track.maxSpeed" />
+        :value="track.maxSpeed * 3.6" />
     </v-col>
     <v-col
       :xs="12"
@@ -41,7 +41,7 @@
         title="Average speed"
         unit="km/h"
         :floatingPoints="1"
-        :value="track.averageSpeed" />
+        :value="track.averageSpeed * 3.6" />
     </v-col>
     <v-col
       :xs="12"

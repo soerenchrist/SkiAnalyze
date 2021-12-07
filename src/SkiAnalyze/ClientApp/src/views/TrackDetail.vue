@@ -22,6 +22,7 @@
               :center="center"
               :bounds="bounds"
               :runs="runs"
+              :pistes="pistes"
               :gondola="gondola"
               :selectedRun="selectedRun"
               :zoom="zoom" />
@@ -150,6 +151,12 @@ export default {
           });
         }, 500);
       }
+    },
+  },
+  watch: {
+    async bounds() {
+      const response = await DataService.getPistes(this.bounds);
+      this.pistes = response.pistes;
     },
   },
   computed: {
