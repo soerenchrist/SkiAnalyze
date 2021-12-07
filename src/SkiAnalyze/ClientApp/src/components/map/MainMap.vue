@@ -43,6 +43,7 @@ import { LMap, LTileLayer } from 'vue2-leaflet';
 import PistePolyline from './PistePolyline.vue';
 import GondolaPolyline from './GondolaPolyline.vue';
 import RunPolyline from './RunPolyline.vue';
+import GeoHelper from '../../services/GeoHelper';
 
 export default {
   props: {
@@ -90,13 +91,16 @@ export default {
   data: () => ({
     showPistes: false,
     showRunNumbers: false,
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution:
-        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }),
   computed: {
     downhillRuns() {
       return this.runs.filter((x) => x.downhill);
+    },
+    attribution() {
+      return GeoHelper.attribution;
+    },
+    url() {
+      return GeoHelper.url;
     },
   },
 };

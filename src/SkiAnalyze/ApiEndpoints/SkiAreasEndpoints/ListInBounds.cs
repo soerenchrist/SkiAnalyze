@@ -43,19 +43,7 @@ public class ListInBounds : BaseAsyncEndpoint
         };
 
         var skiAreas = await _areaRepository.ListAsync(new GetSkiAreasInBoundsSpec(bounds));
-        var dtos = new List<SkiAreaDto>();
-        foreach (var area in skiAreas)
-        {
-            var dto = _mapper.Map<SkiAreaDto>(area);
-            var b = area.Nodes.GetBounds();
-            var center = new Coordinate
-            {
-                Latitude = (b.NorthEast.Latitude + b.SouthWest.Latitude) / 2,
-                Longitude = (b.NorthEast.Longitude + b.SouthWest.Longitude) / 2,
-            };
-            dto.Center = center;
-            dtos.Add(dto);
-        }
+        var dtos = _mapper.Map<List<SkiAreaDto>>(skiAreas);
         return dtos;
     }
 }

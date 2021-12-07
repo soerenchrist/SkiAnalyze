@@ -64,7 +64,7 @@ export default {
   computed: {
     markers() {
       return this.areas.map((a) => ({
-        latLng: [a.center.latitude, a.center.longitude],
+        latLng: [a.centerLatitude, a.centerLongitude],
         name: a.name,
         id: `marker-${a.id}`,
       }));

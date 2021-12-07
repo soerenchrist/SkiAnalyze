@@ -6,6 +6,7 @@ public class GetTracksWithSkiAreaSpec : Specification<Track>
 {
     public GetTracksWithSkiAreaSpec()
     {
-        Query.Include(x => x.SkiArea);
+        Query.Include(x => x.SkiArea)
+            .OrderByDescending(x => x.Date);
     }
 }

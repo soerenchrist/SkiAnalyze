@@ -11,12 +11,14 @@ public class SkiArea : BaseEntity<long>
     public string? Wikidata { get; set; }
     public string? Website { get; set; }
     public string? AlternativeName { get; set; }
+    public double CenterLatitude { get; set; }
+    public double CenterLongitude { get; set; }
     public List<SkiAreaNode> Nodes { get; set; } = new List<SkiAreaNode>();
     public List<Track> Tracks { get; set; } = new();
 
     public static SkiArea FromWay(CompleteWay way)
     {
-        return new SkiArea
+        var area = new SkiArea
         {
             Id = way.Id,
             Name = way.Tags.GetNullableString("name") ?? "",
@@ -33,5 +35,10 @@ public class SkiArea : BaseEntity<long>
                     SkiAreaId = way.Id
                 }).ToList()
         };
+        var bounds = area.Nodes.GetBounds();
+        area.CenterLatitude = (bounds.SouthWest.Latitude + bounds.NorthEast.Latitude) / 2;
+        area.CenterLongitude = (bounds.SouthWest.Longitude + bounds.NorthEast.Longitude) / 2;
+
+        return area;
     }
 }

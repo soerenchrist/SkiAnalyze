@@ -18,7 +18,7 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
 
         var runs = ReadRuns(decoder);
 
-        return runs;
+        return runs.Where(x => x.Coordinates.Count > 0).ToList();
     }
 
     private List<Run> ReadRuns(FitDecoder decoder)

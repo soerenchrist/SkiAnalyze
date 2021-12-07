@@ -3,7 +3,7 @@
     <application-bar />
     <navigation-drawer />
     <v-main>
-      <v-container fluid>
+      <v-container fluid class="pa-4">
         <router-view/>
       </v-container>
     </v-main>

@@ -70,6 +70,9 @@ public class MatchingService
         {
             var previousRun = runs[i - 1];
             var currentRun = runs[i];
+            if (previousRun.Coordinates.Count == 0
+                || currentRun.Coordinates.Count == 0)
+                continue;
 
             var endOfPrevious = previousRun.Coordinates.Last();
             var startOfCurrent = currentRun.Coordinates.First();

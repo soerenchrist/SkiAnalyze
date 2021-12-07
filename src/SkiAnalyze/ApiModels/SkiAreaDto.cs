@@ -4,7 +4,8 @@ public class SkiAreaDto
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public Coordinate Center { get; set; }
+    public double CenterLatitude { get; set; }
+    public double CenterLongitude { get; set; }
 }
 
 public class SkiAreaDetailDto
@@ -14,6 +15,8 @@ public class SkiAreaDetailDto
     public string? Website { get; set; }
     public string? Wikidata { get; set; }
     public string? AlternativeName { get; set; }
+    public double CenterLatitude { get; set; }
+    public double CenterLongitude { get; set; }
     public List<SkiAreaNodeDto> Nodes { get; set; } = new();
 }
 

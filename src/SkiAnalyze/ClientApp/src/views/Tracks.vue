@@ -6,16 +6,33 @@
   <v-row>
     <v-col>
       <v-card>
-        <v-card-title>Your tracks</v-card-title>
+        <v-card-title>
+          Your tracks
+          <v-spacer />
+          <v-btn icon @click="mapMode = !mapMode">
+            <v-icon>{{icon}}</v-icon>
+          </v-btn>
+        </v-card-title>
         <v-card-text>
           <tracks-data-table
             :loading="loading"
-            :tracks="tracks"
+            :tracks="filteredTracks"
             @trackSelected="onTrackSelected" />
         </v-card-text>
         <v-card-actions>
           <v-btn text @click="addTrack">Add track</v-btn>
         </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-col v-if="mapMode">
+      <v-card>
+        <v-card-title>Map</v-card-title>
+        <v-card-text class="pa-0">
+          <track-overview-map
+            v-model="syncMapAndList"
+            @boundsUpdated="onBoundsUpdated"
+            :tracks="tracks" />
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
@@ -25,6 +42,7 @@
 
 <script>
 import AddTrackDialog from '../components/dialogs/AddTrackDialog.vue';
+import TrackOverviewMap from '../components/map/TrackOverviewMap.vue';
 import TracksDataTable from '../components/tracks/TracksDataTable.vue';
 import DataService from '../services/DataService';
 
@@ -32,13 +50,33 @@ export default {
   components: {
     TracksDataTable,
     AddTrackDialog,
+    TrackOverviewMap,
   },
   data: () => ({
     tracks: [],
     loading: true,
     analysisPending: false,
     showCreateDialog: false,
+    mapMode: false,
+    bounds: null,
+    syncMapAndList: true,
   }),
+  computed: {
+    icon() {
+      return this.mapMode ? 'mdi-map-marker-remove' : 'mdi-map-marker-radius';
+    },
+    filteredTracks() {
+      if (!this.syncMapAndList || this.bounds === null) {
+        return this.tracks;
+      }
+
+      return this.tracks.filter((t) => t.skiArea !== null
+        && t.skiArea.centerLatitude > this.bounds._southWest.lat
+        && t.skiArea.centerLongitude > this.bounds._southWest.lng
+        && t.skiArea.centerLatitude < this.bounds._northEast.lat
+        && t.skiArea.centerLongitude < this.bounds._northEast.lng);
+    },
+  },
   methods: {
     async fetchTracks() {
       this.loading = true;
@@ -50,6 +88,10 @@ export default {
     },
     addTrack() {
       this.showCreateDialog = true;
+    },
+    onBoundsUpdated(bounds) {
+      this.bounds = bounds;
+      console.log(bounds);
     },
     async onAddTrack(track) {
       this.analysisPending = true;

@@ -12,6 +12,8 @@ import {
 } from 'vue2-leaflet';
 import { ChartPlugin, AccumulationChartPlugin } from '@syncfusion/ej2-vue-charts';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { Icon } from 'leaflet';
 import App from './App.vue';
 import router from './router';

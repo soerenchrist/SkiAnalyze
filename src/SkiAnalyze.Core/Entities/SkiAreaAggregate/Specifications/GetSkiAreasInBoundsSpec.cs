@@ -17,10 +17,9 @@ public class GetSkiAreasInBoundsSpec : Specification<SkiArea>
         northEast.Longitude += 0.1;
 
         Query
-            .Include(x => x.Nodes)
-            .Where(x => x.Nodes.Min(x => x.Longitude) > southWest.Longitude
-            && x.Nodes.Min(x => x.Latitude) > southWest.Latitude
-            && x.Nodes.Max(x => x.Longitude) < northEast.Longitude
-            && x.Nodes.Max(x => x.Latitude) < northEast.Latitude);
+            .Where(x => x.CenterLatitude > southWest.Latitude
+            && x.CenterLongitude > southWest.Longitude
+            && x.CenterLatitude < northEast.Latitude
+            && x.CenterLongitude < northEast.Longitude);
     }
 }

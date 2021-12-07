@@ -146,7 +146,6 @@ export default {
     },
     async fetchAnalysisResult() {
       this.analysisResult = await DataService.getAnalysisResult(this.trackId);
-      console.log(this.analysisResult);
     },
     async fetchGondolaDetails(id) {
       this.gondola = await DataService.getGondola(id);
