@@ -1,25 +1,21 @@
 <template>
-<v-card>
-  <v-card-text class="pa-0">
-    <l-map
-      ref="map"
-      style="height: 500px; z-index: 1"
-      :zoom="zoom"
-      :center="center">
-      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+  <l-map
+    ref="map"
+    style="height: 500px; z-index: 1"
+    :zoom="zoom"
+    :center="center">
+    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
 
-      <piste-polyline
-        v-for="piste in pistes"
-        :key="piste.id"
-        :piste="piste" />
-      <run-polyline
-        v-for="run in runs"
-        :key="run.id"
-        :selectedRun="selectedRun"
-        :run="run" />
-    </l-map>
-  </v-card-text>
-</v-card>
+    <piste-polyline
+      v-for="piste in pistes"
+      :key="piste.id"
+      :piste="piste" />
+    <run-polyline
+      v-for="run in runs"
+      :key="run.id"
+      :selectedRun="selectedRun"
+      :run="run" />
+  </l-map>
 </template>
 
 <script>

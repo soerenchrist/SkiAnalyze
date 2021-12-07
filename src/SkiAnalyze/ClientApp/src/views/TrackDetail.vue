@@ -16,37 +16,31 @@
         <v-col
           :xs="12"
           :lg="8">
-          <main-map
-            :center="center"
-            :bounds="bounds"
-            :runs="runs"
-            :selectedRun="selectedRun"
-            :zoom="zoom" />
+          <collapsable-card title="Map" textClass="pa-0">
+            <main-map
+              :center="center"
+              :bounds="bounds"
+              :runs="runs"
+              :selectedRun="selectedRun"
+              :zoom="zoom" />
+          </collapsable-card>
         </v-col>
         <v-col>
-          <v-card>
-            <v-card-title>
-              Runs ({{downhillRuns.length}})
-            </v-card-title>
-            <v-card-text>
-              <run-list
-                :runs="runs"
-                :selectedRun="selectedRun"
-                @runSelected="onRunSelected" />
-            </v-card-text>
-          </v-card>
+          <collapsable-card :title="runsTitle">
+            <run-list
+              :runs="runs"
+              :selectedRun="selectedRun"
+              @runSelected="onRunSelected" />
+          </collapsable-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-card>
-            <v-card-title>
-              Charts
-            </v-card-title>
+          <collapsable-card title="Charts" textClass="pa-0">
             <v-card-text class="pa-0">
               <height-profile :runs="runs" :selectedRun="selectedRun" />
             </v-card-text>
-          </v-card>
+          </collapsable-card>
         </v-col>
       </v-row>
     </div>
@@ -56,6 +50,7 @@
 <script>
 import RunList from '../components/analysis/RunList.vue';
 import HeightProfile from '../components/charts/HeightProfile.vue';
+import CollapsableCard from '../components/common/CollapsableCard.vue';
 import MainMap from '../components/map/MainMap.vue';
 import TrackDetailHeader from '../components/tracks/TrackDetailHeader.vue';
 import TrackStatCards from '../components/tracks/TrackStatCards.vue';
@@ -72,6 +67,7 @@ export default {
     TrackStatCards,
     RunList,
     HeightProfile,
+    CollapsableCard,
   },
   data: () => ({
     zoom: 10,
@@ -108,6 +104,9 @@ export default {
     },
     downhillRuns() {
       return this.runs.filter((x) => x.downhill);
+    },
+    runsTitle() {
+      return `Runs (${this.downhillRuns.length})`;
     },
   },
   mounted() {
