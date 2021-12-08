@@ -15,6 +15,7 @@ public class RunDto
     public List<TrackPointDto> Coordinates { get; set; } = new();
     public double TotalDistance { get; set; }
     public double TotalElevation { get; set; }
+    public int? TotalCalories { get; set; }
     public double AverageSpeed { get; set; }
     public double MaxSpeed { get; set; }
     public double? AverageHeartRate { get; set; }

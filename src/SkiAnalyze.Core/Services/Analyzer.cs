@@ -118,6 +118,7 @@ public class Analyzer : IAnalyzer
         track.End = track.Runs.Last().End;
         track.MaxHeartRate = downhillRuns.Max(x => x.MaxHeartRate);
         track.AverageHeartRate = downhillRuns.Average(x => x.AverageHeartRate);
+        track.TotalCalories = downhillRuns.Sum(x => x.TotalCalories);
         track.Date = track.Runs.First().Start.Date;
     }
 

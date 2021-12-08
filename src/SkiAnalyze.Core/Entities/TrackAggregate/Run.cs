@@ -16,6 +16,7 @@ public class Run : BaseEntity<int>
 
     public double? AverageHeartRate { get; set; }
     public int? MaxHeartRate { get; set; }
+    public int? TotalCalories { get; set; }
     public double TotalDistance { get; set; }
     public double TotalElevation { get; set; }
     public double AverageSpeed { get; set; }

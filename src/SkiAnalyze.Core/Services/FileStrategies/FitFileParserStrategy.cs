@@ -77,6 +77,7 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
         run.MaxHeartRate = lap.GetMaxHeartRate() ?? 0;
         run.MaxSpeed = lap.GetMaxSpeed() ?? 0;
         run.TotalDistance = lap.GetTotalDistance() ?? 0;
+        run.TotalCalories = lap.GetTotalCalories();
         run.TotalElevation = (lap.GetTotalDescent() ?? 0) * -1;
         run.Start = lap.GetStartTime()?.GetDateTime() + offset ?? System.DateTime.Now;
         run.End = lap.GetEndTime()?.GetDateTime() + offset ?? System.DateTime.Now;

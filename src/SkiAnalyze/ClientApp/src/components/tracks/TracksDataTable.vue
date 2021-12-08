@@ -31,6 +31,11 @@
         {{ formatHeartRate(item.averageHeartRate) }}
       </span>
     </template>
+    <template v-slot:item.totalCalories="{ item }">
+      <span class="d-none d-xl-flex">
+        {{ formatCalories(item.totalCalories) }}
+      </span>
+    </template>
   </v-data-table>
 </template>
 
@@ -61,6 +66,7 @@ export default {
       { text: 'Avg. Speed', value: 'averageSpeed' },
       { text: 'Max Speed', value: 'maxSpeed', class: ['d-none', 'd-xl-table-cell'] },
       { text: 'Avg. HeartRate', value: 'averageHeartRate', class: ['d-none', 'd-xl-table-cell'] },
+      { text: 'Calories', value: 'totalCalories', class: ['d-none', 'd-xl-table-cell'] },
     ],
   }),
   methods: {
@@ -88,6 +94,10 @@ export default {
     itemClasses(item) {
       if (this.isSelected(item)) return 'grey lighten-1';
       return '';
+    },
+    formatCalories(cals) {
+      if (!cals) return '-';
+      return `${cals} kcal`;
     },
   },
   computed: {

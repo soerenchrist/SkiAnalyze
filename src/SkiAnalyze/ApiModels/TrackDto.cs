@@ -10,6 +10,7 @@ public class TrackDto
     public double AverageSpeed { get; set; }
     public double? AverageHeartRate { get; set; }
     public int? MaxHeartRate { get; set; }
+    public int? TotalCalories { get; set; }
     public SkiAreaDto? SkiArea { get; set; }
     public DateTime Start { get; set; }
     public DateTime End { get; set; }

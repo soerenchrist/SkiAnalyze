@@ -11,6 +11,7 @@ public class Track : BaseEntity<int>
     public List<Run> Runs { get; set; } = new();
     public double TotalDistance { get; set; }
     public double TotalElevation { get; set; }
+    public int? TotalCalories { get; set; }
     public double MaxSpeed { get; set; }
     public double AverageSpeed { get; set; }
     public double? AverageHeartRate { get; set; }
