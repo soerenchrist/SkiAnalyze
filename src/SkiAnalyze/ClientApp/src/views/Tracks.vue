@@ -36,7 +36,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <add-track-dialog v-model="showCreateDialog" @addTrack="onAddTrack" />
+  <add-track-dialog v-model="showCreateDialog" @addTracks="onAddTracks" />
 </div>
 </template>
 
@@ -91,21 +91,55 @@ export default {
     },
     onBoundsUpdated(bounds) {
       this.bounds = bounds;
-      console.log(bounds);
     },
-    async onAddTrack(track) {
-      this.analysisPending = true;
-      const createdTrack = await DataService.createTrack(track);
-      await DataService.startAnalysis(createdTrack.id);
+    promiseTest() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(Math.random());
+        }, 2000);
+      });
+    },
+    waitForAnalysisFinish(trackId) {
+      return new Promise((resolve) => {
+        DataService.startAnalysis(trackId)
+          .then(() => {
+            const interval = setInterval(async () => {
+              const status = await DataService.getAnalysisStatus(trackId);
+              if (status.isFinished) {
+                clearInterval(interval);
+                resolve();
+              }
+            }, 1000);
+          });
+      });
+    },
+    async waitForTrackCreation(tracks) {
+      const promises = [];
 
-      const interval = setInterval(async () => {
-        const status = await DataService.getAnalysisStatus(createdTrack.id);
-        if (status.isFinished) {
-          this.analysisPending = false;
-          this.fetchTracks();
-          clearInterval(interval);
-        }
-      }, 1000);
+      for (let i = 0; i < tracks.length; i++) {
+        const track = tracks[i];
+        promises.push(DataService.createTrack(track));
+      }
+
+      const createdTracks = await Promise.all(promises);
+      return createdTracks;
+    },
+    async onAddTracks(tracks) {
+      this.analysisPending = true;
+
+      const allPromises = [];
+
+      // create all tracks in parallel
+      const createdTracks = await this.waitForTrackCreation(tracks);
+
+      // start analysis and wait for finish
+      for (let i = 0; i < createdTracks.length; i++) {
+        allPromises.push(this.waitForAnalysisFinish(createdTracks[i].id));
+      }
+
+      await Promise.all(allPromises);
+      this.analysisPending = false;
+      this.fetchTracks();
     },
   },
   mounted() {

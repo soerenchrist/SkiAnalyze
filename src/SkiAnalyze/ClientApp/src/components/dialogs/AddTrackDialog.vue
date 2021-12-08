@@ -10,8 +10,9 @@
         <v-file-input
           outlined
           dense
-          v-model="file"
-          label=".gpx or .fit file" />
+          multiple
+          v-model="files"
+          label="Add one or more .gpx or .fit file" />
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -34,7 +35,7 @@ export default {
     event: 'openChanged',
   },
   data: () => ({
-    file: null,
+    files: [],
     internalOpen: false,
   }),
   watch: {
@@ -47,17 +48,21 @@ export default {
   },
   computed: {
     canSave() {
-      return this.file !== null;
+      return this.files.length > 0;
     },
   },
   methods: {
     async onAdd() {
       this.internalOpen = false;
-      const track = {
-        file: this.file,
-        fileType: this.getFileType(this.file),
-      };
-      this.$emit('addTrack', track);
+      const tracks = [];
+      this.files.forEach((file) => {
+        const track = {
+          file,
+          fileType: this.getFileType(file),
+        };
+        tracks.push(track);
+      });
+      this.$emit('addTracks', tracks);
     },
     getFileType(file) {
       if (file.name.toLowerCase().endsWith('fit')) return 1;
