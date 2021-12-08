@@ -7,7 +7,7 @@ namespace SkiAnalyze.Core.Services.FileStrategies;
 
 public class FitFileParserStrategy : ITrackFileParserStrategy
 {
-    public List<Run> ReadFileContents(Stream fileContent)
+    public FileReadResult ReadFileContents(Stream fileContent)
     {
         FitDecoder decoder = new FitDecoder(fileContent, Dynastream.Fit.File.Activity);
 
@@ -17,8 +17,11 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
             throw new FitException("Could not decode activity");
 
         var runs = ReadRuns(decoder);
+        runs = runs.Where(x => x.Coordinates.Count > 0).ToList();
 
-        return runs.Where(x => x.Coordinates.Count > 0).ToList();
+        var name = decoder.Messages.Sessions[0].GetSport()?.ToString() ?? "";
+
+        return new FileReadResult(name, runs);
     }
 
     private List<Run> ReadRuns(FitDecoder decoder)

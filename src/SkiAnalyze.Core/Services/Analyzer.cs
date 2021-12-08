@@ -68,7 +68,11 @@ public class Analyzer : IAnalyzer
             var strategy = GetStrategy(track);
             var stream = new MemoryStream(track.FileContents);
 
-            var runs = strategy.ReadFileContents(stream);
+            var fileReadResult = strategy.ReadFileContents(stream);
+
+            track.Name = fileReadResult.TrackName;
+
+            var runs = fileReadResult.Runs;
             var trackPoints = runs.ToTrackPoints();
             var matcher = new MatchingService();
 
@@ -81,7 +85,6 @@ public class Analyzer : IAnalyzer
             {
                 if (run.Coordinates.Count < 2)
                     continue;
-                
             }
 
             track.Runs = runs.ToList();

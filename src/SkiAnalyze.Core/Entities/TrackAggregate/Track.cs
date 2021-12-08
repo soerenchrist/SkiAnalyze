@@ -5,7 +5,7 @@ namespace SkiAnalyze.Core.Entities.TrackAggregate;
 
 public class Track : BaseEntity<int>
 {
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
     public byte[] FileContents { get; set; } = default!;
     public TrackFileType FileType { get; set; }
     public List<Run> Runs { get; set; } = new();

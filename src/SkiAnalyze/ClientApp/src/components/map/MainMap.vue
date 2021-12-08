@@ -107,7 +107,6 @@ export default {
     },
     hoverMarkerPoint() {
       if (!this.hoverMarker) return null;
-      console.log(this.hoverMarker);
       return [this.hoverMarker.latitude, this.hoverMarker.longitude];
     },
   },

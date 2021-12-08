@@ -1,8 +1,8 @@
-﻿using SkiAnalyze.Core.Entities.TrackAggregate;
+﻿using SkiAnalyze.Core.Common;
 
 namespace SkiAnalyze.Core.Interfaces;
 
 public interface ITrackFileParserStrategy
 {
-    public List<Run> ReadFileContents(Stream fileContent);
+    public FileReadResult ReadFileContents(Stream fileContent);
 }

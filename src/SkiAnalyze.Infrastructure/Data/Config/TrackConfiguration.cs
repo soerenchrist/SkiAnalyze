@@ -13,7 +13,6 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
             .ValueGeneratedOnAdd();
 
         builder.Property(x => x.Name)
-            .IsRequired()
             .HasMaxLength(100);
 
         builder.HasMany(x => x.Runs)

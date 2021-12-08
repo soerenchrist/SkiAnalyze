@@ -9,7 +9,7 @@ namespace SkiAnalyze.Core.Services.FileStrategies;
 
 public class GpxFileParserStrategy : ITrackFileParserStrategy
 {
-    public List<Run> ReadFileContents(Stream stream)
+    public FileReadResult ReadFileContents(Stream stream)
     {
         var fileLoader = new GpxFileLoader();
         var gpxFile = fileLoader.LoadGpxFile(stream);
@@ -23,7 +23,8 @@ public class GpxFileParserStrategy : ITrackFileParserStrategy
             CalculateStatistics(run);
         }
 
-        return filteredRuns;
+        var trackName = gpxFile.Tracks.FirstOrDefault()?.Name ?? "";
+        return new FileReadResult(trackName, runs);
     }
 
     private void CalculateStatistics(Run run)

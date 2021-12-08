@@ -32,7 +32,6 @@ public class Create : BaseAsyncEndpoint
 
         var track = new Track
         {
-            Name = request.Name,
             FileContents = bytes,
             FileType = request.FileType,
         };

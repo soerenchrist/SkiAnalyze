@@ -7,11 +7,6 @@
         Add track
       </v-card-title>
       <v-card-text>
-        <v-text-field
-          v-model="name"
-          outlined
-          dense
-          label="Name" />
         <v-file-input
           outlined
           dense
@@ -40,7 +35,6 @@ export default {
   },
   data: () => ({
     file: null,
-    name: '',
     internalOpen: false,
   }),
   watch: {
@@ -53,14 +47,13 @@ export default {
   },
   computed: {
     canSave() {
-      return this.name.length > 0 && this.file !== null;
+      return this.file !== null;
     },
   },
   methods: {
     async onAdd() {
       this.internalOpen = false;
       const track = {
-        name: this.name,
         file: this.file,
         fileType: this.getFileType(this.file),
       };
