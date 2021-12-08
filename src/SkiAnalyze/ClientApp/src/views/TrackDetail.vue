@@ -24,6 +24,7 @@
               :runs="runs"
               :pistes="pistes"
               :gondola="gondola"
+              :hoverMarker="hoverMarkerPoint"
               @runSelected="onRunSelected"
               :selectedRun="selectedRun"
               :zoom="zoom" />
@@ -56,7 +57,10 @@
       <v-row>
         <v-col>
           <collapsable-card :title="chartsTitle" textClass="pa-0">
-            <height-profile :runs="runs" :selectedRun="selectedRun" />
+            <height-profile
+              :runs="runs"
+              :selectedRun="selectedRun"
+              @onHover="onHover" />
           </collapsable-card>
         </v-col>
       </v-row>
@@ -132,6 +136,7 @@ export default {
     gondola: null,
     loading: true,
     selectedProperty: 1,
+    hoverMarkerPoint: null,
     propertyItems: [
       { id: 1, name: 'Type', key: 'type' },
       { id: 2, name: 'Heating', key: 'heating' },
@@ -140,9 +145,7 @@ export default {
   }),
   methods: {
     async fetchTrack() {
-      this.loading = true;
       this.track = await DataService.getTrack(this.trackId);
-      this.loading = false;
     },
     async fetchAnalysisResult() {
       this.analysisResult = await DataService.getAnalysisResult(this.trackId);
@@ -170,6 +173,9 @@ export default {
     async onDelete() {
       await DataService.removeTrack(this.trackId);
       this.$router.go(-1);
+    },
+    onHover(point) {
+      this.hoverMarkerPoint = point;
     },
   },
   watch: {
@@ -213,9 +219,13 @@ export default {
       return this.propertyItems.filter((x) => x.id === this.selectedProperty)[0].key;
     },
   },
-  mounted() {
-    this.fetchTrack();
-    this.fetchAnalysisResult();
+  async mounted() {
+    const promises = [];
+    this.loading = true;
+    promises.push(this.fetchTrack());
+    promises.push(this.fetchAnalysisResult());
+    await Promise.all(promises);
+    this.loading = false;
   },
 };
 </script>

@@ -34,6 +34,8 @@
           <v-checkbox label="Show pistes" v-model="showPistes" class="ma-0" />
         </v-sheet>
     </l-control>
+
+    <l-marker v-if="hoverMarkerPoint" :latLng="hoverMarkerPoint" />
   </l-map>
 </template>
 
@@ -54,6 +56,7 @@ export default {
     center: Array,
     zoom: Number,
     bounds: Object,
+    hoverMarker: Object,
   },
   components: {
     LMap,
@@ -101,6 +104,11 @@ export default {
     },
     url() {
       return GeoHelper.url;
+    },
+    hoverMarkerPoint() {
+      if (!this.hoverMarker) return null;
+      console.log(this.hoverMarker);
+      return [this.hoverMarker.latitude, this.hoverMarker.longitude];
     },
   },
 };

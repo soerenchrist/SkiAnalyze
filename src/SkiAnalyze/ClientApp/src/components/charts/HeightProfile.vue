@@ -7,6 +7,8 @@
   :rows="rows"
   :primaryYAxis="primaryYAxis"
   :crosshair="crosshair"
+  @tooltipRender="mouseMove"
+  @chartMouseLeave="mouseLeave"
   :palettes="palettes"
   :tooltip="tooltip">
   <e-series-collection>
@@ -182,6 +184,8 @@ export default {
         arr.push({
           time: x.dateTime,
           elevation: x.elevation,
+          latitude: x.latitude,
+          longitude: x.longitude,
         });
       });
     },
@@ -196,12 +200,26 @@ export default {
     },
     getRunHeartRates(run, sampleFactor, arr) {
       run.coordinates.forEach((x, index) => {
-        if (index % this.sampleFactor === 0) return;
+        if (index % sampleFactor === 0) return;
         arr.push({
           time: x.dateTime,
           heartRate: x.heartRate,
         });
       });
+    },
+    mouseMove(args) {
+      if (args.series.yAxisName === 'elevationAxis') {
+        const { index } = args.point;
+        const realIndex = this.selectedRun && this.selectedRun.downhill
+          ? index
+          : Math.floor(index / this.sampleFactor);
+
+        const point = this.heightProfile[realIndex];
+        this.$emit('onHover', point);
+      }
+    },
+    mouseLeave() {
+      this.$emit('onHover', null);
     },
   },
   provide: {
