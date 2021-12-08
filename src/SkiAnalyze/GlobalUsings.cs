@@ -13,3 +13,4 @@ global using SkiAnalyze.Core.Entities.SkiAreaAggregate;
 global using SkiAnalyze.Core.Entities.PisteAggregate;
 global using SkiAnalyze.Core.Common;
 global using SkiAnalyze.Core.Services.Gpx;
+global using SkiAnalyze.ApiModels.Stats;

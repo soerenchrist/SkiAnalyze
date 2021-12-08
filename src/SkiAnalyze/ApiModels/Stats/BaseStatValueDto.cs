@@ -1,4 +1,4 @@
-﻿namespace SkiAnalyze.ApiModels;
+﻿namespace SkiAnalyze.ApiModels.Stats;
 
 public class BaseStatValueDto<TKey, TValue>
 {

@@ -2,7 +2,7 @@
   <div>
     <v-btn
       v-for="item in items"
-      :key="item.id"
+      :key="(`${item.id}_${item.name}`)"
       small
       class="mr-1"
       @click="() => itemClicked(item)"

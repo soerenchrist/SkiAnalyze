@@ -98,4 +98,14 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getTotals() {
+    const url = `${baseUrl}stats/totals`;
+    const response = await axios.get(url);
+    return response.data;
+  },
+  async getTimeline(propertyName, dateRange, year) {
+    const url = `${baseUrl}stats/timeline?byProperty=${propertyName}&dateRange=${dateRange}&year=${year}`;
+    const response = await axios.get(url);
+    return response.data;
+  },
 };
