@@ -3,13 +3,7 @@
     <v-card-title>
       Timeline
       <v-spacer />
-      <year-selector
-        v-if="selectedDateRange === 0"
-        :maxYear="new Date().getFullYear()"
-        :minYear="2000"
-        v-model="year" />
-      <v-divider class="d-none d-md-block mx-3" vertical v-if="selectedDateRange === 0" />
-      <button-bar class="d-none d-md-block" :items="dateRanges" v-model="selectedDateRange" />
+      <date-range-selector @dateChanged="onDatesChanged" />
       <v-divider class="d-none d-lg-block mx-3" vertical />
       <button-bar class="d-none d-lg-block" :items="propertyNames" v-model="selectedProperty" />
     </v-card-title>
@@ -41,14 +35,13 @@ import {
 } from '@syncfusion/ej2-vue-charts';
 import DataService from '../../services/DataService';
 import ButtonBar from '../common/ButtonBar.vue';
-import YearSelector from '../common/YearSelector.vue';
+import DateRangeSelector from '../common/DateRangeSelector.vue';
 
 export default {
-  components: { ButtonBar, YearSelector },
+  components: { ButtonBar, DateRangeSelector },
   data: () => ({
     selectedProperty: 0,
-    selectedDateRange: 0,
-    year: new Date().getFullYear(),
+    dateRange: null,
     timeline: [],
     tooltip: { enable: true },
     crosshair: { enable: true, lineType: 'Vertical' },
@@ -58,17 +51,13 @@ export default {
       { id: 1, name: 'Descent', key: 'elevation' },
       { id: 2, name: 'Calories', key: 'calories' },
     ],
-    dateRanges: [
-      { id: 0, name: 'One year', key: 'distance' },
-      { id: 1, name: '6 months', key: '6months' },
-      { id: 2, name: '3 months', key: '3months' },
-      { id: 3, name: '1 month', key: 'month' },
-      { id: 4, name: '1 week', key: 'week' },
-    ],
   }),
   methods: {
     async fetchTimeline() {
-      this.timeline = await DataService.getTimeline(this.propertyName, this.dateRange, this.year);
+      this.timeline = await DataService.getTimeline(this.propertyName, this.dateRange);
+    },
+    onDatesChanged(range) {
+      this.dateRange = range;
     },
   },
   computed: {
@@ -87,22 +76,11 @@ export default {
     propertyName() {
       return this.propertyNames[this.selectedProperty].key;
     },
-    dateRange() {
-      return this.dateRanges[this.selectedDateRange].key;
-    },
     xAxis() {
       return {
         valueType: 'DateTime',
-        intervalType: this.intervalType,
+        intervalType: 'Months',
       };
-    },
-    intervalType() {
-      switch (this.selectedDateRange) {
-        case 0:
-          return 'Months';
-        default:
-          return 'Days';
-      }
     },
     yAxisTitle() {
       switch (this.selectedProperty) {
@@ -126,7 +104,7 @@ export default {
     },
     yAxis() {
       return {
-        title: 'Distance over time',
+        title: this.yAxisTitle,
         labelFormat: this.format,
       };
     },
@@ -135,10 +113,10 @@ export default {
     selectedProperty() {
       this.fetchTimeline();
     },
-    selectedDateRange() {
+    year() {
       this.fetchTimeline();
     },
-    year() {
+    dateRange() {
       this.fetchTimeline();
     },
   },

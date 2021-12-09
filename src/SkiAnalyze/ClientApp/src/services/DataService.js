@@ -103,8 +103,11 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
-  async getTimeline(propertyName, dateRange, year) {
-    const url = `${baseUrl}stats/timeline?byProperty=${propertyName}&dateRange=${dateRange}&year=${year}`;
+  async getTimeline(propertyName, dateRange) {
+    let url = `${baseUrl}stats/timeline?byProperty=${propertyName}`;
+    if (dateRange && dateRange.length === 2) {
+      url += `&startDate=${dateRange[0].toISOString()}&endDate=${dateRange[1].toISOString()}`;
+    }
     const response = await axios.get(url);
     return response.data;
   },
