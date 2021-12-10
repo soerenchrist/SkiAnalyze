@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-overlay :value="loading">
-      <v-progress-circular
-        indeterminate
-        size="64" />
-    </v-overlay>
+    <loading-overlay :loading="loading" />
     <div  v-if="!loading">
       <v-row>
         <v-col>
@@ -108,7 +104,7 @@ import TrackStatCards from '../components/tracks/TrackStatCards.vue';
 import DataService from '../services/DataService';
 
 export default {
-  name: 'MapOverview',
+  name: 'TrackDetail',
   props: {
     trackId: String,
   },

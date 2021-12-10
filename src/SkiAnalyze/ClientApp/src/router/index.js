@@ -4,6 +4,7 @@ import Tracks from '../views/Tracks.vue';
 import TrackDetail from '../views/TrackDetail.vue';
 import SkiAreas from '../views/SkiAreas.vue';
 import Dashboard from '../views/Dashboard.vue';
+import SkiAreaDetail from '../views/SkiAreaDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,12 @@ const routes = [
     path: '/skiareas',
     name: 'SkiAreas',
     component: SkiAreas,
+  },
+  {
+    path: '/skiareas/:skiAreaId',
+    name: 'SkiAreaDetail',
+    component: SkiAreaDetail,
+    props: true,
   },
 ];
 

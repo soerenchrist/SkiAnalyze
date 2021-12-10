@@ -23,7 +23,8 @@
             {{marker.name}}
           </l-tooltip>
           <l-popup>
-            {{marker.name}}
+            <span class="font-weight-bold d-block mb-2">{{marker.name}}</span>
+            <v-btn small @click="showDetails(marker)">Show detail</v-btn>
           </l-popup>
         </l-marker>
         <l-polyline
@@ -44,6 +45,7 @@
 
 <script>
 import DataService from '../../services/DataService';
+import GeoHelper from '../../services/GeoHelper';
 
 export default {
   data: () => ({
@@ -52,9 +54,8 @@ export default {
     bounds: null,
     areas: [],
     details: [],
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution:
-        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    url: GeoHelper.url,
+    attribution: GeoHelper.attribution,
   }),
   watch: {
     bounds() {
@@ -66,6 +67,7 @@ export default {
       return this.areas.map((a) => ({
         latLng: [a.centerLatitude, a.centerLongitude],
         name: a.name,
+        area: a,
         id: `marker-${a.id}`,
       }));
     },
@@ -103,6 +105,9 @@ export default {
       });
 
       this.details = await Promise.all(promises);
+    },
+    showDetails(marker) {
+      this.$emit('showDetails', marker.area);
     },
     mapReady() {
       const bounds = this.$refs.map.mapObject.getBounds();
