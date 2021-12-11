@@ -2,7 +2,7 @@
 <div>
   <v-virtual-scroll
     :items="consolidatedPistes"
-    :item-height="50"
+    :item-height="55"
     height="530"
   >
     <template v-slot:default="{ item }">

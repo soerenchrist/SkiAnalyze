@@ -24,6 +24,7 @@
             <l-polyline
               v-for="gondola in gondolaPolylines"
               :key="`gondola-${gondola.id}`"
+              @click="onGondolaSelected(gondola.gondola)"
               :color="getGondolaColor(gondola)"
               :lat-lngs="gondola.latLngs"
               :weight="getGondolaWeight(gondola)" />
@@ -45,6 +46,7 @@
               <gondolas
                 :gondolas="gondolas"
                 :selectedGondola="selectedGondola"
+                @showDetails="onShowGondolaDetails"
                 @gondolaSelected="onGondolaSelected" />
             </v-card-text>
           </v-card>
@@ -64,6 +66,11 @@
         </v-col>
       </v-row>
     </div>
+    <v-dialog v-model="showGondolaInfo">
+      <v-card>
+      <gondola-details :gondola="detailInfoGondola" />
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -75,6 +82,7 @@ import GeoHelper from '../services/GeoHelper';
 import PistePolyline from '../components/map/PistePolyline.vue';
 import Gondolas from '../components/skiarea/Gondolas.vue';
 import Pistes from '../components/skiarea/Pistes.vue';
+import GondolaDetails from '../components/GondolaDetails.vue';
 
 export default {
   name: 'TrackDetail',
@@ -86,6 +94,7 @@ export default {
     PistePolyline,
     Gondolas,
     Pistes,
+    GondolaDetails,
   },
   data: () => ({
     loading: true,
@@ -94,6 +103,8 @@ export default {
     pistes: [],
     selectedGondola: null,
     selectedPiste: null,
+    showGondolaInfo: false,
+    detailInfoGondola: null,
   }),
   methods: {
     async fetchDetail() {
@@ -130,6 +141,10 @@ export default {
     },
     onPisteSelected(piste) {
       this.selectedPiste = piste;
+    },
+    onShowGondolaDetails(gondola) {
+      this.detailInfoGondola = gondola;
+      this.showGondolaInfo = true;
     },
     async loadData() {
       const promises = [];
@@ -168,6 +183,7 @@ export default {
       return this.gondolas.map((g) => ({
         name: g.name,
         id: g.id,
+        gondola: g,
         latLngs: g.coordinates.map((c) => [c.latitude, c.longitude]),
       }));
     },

@@ -3,8 +3,7 @@
   <v-virtual-scroll
     :items="sortedGondolas"
     :item-height="50"
-    height="530"
-  >
+    height="530">
     <template v-slot:default="{ item }">
       <v-list-item
         @click="() => itemSelected(item)"
@@ -20,6 +19,11 @@
             {{item.reference}}
           </v-list-item-subtitle>
         </v-list-item-content>
+        <v-list-item-action>
+          <v-btn icon @click="() => showDetails(item)">
+            <v-icon>mdi-information</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
     </template>
   </v-virtual-scroll>
@@ -50,6 +54,9 @@ export default {
       } else {
         this.$emit('gondolaSelected', gondola);
       }
+    },
+    showDetails(gondola) {
+      this.$emit('showDetails', gondola);
     },
     isSelected(gondola) {
       return gondola === this.selectedGondola;
