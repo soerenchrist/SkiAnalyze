@@ -12,14 +12,17 @@
 export default {
   props: {
     piste: Object,
+    isSelected: Boolean,
   },
   computed: {
     color() {
+      if (this.isSelected) return 'yellow';
       if (this.piste.difficulty <= 1) return 'blue';
       if (this.piste.difficulty === 2) return 'red';
       return 'black';
     },
     weight() {
+      if (this.isSelected) return 3;
       return 1;
     },
   },

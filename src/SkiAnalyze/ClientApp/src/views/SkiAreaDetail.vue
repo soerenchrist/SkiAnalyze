@@ -24,14 +24,43 @@
             <l-polyline
               v-for="gondola in gondolaPolylines"
               :key="`gondola-${gondola.id}`"
-              color="green"
+              :color="getGondolaColor(gondola)"
               :lat-lngs="gondola.latLngs"
-              :weight="2" />
+              :weight="getGondolaWeight(gondola)" />
             <piste-polyline
               :piste="piste"
+              :isSelected="isPisteSelected(piste)"
               v-for="piste in pistes"
               :key="`piste-${piste.id}`" />
           </l-map>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-card-title>
+              Gondolas
+            </v-card-title>
+            <v-card-text>
+              <gondolas
+                :gondolas="gondolas"
+                :selectedGondola="selectedGondola"
+                @gondolaSelected="onGondolaSelected" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card>
+            <v-card-title>
+              Pistes
+            </v-card-title>
+            <v-card-text>
+              <pistes
+                @pisteSelected="onPisteSelected"
+                :selectedPiste="selectedPiste"
+                :pistes="pistes" />
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
     </div>
@@ -44,6 +73,8 @@ import SkiAreaHeader from '../components/skiarea/SkiAreaHeader.vue';
 import DataService from '../services/DataService';
 import GeoHelper from '../services/GeoHelper';
 import PistePolyline from '../components/map/PistePolyline.vue';
+import Gondolas from '../components/skiarea/Gondolas.vue';
+import Pistes from '../components/skiarea/Pistes.vue';
 
 export default {
   name: 'TrackDetail',
@@ -53,12 +84,16 @@ export default {
   components: {
     SkiAreaHeader,
     PistePolyline,
+    Gondolas,
+    Pistes,
   },
   data: () => ({
     loading: true,
     skiArea: null,
     gondolas: [],
     pistes: [],
+    selectedGondola: null,
+    selectedPiste: null,
   }),
   methods: {
     async fetchDetail() {
@@ -86,10 +121,15 @@ export default {
     async fetchPistes() {
       this.pistes = await DataService.getPistesForSkiArea(this.skiAreaId);
     },
-    getPisteColor(piste) {
-      switch (piste.difficulty) {
-        default: return 'blue';
-      }
+    onGondolaSelected(gondola) {
+      this.selectedGondola = gondola;
+    },
+    isPisteSelected(piste) {
+      if (!this.selectedPiste) return false;
+      return this.selectedPiste.originals.includes(piste);
+    },
+    onPisteSelected(piste) {
+      this.selectedPiste = piste;
     },
     async loadData() {
       const promises = [];
@@ -100,6 +140,18 @@ export default {
 
       await Promise.all(promises);
       this.loading = false;
+    },
+    getGondolaWeight(gondola) {
+      if (this.selectedGondola && gondola.id === this.selectedGondola.id) {
+        return 4;
+      }
+      return 2;
+    },
+    getGondolaColor(gondola) {
+      if (this.selectedGondola && gondola.id === this.selectedGondola.id) {
+        return 'yellow';
+      }
+      return 'green';
     },
   },
   computed: {

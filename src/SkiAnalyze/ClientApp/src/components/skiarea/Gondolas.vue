@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-virtual-scroll
-    :items="sortedLifts"
+    :items="sortedGondolas"
     :item-height="50"
     height="530"
   >
@@ -29,12 +29,12 @@
 <script>
 export default {
   props: {
-    lifts: Array,
-    selectedLift: Object,
+    gondolas: Array,
+    selectedGondola: Object,
   },
   computed: {
-    sortedLifts() {
-      const copy = [...this.lifts];
+    sortedGondolas() {
+      const copy = [...this.gondolas];
       copy.sort((x, y) => {
         if (x.reference < y.reference) { return -1; }
         if (x.reference > y.reference) { return 1; }
@@ -44,11 +44,15 @@ export default {
     },
   },
   methods: {
-    itemSelected(lift) {
-      this.$emit('liftSelected', lift);
+    itemSelected(gondola) {
+      if (gondola === this.selectedGondola) {
+        this.$emit('gondolaSelected', null);
+      } else {
+        this.$emit('gondolaSelected', gondola);
+      }
     },
-    isSelected(lift) {
-      return lift === this.selectedLift;
+    isSelected(gondola) {
+      return gondola === this.selectedGondola;
     },
   },
 };
