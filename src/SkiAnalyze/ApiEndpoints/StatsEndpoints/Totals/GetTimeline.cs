@@ -37,7 +37,7 @@ public class GetTimeline : BaseAsyncEndpoint
 
         var stepInDays = difference switch
         {
-            < 7 => 1,
+            < 30 => 1,
             < 50 => 7,
             _ => 30,
         };
@@ -51,7 +51,7 @@ public class GetTimeline : BaseAsyncEndpoint
 
         var results = new List<BaseStatValueDto<DateTime, double>>();
         var startOfRange = startDate;
-        while(startOfRange < endDate)
+        while(startOfRange <= endDate)
         {
             var endOfRange = startOfRange.AddDays(stepInDays);
             
