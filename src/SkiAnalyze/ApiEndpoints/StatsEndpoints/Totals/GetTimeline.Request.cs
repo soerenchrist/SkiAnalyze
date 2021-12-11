@@ -2,7 +2,7 @@
 
 public class GetTimelineRequest
 {
+    [FromQuery] public DateTime? EndDate { get; set; }
+    [FromQuery] public DateTime? StartDate { get; set; }
     [FromQuery] public string ByProperty { get; set; } = "distance";
-    [FromQuery] public string DateRange { get; set; } = "year";
-    [FromQuery] public int Year { get; set; } = DateTime.Now.Year;
 }

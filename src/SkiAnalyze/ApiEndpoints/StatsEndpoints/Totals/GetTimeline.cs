@@ -15,14 +15,31 @@ public class GetTimeline : BaseAsyncEndpoint
     public override async Task<ActionResult<List<BaseStatValueDto<DateTime, double>>>> HandleAsync([FromQuery] GetTimelineRequest request, CancellationToken cancellationToken = default)
     {
         var today = DateTime.Today;
-        var (startDate, endDate, stepInDays) = (request.DateRange, request.Year) switch
+        DateTime startDate, endDate;
+
+        if (request.EndDate == null)
         {
-            ("week", _) => (today.AddDays(-7), today, 1),
-            ("month", _) => (today.AddDays(-90), today, 1),
-            ("3month", _) => (today.AddDays(-90), today, 7),
-            ("6month", _) => (today.AddDays(-120), today, 7),
-            (_, int year) when year < DateTime.Now.Year => (new DateTime(year, 1, 1), new DateTime(year, 12, 31), 30), 
-            _ => (today.AddDays(-365), today, 30) // "year"
+            endDate = today;
+        } else
+        {
+            endDate = request.EndDate.Value;
+        }
+
+        if (request.StartDate == null)
+        {
+            startDate = endDate.AddDays(-365);
+        } else
+        {
+            startDate = request.StartDate.Value;
+        }
+
+        var difference = (endDate - startDate).Days;
+
+        var stepInDays = difference switch
+        {
+            < 7 => 1,
+            < 50 => 7,
+            _ => 30,
         };
 
         Func<Track, double> selector = request.ByProperty switch
