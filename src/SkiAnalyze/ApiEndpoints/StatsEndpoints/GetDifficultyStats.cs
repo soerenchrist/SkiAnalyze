@@ -7,12 +7,15 @@ public class GetDifficultyStats : BaseAsyncEndpoint
     .WithResponse<List<BaseStatValueDto<PisteDifficulty, double>>>
 {
     private readonly IStatsService _statsService;
+    private readonly IReadRepository<Track> _trackRepository;
     private readonly IMapper _mapper;
 
     public GetDifficultyStats(IStatsService statsService,
-        IMapper mapper)
+        IMapper mapper,
+        IReadRepository<Track> trackRepository)
     {
         _statsService = statsService;
+        _trackRepository = trackRepository;
         _mapper = mapper;
     }
 
@@ -24,7 +27,9 @@ public class GetDifficultyStats : BaseAsyncEndpoint
     ]
     public override async Task<ActionResult<List<BaseStatValueDto<PisteDifficulty, double>>>> HandleAsync([FromRoute] GetDifficultyStatsRequest request, CancellationToken cancellationToken = default)
     {
-
+        var track = await _trackRepository.GetByIdAsync(request.TrackId);
+        if (track == null)
+            return NotFound();
         var result = await _statsService.GetDifficultyStats(request.TrackId);
         var dtos = _mapper.Map<List<BaseStatValueDto<PisteDifficulty, double>>>(result);
         return Ok(dtos);

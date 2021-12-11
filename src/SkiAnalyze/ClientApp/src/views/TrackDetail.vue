@@ -141,10 +141,19 @@ export default {
   }),
   methods: {
     async fetchTrack() {
-      this.track = await DataService.getTrack(this.trackId);
+      const response = await DataService.getTrack(this.trackId);
+      if (response.status === 404) {
+        this.$router.push('/404');
+      } else {
+        this.track = response;
+      }
     },
     async fetchAnalysisResult() {
-      this.analysisResult = await DataService.getAnalysisResult(this.trackId);
+      const response = await DataService.getAnalysisResult(this.trackId);
+      if (response.status === 404) {
+        return;
+      }
+      this.analysisResult = response;
     },
     async fetchGondolaDetails(id) {
       this.gondola = await DataService.getGondola(id);

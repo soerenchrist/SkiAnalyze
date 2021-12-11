@@ -7,6 +7,7 @@
     :loading="loading"
     :hide-default-footer="hideFooter"
     :hide-default-header="hideHeader"
+    :disable-pagination="true"
     :item-class="itemClasses"
   >
     <template v-slot:item.date="{ item }">

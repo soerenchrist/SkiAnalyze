@@ -5,6 +5,7 @@ import TrackDetail from '../views/TrackDetail.vue';
 import SkiAreas from '../views/SkiAreas.vue';
 import Dashboard from '../views/Dashboard.vue';
 import SkiAreaDetail from '../views/SkiAreaDetail.vue';
+import NotFound from '../views/NotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,8 @@ const routes = [
     component: SkiAreaDetail,
     props: true,
   },
+  { path: '/404', component: NotFound },
+  { path: '*', redirect: '/404' },
 ];
 
 const router = new VueRouter({

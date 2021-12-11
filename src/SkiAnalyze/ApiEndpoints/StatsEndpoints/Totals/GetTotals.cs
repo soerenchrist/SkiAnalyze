@@ -20,6 +20,12 @@ public class GetTotals : BaseAsyncEndpoint
         var trackCount = await _tracksRepository.CountAsync(cancellationToken);
         var runs = await _runRepository.ListAsync(cancellationToken);
 
+        var maxSpeed = 0;
+        try
+        {
+            runs.Max(x => x.MaxSpeed);
+        } catch(InvalidOperationException) { }
+
         return new TotalsDto
         {
             TotalDistance = runs.Sum(x => x.TotalDistance),
@@ -27,7 +33,7 @@ public class GetTotals : BaseAsyncEndpoint
             TotalRuns = runs.Where(x => x.Downhill).Count(),
             TotalGondolas = runs.Where(x => !x.Downhill).Count(),
             TotalTracks = trackCount,
-            MaxSpeed = runs.Max(x => x.MaxSpeed),
+            MaxSpeed = maxSpeed,
             TotalCalories = runs.Sum(x => x.TotalCalories) ?? 0
         };
     }

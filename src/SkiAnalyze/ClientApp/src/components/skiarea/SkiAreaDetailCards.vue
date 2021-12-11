@@ -84,7 +84,6 @@ export default {
         value.value = value.value.toFixed(2);
         this.series.push(value);
       });
-      console.log(this.series);
     },
     getName(key) {
       switch (key) {

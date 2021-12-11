@@ -83,7 +83,7 @@ import GeoHelper from '../services/GeoHelper';
 import PistePolyline from '../components/map/PistePolyline.vue';
 import Gondolas from '../components/skiarea/Gondolas.vue';
 import Pistes from '../components/skiarea/Pistes.vue';
-import GondolaDetails from '../components/GondolaDetails.vue';
+import GondolaDetails from '../components/skiarea/GondolaDetails.vue';
 import SkiAreaDetailCards from '../components/skiarea/SkiAreaDetailCards.vue';
 
 export default {
@@ -111,7 +111,12 @@ export default {
   }),
   methods: {
     async fetchDetail() {
-      this.skiArea = await DataService.getSkiArea(this.skiAreaId);
+      const response = await DataService.getSkiArea(this.skiAreaId);
+      if (response.status === 404) {
+        this.$router.push('/404');
+      } else {
+        this.skiArea = response;
+      }
     },
     onMapReady() {
       if (this.skiArea) {
