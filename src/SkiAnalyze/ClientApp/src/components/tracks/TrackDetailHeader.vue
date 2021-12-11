@@ -3,7 +3,8 @@
   <div>
     <div class="text-h4">{{track.name}}</div>
     <div class="text-subtitle-1">
-      {{formatDate(track.date)}} @ {{formatTime(track.start)}} in {{track.skiArea.name}}
+      {{formatDate(track.date)}} @ {{formatTime(track.start)}} in
+      <a @click="showSkiArea" class="link">{{track.skiArea.name}}</a>
     </div>
   </div>
   <div>
@@ -43,6 +44,15 @@ export default {
     onDeleteClick() {
       this.$emit('delete');
     },
+    showSkiArea() {
+      this.$emit('showSkiArea', this.track.skiArea);
+    },
   },
 };
 </script>
+
+<style>
+.link {
+  cursor: pointer;
+}
+</style>

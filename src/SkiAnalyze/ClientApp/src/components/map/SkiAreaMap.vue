@@ -11,7 +11,7 @@
         :zoom.sync="zoom"
         :center="center"
         :bounds.sync="bounds"
-        :minZoom="11">
+        :minZoom="10">
         <l-tile-layer
           :url="url"
           :attribution="attribution" />
@@ -24,7 +24,7 @@
           </l-tooltip>
           <l-popup>
             <span class="font-weight-bold d-block mb-2">{{marker.name}}</span>
-            <v-btn small @click="showDetails(marker)">Show detail</v-btn>
+            <v-btn small color="primary" @click="showDetails(marker)">Show detail</v-btn>
           </l-popup>
         </l-marker>
         <l-polyline
@@ -35,7 +35,8 @@
           fillColor="orange"
           color="orange">
           <l-popup>
-            {{polyline.name}}
+            <span class="font-weight-bold d-block mb-2">{{polyline.name}}</span>
+            <v-btn small color="primary" @click="showDetails(polyline)">Show detail</v-btn>
           </l-popup>
         </l-polyline>
       </l-map>
@@ -75,6 +76,7 @@ export default {
       return this.details.map((d) => ({
         id: `poly-${d.id}`,
         name: d.name,
+        area: d,
         latLngs: d.nodes.map((node) => [node.latitude, node.longitude]),
       }));
     },

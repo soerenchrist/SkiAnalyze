@@ -4,7 +4,7 @@
     <div  v-if="!loading">
       <v-row>
         <v-col>
-          <track-detail-header @delete="onDelete" :track="track" />
+          <track-detail-header @delete="onDelete" @showSkiArea="onShowSkiArea" :track="track" />
         </v-col>
       </v-row>
       <track-stat-cards :track="track" />
@@ -164,6 +164,9 @@ export default {
       if (this.selectedRun && !this.selectedRun.downhill) {
         this.fetchGondolaDetails(this.selectedRun.gondola.id);
       }
+    },
+    onShowSkiArea(skiArea) {
+      this.$router.push(`/skiareas/${skiArea.id}`);
     },
     toggleExpandRuns() {
       this.runsExpanded = !this.runsExpanded;
