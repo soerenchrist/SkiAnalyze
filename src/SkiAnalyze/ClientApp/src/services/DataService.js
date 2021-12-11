@@ -98,6 +98,16 @@ export default {
     const response = await axios.get(url);
     return response.data;
   },
+  async getGondolasForSkiArea(id) {
+    const url = `${baseUrl}skiareas/${id}/gondolas`;
+    const response = await axios.get(url);
+    return response.data;
+  },
+  async getPistesForSkiArea(id) {
+    const url = `${baseUrl}skiareas/${id}/pistes`;
+    const response = await axios.get(url);
+    return response.data;
+  },
   async getTotals() {
     const url = `${baseUrl}stats/totals`;
     const response = await axios.get(url);
