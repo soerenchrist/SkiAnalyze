@@ -41,7 +41,7 @@
         <v-col>
           <v-card>
             <v-card-title>
-              Gondolas
+              {{$t('skiarea.gondolas')}}
             </v-card-title>
             <v-card-text>
               <gondolas
@@ -55,7 +55,7 @@
         <v-col>
           <v-card>
             <v-card-title>
-              Pistes
+              {{$t('skiarea.pistes')}}
             </v-card-title>
             <v-card-text>
               <pistes

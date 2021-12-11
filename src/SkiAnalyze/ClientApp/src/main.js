@@ -7,6 +7,7 @@ import { Icon } from 'leaflet';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import initI18n from './plugins/i18n';
 import vuetify from './plugins/vuetify';
 import registerCommonComponents from './commonComponents';
 
@@ -22,7 +23,10 @@ Vue.config.productionTip = false;
 
 registerCommonComponents(Vue);
 
+const i18n = initI18n(Vue);
+
 new Vue({
+  i18n,
   router,
   store,
   vuetify,

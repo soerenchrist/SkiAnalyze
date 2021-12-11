@@ -10,7 +10,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="lowerRange"
-          label="From"
+          :label="$t('common.from')"
           prepend-icon="mdi-calendar"
           v-bind="attrs"
           hide-details
@@ -35,7 +35,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="upperRange"
-          label="To"
+          :label="$t('common.to')"
           prepend-icon="mdi-calendar"
           v-bind="attrs"
           dense

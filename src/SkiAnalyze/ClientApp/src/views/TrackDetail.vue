@@ -12,7 +12,7 @@
         <v-col
           :xs="12"
           :lg="mapCols">
-          <collapsable-card title="Map" textClass="pa-0">
+          <collapsable-card :title="$t('tracks.map')" textClass="pa-0">
             <main-map
               ref="mapRef"
               :center="center"
@@ -62,14 +62,14 @@
       </v-row>
       <v-row>
         <v-col :cols="4">
-          <collapsable-card title="Piste difficulties">
+          <collapsable-card :title="$t('tracks.pisteDifficulties')">
             <difficulty-pie-chart
               :showLegend="true"
               :trackId="parseInt(trackId)" />
           </collapsable-card>
         </v-col>
         <v-col :cols="4">
-          <collapsable-card title="Gondola types">
+          <collapsable-card :title="$t('tracks.gondolaTypes')">
             <template slot="headerButtons">
               <button-bar v-model="selectedProperty" :items="propertyItems" />
             </template>
@@ -80,7 +80,7 @@
           </collapsable-card>
         </v-col>
         <v-col :cols="4">
-          <collapsable-card title="Heart rate average">
+          <collapsable-card :title="$t('tracks.heartRateAverage')">
             <heart-rate-averages
               :trackId="parseInt(trackId)" />
           </collapsable-card>
@@ -133,11 +133,7 @@ export default {
     loading: true,
     selectedProperty: 1,
     hoverMarkerPoint: null,
-    propertyItems: [
-      { id: 1, name: 'Type', key: 'type' },
-      { id: 2, name: 'Heating', key: 'heating' },
-      { id: 3, name: 'Occupancy', key: 'occupancy' },
-    ],
+    propertyItems: [],
   }),
   methods: {
     async fetchTrack() {
@@ -205,12 +201,12 @@ export default {
       return this.runs.filter((x) => x.downhill);
     },
     runsTitle() {
-      return `Runs (${this.downhillRuns.length})`;
+      return `${this.$t('tracks.runs')} (${this.downhillRuns.length})`;
     },
     chartsTitle() {
-      const title = 'Charts';
+      const title = this.$t('tracks.charts');
       if (this.selectedRun && this.selectedRun.downhill) {
-        return `${title} - Descent ${this.selectedRun.number}`;
+        return `${title} - ${this.$t('tracks.run')} ${this.selectedRun.number}`;
       }
       return title;
     },
@@ -228,6 +224,11 @@ export default {
     },
   },
   async mounted() {
+    this.propertyItems = [
+      { id: 1, name: this.$t('gondola.type'), key: 'type' },
+      { id: 2, name: this.$t('gondola.heating'), key: 'heating' },
+      { id: 3, name: this.$t('gondola.occupancy'), key: 'occupancy' },
+    ];
     const promises = [];
     this.loading = true;
     promises.push(this.fetchTrack());

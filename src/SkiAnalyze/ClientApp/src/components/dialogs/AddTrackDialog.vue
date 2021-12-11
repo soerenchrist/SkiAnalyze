@@ -1,10 +1,10 @@
 <template>
   <v-dialog
-    max-width="300"
+    max-width="500"
     v-model="internalOpen">
-    <v-card style="width: 300px">
+    <v-card style="width: 500px">
       <v-card-title>
-        Add track
+        {{$t('tracks.addTrack')}}
       </v-card-title>
       <v-card-text>
         <v-file-input
@@ -12,7 +12,7 @@
           dense
           multiple
           v-model="files"
-          label="Add one or more .gpx or .fit file" />
+          :label="$t('tracks.addTrackFiles')" />
       </v-card-text>
       <v-card-actions>
         <v-spacer />

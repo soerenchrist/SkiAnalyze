@@ -11,7 +11,7 @@
     :item-class="itemClasses"
   >
     <template v-slot:item.date="{ item }">
-      {{ formatDate(item.date) }}
+      {{ $d(new Date(item.date), 'short') }}
     </template>
     <template v-slot:item.totalDistance="{ item }">
       {{ formatDistance(item.totalDistance) }}
@@ -58,18 +58,21 @@ export default {
     },
   },
   data: () => ({
-    headers: [
-      { text: 'Name', value: 'name' },
-      { text: 'Ski area', value: 'skiArea.name' },
-      { text: 'Date', value: 'date' },
-      { text: 'Distance', value: 'totalDistance' },
-      { text: 'Elevation', value: 'totalElevation' },
-      { text: 'Avg. Speed', value: 'averageSpeed' },
-      { text: 'Max Speed', value: 'maxSpeed', class: ['d-none', 'd-xl-table-cell'] },
-      { text: 'Avg. HeartRate', value: 'averageHeartRate', class: ['d-none', 'd-xl-table-cell'] },
-      { text: 'Calories', value: 'totalCalories', class: ['d-none', 'd-xl-table-cell'] },
-    ],
+    headers: [],
   }),
+  mounted() {
+    this.headers = [
+      { text: 'Name', value: 'name' },
+      { text: this.$i18n.t('tracks.skiarea'), value: 'skiArea.name' },
+      { text: this.$i18n.t('tracks.date'), value: 'date' },
+      { text: this.$i18n.t('tracks.distance'), value: 'totalDistance' },
+      { text: this.$i18n.t('tracks.elevation'), value: 'totalElevation' },
+      { text: this.$i18n.t('tracks.avgSpeed'), value: 'averageSpeed' },
+      { text: this.$i18n.t('tracks.maxSpeed'), value: 'maxSpeed', class: ['d-none', 'd-xl-table-cell'] },
+      { text: this.$i18n.t('tracks.avgHeartRate'), value: 'averageHeartRate', class: ['d-none', 'd-xl-table-cell'] },
+      { text: this.$i18n.t('tracks.calories'), value: 'totalCalories', class: ['d-none', 'd-xl-table-cell'] },
+    ];
+  },
   methods: {
     isSelected(track) {
       return this.selectedTrack && this.selectedTrack.id === track.id;

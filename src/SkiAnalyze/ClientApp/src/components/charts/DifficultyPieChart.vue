@@ -51,10 +51,10 @@ export default {
     },
     getName(key) {
       switch (key) {
-        case 0: return 'Easy';
-        case 1: return 'Novice';
-        case 2: return 'Intermediate';
-        default: return 'Advanced';
+        case 0: return this.$t('pistes.easy');
+        case 1: return this.$t('pistes.novice');
+        case 2: return this.$t('pistes.intermediate');
+        default: return this.$t('pistes.advanced');
       }
     },
   },

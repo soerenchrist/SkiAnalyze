@@ -4,21 +4,21 @@
       <track-stat-card
         :value="gondolas.length"
         :floatingPoints="0"
-        title="Number of Gondolas" />
+        :title="$t('skiarea.numberOfGondolas')" />
     </v-col>
     <v-col>
       <track-stat-card
         :value="totalPisteLength"
         :floatingPoints="0"
         unit="km"
-        title="Length of pistes" />
+        :title="$t('skiarea.lengthOfPistes')" />
     </v-col>
     <v-col>
       <track-stat-card
         :value="totalGondolaLength"
         :floatingPoints="0"
         unit="km"
-        title="Length of gondolas" />
+        :title="$t('skiarea.lengthOfGondolas')" />
     </v-col>
     <v-col>
       <v-card>

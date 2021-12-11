@@ -30,8 +30,8 @@
           elevation="3"
           rounded="md"
           class="controlSheet" >
-          <v-checkbox label="Show run numbers" v-model="showRunNumbers" class="ma-0" />
-          <v-checkbox label="Show pistes" v-model="showPistes" class="ma-0" />
+          <v-checkbox :label="$t('tracks.showRunNumbers')" v-model="showRunNumbers" class="ma-0" />
+          <v-checkbox :label="$t('tracks.showPistes')" v-model="showPistes" class="ma-0" />
         </v-sheet>
     </l-control>
 

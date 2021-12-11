@@ -7,7 +7,6 @@
       <h1>SkiAnalyze</h1>
     </v-sheet>
     <v-divider />
-
     <v-list>
       <v-list-item
           v-for="link in links"
@@ -24,6 +23,16 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <template v-slot:append>
+      <v-select :items="languages"
+        v-model="selectedLanguage"
+        outlined
+        :hide-details="true"
+        dense
+        class="ma-4">
+
+      </v-select>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -33,7 +42,12 @@ import { SET_NAVIGATION_DRAWER } from '../../store/mutations';
 export default {
   data: () => ({
     drawer: null,
-    links: [
+    selectedLanguage: 'English',
+    languages: ['English', 'Deutsch'],
+    links: [],
+  }),
+  mounted() {
+    this.links = [
       {
         icon: 'mdi-home',
         name: 'Dashboard',
@@ -46,11 +60,22 @@ export default {
       },
       {
         icon: 'mdi-map-marker-radius',
-        name: 'Ski areas',
+        name: this.$i18n.t('menu.skiareas'),
         link: '/skiareas',
       },
-    ],
-  }),
+    ];
+    const lang = this.loadLanguage();
+    switch (lang) {
+      case 'de':
+        this.$i18n.locale = 'de';
+        this.selectedLanguage = 'Deutsch';
+        break;
+      default:
+        this.$i18n.locale = 'en';
+        this.selectedLanguage = 'English';
+        break;
+    }
+  },
   watch: {
     drawer() {
       if (this.drawer !== this.storeDrawer) {
@@ -60,6 +85,30 @@ export default {
     storeDrawer() {
       if (this.drawer !== this.storeDrawer) {
         this.drawer = this.storeDrawer;
+      }
+    },
+    selectedLanguage() {
+      this.saveLanguage();
+    },
+  },
+  methods: {
+    loadLanguage() {
+      const language = localStorage.getItem('skianalyze-lang');
+      if (language === undefined || language === null) {
+        return 'en';
+      }
+      return language;
+    },
+    saveLanguage() {
+      switch (this.selectedLanguage) {
+        case 'Deutsch':
+          localStorage.setItem('skianalyze-lang', 'de');
+          this.$i18n.locale = 'de';
+          break;
+        default:
+          localStorage.setItem('skianalyze-lang', 'en');
+          this.$i18n.locale = 'en';
+          break;
       }
     },
   },

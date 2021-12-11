@@ -65,9 +65,11 @@ export default {
     },
     getName(key) {
       switch (key) {
-        case 'chair_lift': return 'Chair lift';
-        case 'gondola': return 'Gondola';
-        case 'cable_car': return 'Cable car';
+        case 'chair_lift': return this.$t('gondola.chairLift');
+        case 'gondola': return this.$t('gondola.gondola');
+        case 'cable_car': return this.$t('gondola.cableCar');
+        case 'platter': return this.$t('gondola.platter');
+        case 'magic-carpet': return this.$t('gondola.magicCarpet');
         default: return key;
       }
     },

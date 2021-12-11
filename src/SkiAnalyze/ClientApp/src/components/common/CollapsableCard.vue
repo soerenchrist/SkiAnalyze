@@ -44,7 +44,7 @@ export default {
       return `transition-fast-in-fast-out v-card--reveal ${this.textClass}`;
     },
     tooltipText() {
-      return this.isExpanded ? 'Collapse card' : 'Expand card';
+      return this.isExpanded ? this.$t('common.collapseCard') : this.$t('common.expandCard');
     },
   },
   methods: {

@@ -3,7 +3,7 @@
   <div>
     <div class="text-h4">{{track.name}}</div>
     <div class="text-subtitle-1">
-      {{formatDate(track.date)}} @ {{formatTime(track.start)}} in
+      {{$d(new Date(track.date), 'short')}} @ {{formatTime(track.start)}} in
       <a @click="showSkiArea" class="link">{{track.skiArea.name}}</a>
     </div>
   </div>
@@ -20,7 +20,7 @@
             <v-icon>mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Delete Track</v-list-item-title>
+            <v-list-item-title>{{$t('tracks.delete')}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -35,9 +35,6 @@ export default {
     track: Object,
   },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleDateString('en-US');
-    },
     formatTime(date) {
       return new Date(date).toTimeString().split(' ')[0];
     },

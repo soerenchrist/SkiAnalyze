@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-4">
     <v-card-title>
-      Ski areas
+      {{$t('menu.skiareas')}}
     </v-card-title>
     <v-card-text class="pa-0">
       <l-map
@@ -24,7 +24,9 @@
           </l-tooltip>
           <l-popup>
             <span class="font-weight-bold d-block mb-2">{{marker.name}}</span>
-            <v-btn small color="primary" @click="showDetails(marker)">Show detail</v-btn>
+            <v-btn small color="primary" @click="showDetails(marker)">
+              {{$t('skiarea.showDetails')}}
+            </v-btn>
           </l-popup>
         </l-marker>
         <l-polyline

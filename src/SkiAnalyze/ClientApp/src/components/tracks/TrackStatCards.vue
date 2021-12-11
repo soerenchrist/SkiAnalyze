@@ -6,7 +6,7 @@
       :md="4"
       :lg="2">
       <track-stat-card
-        title="Distance"
+        :title="$t('tracks.distance')"
         unit="km"
         :value="track.totalDistance/1000" />
     </v-col>
@@ -16,7 +16,7 @@
       :md="4"
       :lg="2">
       <track-stat-card
-        title="Descent"
+        :title="$t('tracks.elevation')"
         unit="m"
         :floatingPoints="0"
         :value="-1 * track.totalElevation" />
@@ -27,7 +27,7 @@
       :md="4"
       :lg="2">
       <track-stat-card
-        title="Max speed"
+        :title="$t('tracks.maxSpeed')"
         unit="km/h"
         :floatingPoints="1"
         :value="track.maxSpeed * 3.6" />
@@ -38,7 +38,7 @@
       :md="4"
       :lg="2">
       <track-stat-card
-        title="Average speed"
+        :title="$t('tracks.avgSpeed')"
         unit="km/h"
         :floatingPoints="1"
         :value="track.averageSpeed * 3.6" />
@@ -49,7 +49,7 @@
       :md="4"
       :lg="2">
       <track-stat-card
-        title="Average Heart rate"
+        :title="$t('tracks.avgHeartRate')"
         unit="bpm"
         :floatingPoints="0"
         :value="track.averageHeartRate" />
@@ -60,7 +60,7 @@
       :md="4"
       :lg="2">
       <track-stat-card
-        title="Max Heart rate"
+        :title="$t('tracks.maxHeartRate')"
         unit="bpm"
         :floatingPoints="0"
         :value="track.maxHeartRate" />

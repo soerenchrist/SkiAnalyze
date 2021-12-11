@@ -7,11 +7,21 @@
     <v-col>
       <v-card>
         <v-card-title>
-          Your tracks
+          {{$t('tracks.yourTracks')}}
           <v-spacer />
-          <v-btn icon @click="mapMode = !mapMode">
-            <v-icon>{{icon}}</v-icon>
-          </v-btn>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="mapMode = !mapMode">
+                <v-icon>{{icon}}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{$t('tracks.showMap')}}</span>
+          </v-tooltip>
         </v-card-title>
         <v-card-text>
           <tracks-data-table
@@ -20,13 +30,13 @@
             @trackSelected="onTrackSelected" />
         </v-card-text>
         <v-card-actions>
-          <v-btn text @click="addTrack">Add track</v-btn>
+          <v-btn text @click="addTrack">{{$t('tracks.addTrack')}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
     <v-col v-if="mapMode">
       <v-card>
-        <v-card-title>Map</v-card-title>
+        <v-card-title>{{$t('tracks.map')}}</v-card-title>
         <v-card-text class="pa-0">
           <track-overview-map
             v-model="syncMapAndList"

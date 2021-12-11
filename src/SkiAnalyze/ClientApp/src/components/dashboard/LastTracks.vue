@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Last tracks</v-card-title>
+    <v-card-title>{{$t('dashboard.lastTracks')}}</v-card-title>
     <v-card-text>
       <tracks-data-table
         :loading="loading"

@@ -20,10 +20,10 @@ public class GetTotals : BaseAsyncEndpoint
         var trackCount = await _tracksRepository.CountAsync(cancellationToken);
         var runs = await _runRepository.ListAsync(cancellationToken);
 
-        var maxSpeed = 0;
+        var maxSpeed = 0.0;
         try
         {
-            runs.Max(x => x.MaxSpeed);
+            maxSpeed = runs.Max(x => x.MaxSpeed);
         } catch(InvalidOperationException) { }
 
         return new TotalsDto

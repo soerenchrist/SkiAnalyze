@@ -19,7 +19,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-if="item.downhill">
-              Descent {{item.number}}
+              {{$t('tracks.run')}} {{item.number}}
             </v-list-item-title>
             <v-list-item-title v-else>
               {{item.gondola.name}}

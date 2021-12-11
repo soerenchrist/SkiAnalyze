@@ -14,7 +14,7 @@
           elevation="3"
           rounded="md"
           class="controlSheet" >
-          <v-checkbox label="Sync list and map" v-model="internalSync" class="ma-0" />
+          <v-checkbox :label="$t('tracks.syncMap')" v-model="internalSync" class="ma-0" />
         </v-sheet>
     </l-control>
   </l-map>

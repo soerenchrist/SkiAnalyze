@@ -24,18 +24,24 @@ export default {
     trackId: Number,
   },
   data: () => ({
-    xAxis: {
-      valueType: 'Category',
-      title: 'Piste difficulty',
-    },
-    yAxis: {
-      title: 'Average Heart rate',
-    },
     tooltip: {
       enable: true,
     },
     seriesData: [],
   }),
+  computed: {
+    yAxis() {
+      return {
+        title: this.$t('tracks.avgHeartRate'),
+      };
+    },
+    xAxis() {
+      return {
+        valueType: 'Category',
+        title: this.$t('tracks.pisteDifficulties'),
+      };
+    },
+  },
   methods: {
     async fetchStats() {
       const stats = await DataService.getHeartRatesPerPisteDifficulty(this.trackId);
@@ -46,16 +52,16 @@ export default {
     },
     pointRender(args) {
       switch (args.point.x) {
-        case 'Easy':
+        case this.$t('pistes.easy'):
           args.fill = '#3F51B5';
           break;
-        case 'Novice':
+        case this.$t('pistes.novice'):
           args.fill = '#2196F3';
           break;
-        case 'Intermediate':
+        case this.$t('pistes.intermediate'):
           args.fill = '#F44336';
           break;
-        case 'Advanced':
+        case this.$t('pistes.advanced'):
           args.fill = '#212121';
           break;
         default:
@@ -65,13 +71,13 @@ export default {
     mapDifficulty(diff) {
       switch (diff) {
         case 0:
-          return 'Easy';
+          return this.$t('pistes.easy');
         case 1:
-          return 'Novice';
+          return this.$t('pistes.novice');
         case 2:
-          return 'Intermediate';
+          return this.$t('pistes.intermediate');
         default:
-          return 'Advanced';
+          return this.$t('pistes.advanced');
       }
     },
   },

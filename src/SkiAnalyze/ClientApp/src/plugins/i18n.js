@@ -1,0 +1,183 @@
+import VueI18n from 'vue-i18n';
+
+const dateTimeFormats = {
+  en: {
+    short: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+  },
+  de: {
+    short: {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    },
+  },
+};
+
+const messages = {
+  en: {
+    menu: {
+      skiareas: 'Ski areas',
+    },
+    common: {
+      collapseCard: 'Collapse card',
+      expandCard: 'Expand card',
+      from: 'From',
+      to: 'To',
+    },
+    gondola: {
+      chairLift: 'Chair lift',
+      gondola: 'Gondola',
+      cableCar: 'Cable car',
+      platter: 'Platter',
+      magicCarpet: 'Magic carpet',
+      type: 'Type',
+      heating: 'Heating',
+      occupancy: 'Occupancy',
+      bubble: 'Bubble',
+    },
+    dashboard: {
+      totalDistance: 'Total distance',
+      totalDescent: 'Total descent',
+      maxSpeed: 'Max. Speed',
+      runsMade: 'Runs made',
+      gondolasUsed: 'Gondolas used',
+      tracksUploaded: 'Tracks uploaded',
+      caloriesBurned: 'Calories burned',
+      distance: 'Distance',
+      descent: 'Descent',
+      calories: 'Calories',
+      lastTracks: 'Last tracks',
+    },
+    pistes: {
+      novice: 'Novice',
+      easy: 'Easy',
+      intermediate: 'Intermediate',
+      advanced: 'Advanced',
+    },
+    skiarea: {
+      showDetails: 'Show details',
+      numberOfGondolas: 'Number of gondolas',
+      lengthOfPistes: 'Length of pistes',
+      lengthOfGondolas: 'Length of gondolas',
+      gondolas: 'Gondolas',
+      pistes: 'Pistes',
+    },
+    tracks: {
+      yourTracks: 'Your Tracks',
+      addTrack: 'Add Track',
+      skiarea: 'Ski area',
+      date: 'Date',
+      addTrackFiles: 'Add one or more gpx of fit files',
+      distance: 'Distance',
+      elevation: 'Descent',
+      avgSpeed: 'Avg. Speed',
+      maxSpeed: 'Max Speed',
+      avgHeartRate: 'Avg. Heart rate',
+      maxHeartRate: 'Max Heart rate',
+      calories: 'Calories',
+      showMap: 'Show on the map',
+      map: 'Map',
+      runs: 'Runs',
+      syncMap: 'Sync list and map',
+      run: 'Run',
+      showRunNumbers: 'Show run numbers',
+      showPistes: 'Show pistes',
+      delete: 'Delete track',
+      charts: 'Charts',
+      pisteDifficulties: 'Piste difficulties',
+      gondolaTypes: 'Gondola types',
+      heartRateAverage: 'Heart rate averages',
+    },
+  },
+  de: {
+    menu: {
+      skiareas: 'Skigebiete',
+    },
+    common: {
+      collapseCard: 'Karte einklappen',
+      expandCard: 'Karte ausklappen',
+      from: 'Von',
+      to: 'Bis',
+    },
+    dashboard: {
+      totalDistance: 'Gesamtstrecke',
+      totalDescent: 'Höhenmeter',
+      maxSpeed: 'Höchstgeschwindigkeit',
+      runsMade: 'Abfahrten gesamt',
+      gondolasUsed: 'Lifte benutzt',
+      tracksUploaded: 'Tracks hochgeladen',
+      caloriesBurned: 'Kalorien verbrannt',
+      distance: 'Distanz',
+      descent: 'Höhenmeter',
+      calories: 'Kalorien',
+      lastTracks: 'Letzte Tracks',
+    },
+    gondola: {
+      chairLift: 'Sessellift',
+      gondola: 'Gondel',
+      cableCar: 'Seilbahn',
+      platter: 'Tellerlift',
+      magicCarpet: 'Zauberteppich',
+      type: 'Typ',
+      heating: 'Heizung',
+      occupancy: 'Personenzahl',
+      bubble: 'Schutzhaube',
+    },
+    pistes: {
+      novice: 'Einsteiger',
+      easy: 'Einfach',
+      intermediate: 'Fortgeschritten',
+      advanced: 'Schwer',
+    },
+    skiarea: {
+      showDetails: 'Details anzeigen',
+      numberOfGondolas: 'Anzahl Gondeln',
+      lengthOfPistes: 'Pistenkilometer',
+      lengthOfGondolas: 'Liftkilometer',
+      gondolas: 'Lifte',
+      pistes: 'Pisten',
+    },
+    tracks: {
+      yourTracks: 'Deine Tracks',
+      addTrack: 'Track hinzufügen',
+      addTrackFiles: 'Ein oder mehrere .gpx oder .fit Dateien hochladen',
+      skiarea: 'Skigebiet',
+      date: 'Datum',
+      distance: 'Distanz',
+      elevation: 'Höhenmeter',
+      avgSpeed: 'Avg. Speed',
+      maxSpeed: 'Max Speed',
+      avgHeartRate: 'Avg. Herzfrequenz',
+      maxHeartRate: 'Max Herzfrequenz',
+      calories: 'Kalorien',
+      showMap: 'Auf der Karte anzeigen',
+      syncMap: 'Karte und Liste synchronisieren',
+      map: 'Karte',
+      runs: 'Abfahrten',
+      run: 'Abfahrt',
+      showRunNumbers: 'Nummern anzeigen',
+      showPistes: 'Pisten anzeigen',
+      delete: 'Track löschen',
+      charts: 'Profil',
+      pisteDifficulties: 'Schwierigkeiten',
+      gondolaTypes: 'Lifttypen',
+      heartRateAverage: 'Herzfrequenzen',
+    },
+  },
+};
+
+export default (vue) => {
+  vue.use(VueI18n);
+  const i18n = new VueI18n({
+    messages,
+    dateTimeFormats,
+    locale: 'de',
+    fallbackLocale: 'en',
+  });
+
+  return i18n;
+};

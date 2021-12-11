@@ -46,11 +46,7 @@ export default {
     tooltip: { enable: true },
     crosshair: { enable: true, lineType: 'Vertical' },
     marker: { visible: false },
-    propertyNames: [
-      { id: 0, name: 'Distance', key: 'distance' },
-      { id: 1, name: 'Descent', key: 'elevation' },
-      { id: 2, name: 'Calories', key: 'calories' },
-    ],
+    propertyNames: [],
   }),
   methods: {
     async fetchTimeline() {
@@ -121,6 +117,11 @@ export default {
     },
   },
   mounted() {
+    this.propertyNames = [
+      { id: 0, name: this.$t('dashboard.distance'), key: 'distance' },
+      { id: 1, name: this.$t('dashboard.descent'), key: 'elevation' },
+      { id: 2, name: this.$t('dashboard.calories'), key: 'calories' },
+    ];
     this.fetchTimeline();
   },
   provide: {
