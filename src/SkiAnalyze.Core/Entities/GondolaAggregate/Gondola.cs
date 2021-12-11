@@ -1,5 +1,6 @@
 ﻿using OsmSharp.Complete;
 using SkiAnalyze.Core.Entities.TrackAggregate;
+using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
@@ -20,12 +21,12 @@ public class Gondola : BaseEntity<long>
     public string? Description { get; set; }
     public double? Duration { get; set; }
     public List<GondolaNode> Coordinates { get; set; } = new();
-
+    public double Length { get; set; }
     public List<Run> Runs { get; set; } = new();
 
     public static Gondola FromWay(CompleteWay way)
     {
-        return new Gondola
+        var gondola = new Gondola
         {
             Name = way.Tags.GetNullableString("name"),
             Type = way.Tags.GetString("aerialway"),
@@ -50,5 +51,8 @@ public class Gondola : BaseEntity<long>
                 GondolaId = way.Id
             }).ToList()
         };
+
+        gondola.Length = gondola.Coordinates.ToList<ICoordinate>().GetLength();
+        return gondola;
     }
 }

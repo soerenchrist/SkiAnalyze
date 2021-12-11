@@ -7,6 +7,7 @@
           <ski-area-header :skiArea="skiArea" />
         </v-col>
       </v-row>
+      <ski-area-detail-cards :gondolas="gondolas" :pistes="pistes" />
       <v-row>
         <v-col>
           <l-map
@@ -83,6 +84,7 @@ import PistePolyline from '../components/map/PistePolyline.vue';
 import Gondolas from '../components/skiarea/Gondolas.vue';
 import Pistes from '../components/skiarea/Pistes.vue';
 import GondolaDetails from '../components/GondolaDetails.vue';
+import SkiAreaDetailCards from '../components/skiarea/SkiAreaDetailCards.vue';
 
 export default {
   name: 'TrackDetail',
@@ -95,6 +97,7 @@ export default {
     Gondolas,
     Pistes,
     GondolaDetails,
+    SkiAreaDetailCards,
   },
   data: () => ({
     loading: true,

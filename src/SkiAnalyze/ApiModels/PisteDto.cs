@@ -9,6 +9,7 @@ public class PisteDto
     public string? Reference { get; set; }
     public bool? Lit { get; set; }
     public bool? Snowmaking { get; set; }
+    public double Length { get; set; }
     public PisteDifficulty? Difficulty { get; set; }
     public List<PisteNodeDto> Coordinates { get; set; } = new List<PisteNodeDto>();
 }

@@ -29,6 +29,7 @@ export default {
       name: 'Name',
       bubble: 'Bubble',
       duration: 'Duration',
+      length: 'Length',
     },
   }),
   computed: {
@@ -45,7 +46,7 @@ export default {
         values.push({
           key,
           name: this.parseKey(key),
-          value: this.parseValue(value),
+          value: this.parseValue(key, value),
         });
       }
       return values;
@@ -61,7 +62,10 @@ export default {
     onClose() {
       this.$emit('close');
     },
-    parseValue(value) {
+    parseValue(key, value) {
+      if (key === 'length') {
+        return `${value.toFixed(0)} m`;
+      }
       if (value === false) return 'No';
       if (value === true) return 'Yes';
       if (value === 'gondola') return 'Gondola';

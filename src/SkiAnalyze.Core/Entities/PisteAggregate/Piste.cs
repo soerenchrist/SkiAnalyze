@@ -1,5 +1,6 @@
 ﻿using OsmSharp.Complete;
 using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Interfaces.Common;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel;
 
@@ -12,12 +13,12 @@ public class Piste : BaseEntity<long>
     public bool? Snowmaking { get; set; }
     public PisteDifficulty? Difficulty { get; set; }
     public List<PisteNode> Coordinates { get; set; } = new List<PisteNode>();
-
     public List<TrackPoint> TrackPoints { get; set; } = new();
+    public double Length { get; set; }
 
     public static Piste FromWay(CompleteWay way)
     {
-        return new Piste
+        var piste = new Piste
         {
             Name = way.Tags.GetNullableString("name") ?? way.Tags.GetNullableString("piste:name"),
             Reference = way.Tags.GetNullableString("ref") ?? way.Tags.GetNullableString("piste:ref"),
@@ -35,6 +36,8 @@ public class Piste : BaseEntity<long>
                 PisteId = way.Id
             }).ToList()
         };
+        piste.Length = piste.Coordinates.ToList<ICoordinate>().GetLength();
+        return piste;
     }
 
     private static PisteDifficulty? ParseDifficulty(string? tag)
