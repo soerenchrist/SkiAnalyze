@@ -15,7 +15,7 @@ Besides it allows to have a detailed look on some ski areas.
 - [Garmin FIT Sdk](https://developer.garmin.com/fit/download/) for reading the fit files
 
 ### Frontend
-- Vue for the client side
+- [Vue](https://vuejs.org/) for the client side
 - [Leaflet](https://leafletjs.com/) ([vue2-leaflet](https://vue2-leaflet.netlify.app/)) for displaying maps
 - [Leaflet.hotline](https://github.com/iosphere/Leaflet.hotline) for the nice colored polylines 
 - [Leaflet.markerCluster](https://github.com/Leaflet/Leaflet.markercluster) for the track overview map
