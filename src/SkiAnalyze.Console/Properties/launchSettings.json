@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SkiAnalyze.Console": {
-      "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\cso\\Downloads\\4421678167\\4421678167_ACTIVITY.fit\" \"C:\\Users\\cso\\dev\\SkiAnalyze\\src\\SkiAnalyze\\app.db\""
-    }
-  }
-}
