@@ -12,7 +12,7 @@
       @runSelected="onRunSelected"
       :selectedRun="selectedRun"
       :showRunNumber="showRunNumbers"
-      :run="run" />
+      :run="run" /> -->
 
     <div v-if="showPistes">
       <piste-polyline
@@ -30,6 +30,13 @@
           elevation="3"
           rounded="md"
           class="controlSheet" >
+          <v-select
+            :items="hotlineProperties"
+            v-model="hotlineProperty"
+            dense
+            outlined
+            item-text="value"
+            item-value="key" />
           <v-checkbox :label="$t('tracks.showRunNumbers')" v-model="showRunNumbers" class="ma-0" />
           <v-checkbox :label="$t('tracks.showPistes')" v-model="showPistes" class="ma-0" />
         </v-sheet>
@@ -45,6 +52,7 @@ import { LMap, LTileLayer } from 'vue2-leaflet';
 import PistePolyline from './PistePolyline.vue';
 import GondolaPolyline from './GondolaPolyline.vue';
 import RunPolyline from './RunPolyline.vue';
+import createHotlines from '../../services/HotlineHelper';
 import GeoHelper from '../../services/GeoHelper';
 
 export default {
@@ -70,13 +78,43 @@ export default {
       if (!this.bounds) return;
       this.fitBounds(this.bounds);
     },
+    hotlineProperty() {
+      this.removeHotlineLayer();
+      this.addHotlineLayer();
+    },
   },
   mounted() {
+    this.hotlineProperties = [
+      {
+        key: 'heartRate',
+        value: this.$t('tracks.heartRate'),
+      },
+      {
+        key: 'speed',
+        value: this.$t('tracks.speed'),
+      },
+      {
+        key: 'elevation',
+        value: this.$t('tracks.elevationLayer'),
+      },
+    ];
+    this.hotlineProperty = 'heartRate';
+
+    this.addHotlineLayer();
     this.$nextTick(() => {
       this.fitBounds(this.bounds);
     });
   },
   methods: {
+    addHotlineLayer() {
+      this.hotlineLayer = createHotlines(this.runs, this.hotlineProperty);
+      this.$nextTick(() => {
+        this.hotlineLayer.addTo(this.$refs.map.mapObject);
+      });
+    },
+    removeHotlineLayer() {
+      this.$refs.map.mapObject.removeLayer(this.hotlineLayer);
+    },
     resize() {
       // weird behavior without timeout
       setTimeout(() => {
@@ -99,6 +137,9 @@ export default {
   data: () => ({
     showPistes: false,
     showRunNumbers: false,
+    hotlineProperty: 'heartRate',
+    hotlineLayer: null,
+    hotlineProperties: [],
   }),
   computed: {
     downhillRuns() {

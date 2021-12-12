@@ -34,7 +34,7 @@ export default {
       if (this.isSelected) {
         return 8;
       }
-      return 3;
+      return 0;
     },
     color() {
       if (this.isSelected) {
