@@ -3,8 +3,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 # install node
-RUN curl --silent --location https://deb.nodesource.com/setup_15.x | bash -
+RUN curl --silent --location https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install --yes nodejs
+
+RUN node --version
 
 # Copy project files and restore
 COPY '*.sln' .

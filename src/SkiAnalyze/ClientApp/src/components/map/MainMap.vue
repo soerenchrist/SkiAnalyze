@@ -71,6 +71,11 @@ export default {
       this.fitBounds(this.bounds);
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.fitBounds(this.bounds);
+    });
+  },
   methods: {
     resize() {
       // weird behavior without timeout
