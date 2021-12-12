@@ -19,7 +19,7 @@ public class OsmFileDataProvider : IOsmDataProvider
         _osmFileProvider = osmFileProvider;
     }
 
-    public Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northWest, Coordinate southEast)
+    public Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northEast, Coordinate southWest)
     {
         return Task.Run(() =>
         {
@@ -29,10 +29,10 @@ public class OsmFileDataProvider : IOsmDataProvider
             using var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
-                ((float)northWest.Longitude,
-                (float)northWest.Latitude,
-                (float)southEast.Longitude,
-                (float)southEast.Latitude);
+                ((float)southWest.Longitude,
+                (float)northEast.Latitude,
+                (float)northEast.Longitude,
+                (float)southWest.Latitude);
 
             var filtered = source
                 .FilterBox(left, top, right, bottom)
@@ -56,7 +56,7 @@ public class OsmFileDataProvider : IOsmDataProvider
         });
     }
 
-    public Task<IEnumerable<Piste>> GetPistes(Coordinate northWest, Coordinate southEast)
+    public Task<IEnumerable<Piste>> GetPistes(Coordinate northEast, Coordinate southWest)
     {
         return Task.Run<IEnumerable<Piste>>(() =>
         {
@@ -66,10 +66,10 @@ public class OsmFileDataProvider : IOsmDataProvider
             using var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
-                ((float)northWest.Longitude, 
-                (float)northWest.Latitude, 
-                (float)southEast.Longitude, 
-                (float)southEast.Latitude);
+                ((float)southWest.Longitude,
+                (float)northEast.Latitude,
+                (float)northEast.Longitude,
+                (float)southWest.Latitude);
 
             var filtered = source
                 .FilterBox(left, top, right, bottom)
@@ -92,7 +92,7 @@ public class OsmFileDataProvider : IOsmDataProvider
         });
     }
 
-    public Task<IEnumerable<Gondola>> GetGondolas(Coordinate northWest, Coordinate southEast)
+    public Task<IEnumerable<Gondola>> GetGondolas(Coordinate northEast, Coordinate southWest)
     {
         return Task.Run<IEnumerable<Gondola>>(() =>
         {
@@ -102,10 +102,10 @@ public class OsmFileDataProvider : IOsmDataProvider
             using var source = new XmlOsmStreamSource(fileStream);
 
             var (left, top, right, bottom) =
-                ((float)northWest.Longitude, 
-                (float)northWest.Latitude, 
-                (float)southEast.Longitude, 
-                (float)southEast.Latitude);
+                ((float)southWest.Longitude,
+                (float)northEast.Latitude,
+                (float)northEast.Longitude,
+                (float)southWest.Latitude);
 
             var filtered = source
                 .FilterBox(left, top, right, bottom)

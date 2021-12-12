@@ -19,24 +19,24 @@ public class DataInitializer
         _logger = logger;
     }
 
-    public async Task LoadInitialData()
+    public async Task LoadInitialData(IConfiguration configuration)
     {
-        var alpsNw = new Coordinate
+        var alpsNe = new Coordinate
         {
-            Latitude = 48.496223f,
-            Longitude = 9.334531f
+            Latitude = configuration.GetValue<float>("OsmBounds:NorthEast:Latitude"),
+            Longitude = configuration.GetValue<float>("OsmBounds:NorthEast:Longitude"),
         };
-        var alpsSe = new Coordinate
+        var alpsSw = new Coordinate
         {
-            Latitude = 46.477213f,
-            Longitude = 15.674944f
+            Latitude = configuration.GetValue<float>("OsmBounds:SouthWest:Latitude"),
+            Longitude = configuration.GetValue<float>("OsmBounds:SouthWest:Longitude"),
         };
 
         var skiAreaCount = await _appDbContext.SkiAreas.CountAsync();
         _logger.LogInformation("Found {Count} ski areas already in db", skiAreaCount);
         if (skiAreaCount == 0)
         {
-            var skiAreas = await _dataProvider.GetSkiAreas(alpsNw, alpsSe);
+            var skiAreas = await _dataProvider.GetSkiAreas(alpsNe, alpsSw);
             var skiAreaList = skiAreas.ToList();
             var nodes = skiAreaList.SelectMany(x => x.Nodes).ToList();
             _logger.LogInformation("Found {Count} SkiAreas with {CoordCount} nodes from data provider - Inserting them...", skiAreaList.Count, nodes.Count);
@@ -48,7 +48,7 @@ public class DataInitializer
         _logger.LogInformation("Found {Count} gondolas already in db", gondolaCount);
         if (gondolaCount == 0)
         {
-            var gondolas = await _dataProvider.GetGondolas(alpsNw, alpsSe);
+            var gondolas = await _dataProvider.GetGondolas(alpsNe, alpsSw);
             var gondolaList = gondolas.ToList();
             var coordinates = gondolaList.SelectMany(x => x.Coordinates).ToList();
             _logger.LogInformation("Found {Count} gondolas with {CoordCount} nodes from data provider - Inserting them...", gondolaList.Count, coordinates.Count);
@@ -60,7 +60,7 @@ public class DataInitializer
         _logger.LogInformation("Found {Count} pistes already in db", pisteCount);
         if (pisteCount == 0)
         {
-            var pistes = await _dataProvider.GetPistes(alpsNw, alpsSe);
+            var pistes = await _dataProvider.GetPistes(alpsNe, alpsSw);
             var pistesList = pistes.ToList();
             var coordinates = pistesList.SelectMany(x => x.Coordinates).ToList();
             _logger.LogInformation("Found {Count} pistes with {CoordCount} nodes from data provider - Inserting them...", pistesList.Count, coordinates.Count);

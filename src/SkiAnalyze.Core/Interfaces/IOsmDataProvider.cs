@@ -8,7 +8,7 @@ namespace SkiAnalyze.Core.Interfaces;
 
 public interface IOsmDataProvider
 {
-    Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northWest, Coordinate southEast);
-    Task<IEnumerable<Gondola>> GetGondolas(Coordinate northWest, Coordinate southEast);
-    Task<IEnumerable<Piste>> GetPistes(Coordinate northWest, Coordinate southEast);
+    Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northEast, Coordinate southWest);
+    Task<IEnumerable<Gondola>> GetGondolas(Coordinate northEast, Coordinate southWest);
+    Task<IEnumerable<Piste>> GetPistes(Coordinate northEast, Coordinate southWest);
 }

@@ -94,6 +94,6 @@ var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 await context.Database.EnsureCreatedAsync();
 
 var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
-await initializer.LoadInitialData();
+await initializer.LoadInitialData(app.Configuration);
 
 app.Run();
