@@ -58,3 +58,7 @@ Alternativly you can open up [Garmin Connect](https://connect.garmin.com/), find
 ### Ski area detail
 ![Ski area detail](images/skiareadetail1.png)
 ![Ski area detail](images/skiareadetail2.png)
+
+# Notes
+
+All data, that is shown in the app is provided by [OpenStreetMap](https://www.openstreetmap.org/) and it's contributors. The app is meant to be a fun tool and does by no means claim to be correct or valid.
