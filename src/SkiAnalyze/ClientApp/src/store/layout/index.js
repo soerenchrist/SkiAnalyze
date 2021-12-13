@@ -2,7 +2,7 @@ import { SET_NAVIGATION_DRAWER } from './mutations';
 
 export default {
   state: {
-    navigationDrawer: true,
+    navigationDrawer: null,
   },
   mutations: {
     [SET_NAVIGATION_DRAWER](state, drawer) {

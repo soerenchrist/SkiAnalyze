@@ -88,9 +88,7 @@ import SkiAreaDetailCards from '../components/skiarea/SkiAreaDetailCards.vue';
 
 export default {
   name: 'TrackDetail',
-  props: {
-    skiAreaId: String,
-  },
+  props: ['skiAreaId'],
   components: {
     SkiAreaHeader,
     PistePolyline,
@@ -113,7 +111,7 @@ export default {
     async fetchDetail() {
       const response = await DataService.getSkiArea(this.skiAreaId);
       if (response.status === 404) {
-        this.$router.push('/404');
+        this.$router.replace({ name: '404Resource', params: { resource: 'ski area' } });
       } else {
         this.skiArea = response;
       }

@@ -105,9 +105,7 @@ import DataService from '../services/DataService';
 
 export default {
   name: 'TrackDetail',
-  props: {
-    trackId: String,
-  },
+  props: ['trackId'],
   components: {
     MainMap,
     TrackDetailHeader,
@@ -139,7 +137,7 @@ export default {
     async fetchTrack() {
       const response = await DataService.getTrack(this.trackId);
       if (response.status === 404) {
-        this.$router.push('/404');
+        this.$router.replace({ name: '404Resource', params: { resource: 'track' } });
       } else {
         this.track = response;
       }
@@ -162,7 +160,7 @@ export default {
       }
     },
     onShowSkiArea(skiArea) {
-      this.$router.push(`/skiareas/${skiArea.id}`);
+      this.$router.push({ name: 'SkiArea', params: { skiAreaId: skiArea.id } });
     },
     toggleExpandRuns() {
       this.runsExpanded = !this.runsExpanded;
@@ -176,7 +174,7 @@ export default {
     },
     async onDelete() {
       await DataService.removeTrack(this.trackId);
-      this.$router.go(-1);
+      this.$router.push({ name: 'Tracks' });
     },
     onHover(point) {
       this.hoverMarkerPoint = point;

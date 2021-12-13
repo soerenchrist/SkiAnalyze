@@ -9,7 +9,7 @@ export default {
   components: { SkiAreaMap },
   methods: {
     onShowDetails(area) {
-      this.$router.push(`/skiareas/${area.id}`);
+      this.$router.push({ name: 'SkiArea', params: { skiAreaId: area.id } });
     },
   },
 };

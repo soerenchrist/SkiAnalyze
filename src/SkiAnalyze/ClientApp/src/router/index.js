@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/tracks/:trackId',
-    name: 'TrackDetail',
+    name: 'Track',
     props: true,
     component: TrackDetail,
   },
@@ -33,12 +33,21 @@ const routes = [
   },
   {
     path: '/skiareas/:skiAreaId',
-    name: 'SkiAreaDetail',
+    name: 'SkiArea',
     component: SkiAreaDetail,
     props: true,
   },
-  { path: '/404', component: NotFound },
-  { path: '*', redirect: '/404' },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
+  },
+  {
+    path: '/404/:resource',
+    name: '404Resource',
+    component: NotFound,
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

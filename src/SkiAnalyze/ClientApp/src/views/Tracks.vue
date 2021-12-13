@@ -94,7 +94,7 @@ export default {
       this.loading = false;
     },
     onTrackSelected(track) {
-      this.$router.push(`/tracks/${track.id}`);
+      this.$router.push({ name: 'Track', params: { trackId: track.id } });
     },
     addTrack() {
       this.showCreateDialog = true;
