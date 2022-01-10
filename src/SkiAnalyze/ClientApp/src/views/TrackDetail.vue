@@ -46,6 +46,7 @@
               :isExpanded="runsExpanded"
               :runs="runs"
               :selectedRun="selectedRun"
+              @onRemove="removeRun"
               @runSelected="onRunSelected" />
           </collapsable-card>
         </v-col>
@@ -171,6 +172,11 @@ export default {
           easing: 'easeInOutCubic',
         });
       }, 500);
+    },
+    async removeRun(run) {
+      await DataService.removeRun(this.track.id, run.id);
+      await this.fetchTrack();
+      await this.fetchAnalysisResult();
     },
     async onDelete() {
       await DataService.removeTrack(this.trackId);

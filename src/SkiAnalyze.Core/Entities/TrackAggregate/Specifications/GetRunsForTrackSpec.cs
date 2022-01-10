@@ -2,7 +2,7 @@
 
 namespace SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 
-public class GetRunsForTrackSpec : Specification<Run>
+public sealed class GetRunsForTrackSpec : Specification<Run>
 {
     public GetRunsForTrackSpec(int trackId)
     {

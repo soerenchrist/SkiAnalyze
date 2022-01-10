@@ -125,4 +125,8 @@ export default {
     const response = await client.get(url);
     return response.data;
   },
+  async removeRun(trackId, runId) {
+    const url = `tracks/${trackId}/runs/${runId}`;
+    await client.delete(url);
+  },
 };

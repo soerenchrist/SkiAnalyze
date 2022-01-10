@@ -2,7 +2,6 @@
 using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Interfaces.Common;
-using SkiAnalyze.Core.Services.Gpx;
 using SkiAnalyze.Core.Services.MapMatching;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel.Interfaces;
@@ -73,7 +72,7 @@ public class Analyzer : IAnalyzer
             track.Name = fileReadResult.TrackName;
 
             var runs = fileReadResult.Runs;
-            var trackPoints = runs.ToTrackPoints();
+            var trackPoints = runs.ToTrackPoints().ToList();
             var matcher = new MatchingService();
 
             var bounds = trackPoints.Select(x => (ICoordinate)x).GetBounds();
@@ -81,20 +80,14 @@ public class Analyzer : IAnalyzer
             var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);
 
             runs = matcher.Match(gondolas, pistes, runs).ToList();
-            foreach (var run in runs)
-            {
-                if (run.Coordinates.Count < 2)
-                    continue;
-            }
-
             track.Runs = runs.ToList();
 
-            UpdateTrackStats(track);
+            track.UpdateStats();
             track.SkiArea = await GetSkiAreaForTrack(trackPoints.ToList(), bounds);
             await _tracksRepository.UpdateAsync(track);
 
             stopwatch.Stop();
-            _logger.LogInformation("Finished analysis of track {TrackId}. Took {Seconds}.", trackId, stopwatch.Elapsed.TotalSeconds);
+            _logger.LogInformation("Finished analysis of track {TrackId}. Took {Seconds}", trackId, stopwatch.Elapsed.TotalSeconds);
 
             status.IsFinished = true;
             status.Success = true;
@@ -109,21 +102,6 @@ public class Analyzer : IAnalyzer
         }
     }
 
-    private void UpdateTrackStats(Track track)
-    {
-        var downhillRuns = track.Runs.Where(x => x.Downhill);
-
-        track.TotalDistance = downhillRuns.Sum(x => x.TotalDistance);
-        track.TotalElevation = downhillRuns.Sum(x => x.TotalElevation);
-        track.MaxSpeed = track.Runs.Max(x => x.MaxSpeed);
-        track.AverageSpeed = downhillRuns.Average(x => x.AverageSpeed);
-        track.Start = track.Runs.First().Start;
-        track.End = track.Runs.Last().End;
-        track.MaxHeartRate = downhillRuns.Max(x => x.MaxHeartRate);
-        track.AverageHeartRate = downhillRuns.Average(x => x.AverageHeartRate);
-        track.TotalCalories = downhillRuns.Sum(x => x.TotalCalories);
-        track.Date = track.Runs.First().Start.Date;
-    }
 
     private ITrackFileParserStrategy GetStrategy(Track track)
     {
