@@ -115,7 +115,7 @@ public class Analyzer : IAnalyzer
 
     private async Task<SkiArea?> GetSkiAreaForTrack(List<TrackPoint> trackPoints, Bounds bounds)
     {
-        var results = await _skiAreaRepository.ListAsync(new GetSkiAreasInBoundsSpec(bounds));
+        var results = await _skiAreaRepository.ListAsync(new GetSkiAreasPaginatedSpec(bounds));
         if (results.Count == 0)
             return null;
         if (results.Count == 1)

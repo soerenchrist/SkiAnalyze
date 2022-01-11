@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-4">
+  <v-card>
     <v-card-title>
       {{$t('menu.skiareas')}}
     </v-card-title>
@@ -10,8 +10,7 @@
         style="height: 650px; z-index: 1"
         :zoom.sync="zoom"
         :center="center"
-        :bounds.sync="bounds"
-        :minZoom="10">
+        :bounds.sync="bounds">
         <l-tile-layer
           :url="url"
           :attribution="attribution" />
@@ -47,22 +46,24 @@
 </template>
 
 <script>
-import DataService from '../../services/DataService';
 import GeoHelper from '../../services/GeoHelper';
 
 export default {
+  props: {
+    areas: Array,
+    details: Array,
+  },
   data: () => ({
     zoom: 11,
     center: [47, 12],
     bounds: null,
-    areas: [],
-    details: [],
     url: GeoHelper.url,
     attribution: GeoHelper.attribution,
   }),
   watch: {
     bounds() {
-      this.fetchSkiAreas(this.bounds);
+      // this.fetchSkiAreas(this.bounds);
+      this.emitBounds(this.bounds);
     },
   },
   computed: {
@@ -84,38 +85,19 @@ export default {
     },
   },
   methods: {
-    async fetchSkiAreas(bounds) {
-      const b = {
-        northEast: {
-          latitude: bounds._northEast.lat,
-          longitude: bounds._northEast.lng,
-        },
-        southWest: {
-          latitude: bounds._southWest.lat,
-          longitude: bounds._southWest.lng,
-        },
-      };
-      this.areas = await DataService.getSkiAreas(b);
-      if (this.zoom >= 12 && this.areas) {
-        await this.fetchDetails();
-      } else {
-        this.details = [];
-      }
-    },
-    async fetchDetails() {
-      const promises = [];
-      this.areas.forEach((area) => {
-        promises.push(DataService.getSkiArea(area.id));
-      });
-
-      this.details = await Promise.all(promises);
-    },
     showDetails(marker) {
       this.$emit('showDetails', marker.area);
     },
+    emitBounds(bounds) {
+      this.$emit('boundsChanged', bounds, this.zoom);
+    },
+    fitBounds(bounds) {
+      this.$refs.map.fitBounds(bounds, { maxZoom: 12 });
+    },
     mapReady() {
       const bounds = this.$refs.map.mapObject.getBounds();
-      this.fetchSkiAreas(bounds);
+      this.emitBounds(bounds);
+      // this.fetchSkiAreas(bounds);
     },
   },
 };

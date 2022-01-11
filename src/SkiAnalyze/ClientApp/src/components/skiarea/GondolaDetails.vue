@@ -30,7 +30,7 @@ export default {
       bubble: 'Bubble',
       duration: 'Duration',
       length: 'Length',
-      used: 'Uses',
+      used: 'Used',
     },
   }),
   computed: {

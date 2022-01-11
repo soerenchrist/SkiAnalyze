@@ -90,10 +90,15 @@ export default {
     const response = await client.get(url);
     return response.data;
   },
-  async getSkiAreas(bounds) {
-    let url = 'skiareas';
-    url += `?SwLat=${bounds.southWest.latitude}&SwLon=${bounds.southWest.longitude}`;
-    url += `&NeLat=${bounds.northEast.latitude}&NeLon=${bounds.northEast.longitude}`;
+  async getSkiAreas(page, pageSize, bounds, searchText) {
+    let url = `skiareas?page=${page}&pageSize=${pageSize}`;
+    if (bounds) {
+      url += `&swLat=${bounds.southWest.latitude}&swLon=${bounds.southWest.longitude}`;
+      url += `&neLat=${bounds.northEast.latitude}&neLon=${bounds.northEast.longitude}`;
+    }
+    if (searchText) {
+      url += `&searchText=${searchText}`;
+    }
     const response = await client.get(url);
     return response.data;
   },
