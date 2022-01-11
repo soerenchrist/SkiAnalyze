@@ -7,7 +7,9 @@
           <ski-area-header :skiArea="skiArea" />
         </v-col>
       </v-row>
-      <ski-area-detail-cards :gondolas="gondolas" :pistes="pistes" />
+      <ski-area-detail-cards
+        :gondolas="gondolas"
+        :pistes="pistes" />
       <v-row>
         <v-col>
           <l-map
@@ -47,6 +49,7 @@
               <gondolas
                 :gondolas="gondolas"
                 :selectedGondola="selectedGondola"
+                :displayUsageIndicator="true"
                 @showDetails="onShowGondolaDetails"
                 @gondolaSelected="onGondolaSelected" />
             </v-card-text>
@@ -101,6 +104,7 @@ export default {
     loading: true,
     skiArea: null,
     gondolas: [],
+    usedGondolas: [],
     pistes: [],
     selectedGondola: null,
     selectedPiste: null,

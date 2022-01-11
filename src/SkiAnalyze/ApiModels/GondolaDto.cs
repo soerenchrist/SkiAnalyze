@@ -16,6 +16,7 @@ public class GondolaDto
     public string? Description { get; set; }
     public double? Duration { get; set; }
     public double Length { get; set; }
+    public bool Used { get; set; }
     public List<GondolaNodeDto> Coordinates { get; set; } = new();
 }
 

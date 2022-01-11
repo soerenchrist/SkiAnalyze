@@ -39,6 +39,8 @@ const messages = {
       occupancy: 'Occupancy',
       bubble: 'Bubble',
       select: 'Select gondola',
+      used: 'Has been used',
+      notused: 'Has not been used',
     },
     dashboard: {
       totalDistance: 'Total distance',
@@ -66,6 +68,7 @@ const messages = {
       lengthOfGondolas: 'Length of gondolas',
       gondolas: 'Gondolas',
       pistes: 'Pistes',
+      percentageGondolasUsed: 'of gondolas used',
     },
     tracks: {
       yourTracks: 'Your Tracks',
@@ -131,6 +134,8 @@ const messages = {
       occupancy: 'Personenzahl',
       bubble: 'Schutzhaube',
       select: 'Lift wählen',
+      used: 'Wurde verwendet',
+      notused: 'Wurde nicht verwendet',
     },
     pistes: {
       novice: 'Einsteiger',
@@ -145,6 +150,7 @@ const messages = {
       lengthOfGondolas: 'Liftkilometer',
       gondolas: 'Lifte',
       pistes: 'Pisten',
+      percentageGondolasUsed: 'der Anlagen genutzt',
     },
     tracks: {
       yourTracks: 'Deine Tracks',

@@ -15,6 +15,13 @@
     </v-col>
     <v-col>
       <track-stat-card
+        :value="percentageUsed"
+        :floatingPoints="0"
+        unit="%"
+        :title="$t('skiarea.percentageGondolasUsed')" />
+    </v-col>
+    <v-col>
+      <track-stat-card
         :value="totalGondolaLength"
         :floatingPoints="0"
         unit="km"
@@ -49,12 +56,25 @@ export default {
     tooltip: { enable: true, format: '${point.x}: <b>${point.y} km</b>' },
   }),
   computed: {
+    usedGondolas() {
+      return this.gondolas.filter((x) => x.used);
+    },
     totalPisteLength() {
       let total = 0;
       this.pistes.forEach((piste) => {
         total += piste.length;
       });
       return total / 1000;
+    },
+    percentageUsed() {
+      const usedCount = this.usedGondolas.length;
+      const allCount = this.gondolas.length;
+
+      console.log(usedCount, allCount);
+
+      if (allCount === 0) return 0;
+      const result = usedCount / allCount;
+      return result * 100;
     },
     totalGondolaLength() {
       let total = 0;

@@ -9,6 +9,7 @@
         :gondola="item"
         :isSelected="isSelected(item)"
         @click="itemSelected"
+        :displayUsageIndicator="displayUsageIndicator"
         :displayDetailsButton="displayDetailsButton"
         @detailsClick="showDetails">
       </gondola-list-item>
@@ -28,6 +29,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    displayUsageIndicator: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   components: {

@@ -6,7 +6,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Gondola, GondolaDto>();
+        CreateMap<Gondola, GondolaDto>()
+            .ForMember(x => x.Used,
+                x => x.MapFrom(g => g.Runs.Any()));;
         CreateMap<GondolaNode, GondolaNodeDto>();
         CreateMap<Piste, PisteDto>();
         CreateMap<PisteNode, PisteNodeDto>();

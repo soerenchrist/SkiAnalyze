@@ -3,7 +3,7 @@ using SkiAnalyze.Core.Common;
 
 namespace SkiAnalyze.Core.Entities.GondolaAggregate.Specifications;
 
-public class GondolasInBoundsSpec : Specification<Gondola>
+public sealed class GondolasInBoundsSpec : Specification<Gondola>
 {
     public GondolasInBoundsSpec(Bounds bounds)
     {
@@ -11,6 +11,7 @@ public class GondolasInBoundsSpec : Specification<Gondola>
         var northEast = bounds.NorthEast;
         Query
             .Include(x => x.Coordinates)
+            .Include(x => x.Runs)
             .Where(x => x.Coordinates.Min(x => x.Longitude) > southWest.Longitude
             && x.Coordinates.Min(x => x.Latitude) > southWest.Latitude
             && x.Coordinates.Max(x => x.Longitude) < northEast.Longitude

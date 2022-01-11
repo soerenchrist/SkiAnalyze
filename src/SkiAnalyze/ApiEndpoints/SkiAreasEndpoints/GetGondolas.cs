@@ -24,12 +24,12 @@ public class GetGondolas : BaseAsyncEndpoint
     [HttpGet("/api/skiareas/{skiAreaId}/gondolas")]
     public override async Task<ActionResult<List<GondolaDto>>> HandleAsync([FromRoute] GetGondolasRequest request, CancellationToken cancellationToken = default)
     {
-        var skiArea = await _skiAreaRepository.GetBySpecAsync(new GetSkiAreaWithNodesSpec(request.SkiAreaId));
+        var skiArea = await _skiAreaRepository.GetBySpecAsync(new GetSkiAreaWithNodesSpec(request.SkiAreaId), cancellationToken);
         if (skiArea == null)
             return NotFound();
 
         var bounds = skiArea.Nodes.GetBounds();
-        var gondolas = await _gondolaRepository.ListAsync(new GondolasInBoundsSpec(bounds));
+        var gondolas = await _gondolaRepository.ListAsync(new GondolasInBoundsSpec(bounds), cancellationToken);
 
         var results = new List<Gondola>();
         var polygon = skiArea.Nodes.ToList<ICoordinate>();
