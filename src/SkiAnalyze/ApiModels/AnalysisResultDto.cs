@@ -10,6 +10,7 @@ public class RunDto
 {
     public int Id { get; set; }
     public int Number { get; set; }
+    public int SortId { get; set; }
     public bool Downhill { get; set; }
     public GondolaDto? Gondola { get; set; }
     public List<TrackPointDto> Coordinates { get; set; } = new();

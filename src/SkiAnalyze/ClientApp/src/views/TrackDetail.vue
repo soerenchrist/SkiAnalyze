@@ -47,6 +47,8 @@
               :runs="runs"
               :selectedRun="selectedRun"
               @onRemove="removeRun"
+              @onAddLiftAbove="addGondolaAbove"
+              @onAddLiftBelow="addGondolaBelow"
               @runSelected="onRunSelected" />
           </collapsable-card>
         </v-col>
@@ -87,6 +89,10 @@
           </collapsable-card>
         </v-col>
       </v-row>
+      <select-gondola-dialog
+        :open="selectGondola"
+        @gondolaSelected="gondolaSelected"
+        :skiAreaId="track.skiArea.id" />
     </div>
   </div>
 </template>
@@ -103,6 +109,7 @@ import MainMap from '../components/map/MainMap.vue';
 import TrackDetailHeader from '../components/tracks/TrackDetailHeader.vue';
 import TrackStatCards from '../components/tracks/TrackStatCards.vue';
 import DataService from '../services/DataService';
+import SelectGondolaDialog from '../components/dialogs/SelectGondolaDialog.vue';
 
 export default {
   name: 'TrackDetail',
@@ -118,6 +125,7 @@ export default {
     GondolaTypesPie,
     ButtonBar,
     HeartRateAverages,
+    SelectGondolaDialog,
   },
   data: () => ({
     zoom: 10,
@@ -133,6 +141,8 @@ export default {
     selectedProperty: 1,
     hoverMarkerPoint: null,
     propertyItems: [],
+    selectGondola: false,
+    addGondolaPosition: -1,
   }),
   methods: {
     async fetchTrack() {
@@ -184,6 +194,21 @@ export default {
     },
     onHover(point) {
       this.hoverMarkerPoint = point;
+    },
+    addGondolaAbove(item) {
+      this.selectGondola = true;
+      this.addGondolaPosition = item.sortId;
+    },
+    addGondolaBelow(item) {
+      this.selectGondola = true;
+      this.addGondolaPosition = item.sortId + 1;
+    },
+    async gondolaSelected(gondola) {
+      if (this.addGondolaPosition === -1) return;
+
+      await DataService.addGondolaToRuns(this.track.id, gondola.id, this.addGondolaPosition);
+      this.selectGondola = false;
+      this.addGondolaPosition = -1;
     },
   },
   watch: {

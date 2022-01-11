@@ -11,7 +11,7 @@ public class RemoveRun : BaseAsyncEndpoint
         _trackRepository = trackRepository;
     }
     
-    [HttpDelete("/api/tracks/{trackId}/runs/{runId}")]
+    [HttpDelete("/api/tracks/{trackId:int}/runs/{runId:int}")]
     public override async Task<ActionResult> HandleAsync([FromRoute] RemoveRunRequest request, CancellationToken cancellationToken = new CancellationToken())
     {
         var track = await _trackRepository.GetBySpecAsync(new GetTrackWithRunsSpec(request.TrackId), cancellationToken);

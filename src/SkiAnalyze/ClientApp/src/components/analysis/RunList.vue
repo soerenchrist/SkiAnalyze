@@ -75,12 +75,12 @@ export default {
         {
           title: 'Add lift above',
           icon: 'mdi-table-column-plus-before',
-          handler: (item) => this.$emit('onRemove', item),
+          handler: (item) => this.$emit('onAddLiftAbove', item),
         },
         {
           title: 'Add lift below',
           icon: 'mdi-table-column-plus-after',
-          handler: (item) => this.$emit('onRemove', item),
+          handler: (item) => this.$emit('onAddLiftBelow', item),
         },
       ],
     };

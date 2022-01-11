@@ -2,39 +2,36 @@
 <div>
   <v-virtual-scroll
     :items="sortedGondolas"
-    :item-height="50"
+    :item-height="60"
     height="530">
     <template v-slot:default="{ item }">
-      <v-list-item
-        @click="() => itemSelected(item)"
-        :class="isSelected(item) ? 'grey lighten-1' : ''">
-        <v-list-item-content>
-          <v-list-item-title v-if="item.name">
-            {{item.name}}
-          </v-list-item-title>
-          <v-list-item-title v-if="!item.name">
-            {{item.type}}
-          </v-list-item-title>
-          <v-list-item-subtitle v-if="item.reference">
-            {{item.reference}}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-btn icon @click="() => showDetails(item)">
-            <v-icon>mdi-information</v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
+      <gondola-list-item
+        :gondola="item"
+        :isSelected="isSelected(item)"
+        @click="itemSelected"
+        :displayDetailsButton="displayDetailsButton"
+        @detailsClick="showDetails">
+      </gondola-list-item>
     </template>
   </v-virtual-scroll>
 </div>
 </template>
 
 <script>
+import GondolaListItem from './GondolaListItem.vue';
+
 export default {
   props: {
     gondolas: Array,
     selectedGondola: Object,
+    displayDetailsButton: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
+  components: {
+    GondolaListItem,
   },
   computed: {
     sortedGondolas() {

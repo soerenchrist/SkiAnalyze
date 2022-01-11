@@ -38,6 +38,7 @@ const messages = {
       heating: 'Heating',
       occupancy: 'Occupancy',
       bubble: 'Bubble',
+      select: 'Select gondola',
     },
     dashboard: {
       totalDistance: 'Total distance',
@@ -129,6 +130,7 @@ const messages = {
       heating: 'Heizung',
       occupancy: 'Personenzahl',
       bubble: 'Schutzhaube',
+      select: 'Lift wählen',
     },
     pistes: {
       novice: 'Einsteiger',

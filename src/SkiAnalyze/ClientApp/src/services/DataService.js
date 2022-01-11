@@ -107,6 +107,15 @@ export default {
     const response = await client.get(url);
     return response.data;
   },
+  async addGondolaToRuns(trackId, gondolaId, position) {
+    const url = 'tracks/addGondola';
+    const payload = {
+      trackId,
+      gondolaId,
+      position,
+    };
+    await client.post(url, payload);
+  },
   async getPistesForSkiArea(id) {
     const url = `skiareas/${id}/pistes`;
     const response = await client.get(url);

@@ -30,6 +30,7 @@ public class GetAnalysisResult : BaseAsyncEndpoint
             .Include(x => x.Coordinates)
             .Include(x => x.Gondola!)
             .ThenInclude(x => x.Coordinates)
+            .OrderBy(x => x.SortId)
             .ToListAsync(cancellationToken);
 
         var runDtos = _mapper.Map<List<RunDto>>(runs);
