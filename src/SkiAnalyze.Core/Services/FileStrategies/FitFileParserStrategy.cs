@@ -76,9 +76,9 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
     private void SetLapValuesToRun(Run run, LapMesg lap, TimeSpan offset)
     {
         run.AverageHeartRate = lap.GetAvgHeartRate() ?? 0;
-        run.AverageSpeed = lap.GetAvgSpeed() ?? 0;
+        run.AverageSpeed = lap.GetEnhancedAvgSpeed() ?? 0;
         run.MaxHeartRate = lap.GetMaxHeartRate() ?? 0;
-        run.MaxSpeed = lap.GetMaxSpeed() ?? 0;
+        run.MaxSpeed = lap.GetEnhancedMaxSpeed() ?? 0;
         run.TotalDistance = lap.GetTotalDistance() ?? 0;
         run.TotalCalories = lap.GetTotalCalories();
         run.TotalElevation = (lap.GetTotalDescent() ?? 0) * -1;

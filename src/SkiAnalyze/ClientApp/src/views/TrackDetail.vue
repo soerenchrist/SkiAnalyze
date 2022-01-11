@@ -209,6 +209,8 @@ export default {
       await DataService.addGondolaToRuns(this.track.id, gondola.id, this.addGondolaPosition);
       this.selectGondola = false;
       this.addGondolaPosition = -1;
+
+      await this.fetchAnalysisResult();
     },
   },
   watch: {

@@ -22,7 +22,7 @@ public class RemoveRun : BaseAsyncEndpoint
         if (runToDelete == null)
             return NotFound();
 
-        track.Runs.Remove(runToDelete);
+        track.RemoveRun(runToDelete);
         
         track.UpdateRunNumbers();
         track.UpdateStats();

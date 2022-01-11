@@ -6,6 +6,7 @@ namespace SkiAnalyze.Core.Entities.TrackAggregate;
 
 public class Run : BaseEntity<int>
 {
+    public int SortId { get; set; }
     public int Number { get; set; }
     public bool Downhill { get; set; }
     public Gondola? Gondola { get; set; }

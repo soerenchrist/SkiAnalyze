@@ -80,8 +80,9 @@ public class Analyzer : IAnalyzer
             var gondolas = await _gondolaSearchService.GetGondolasInBounds(bounds);
 
             runs = matcher.Match(gondolas, pistes, runs).ToList();
-            track.Runs = runs.ToList();
+            track.SetRuns(runs.ToList());
 
+            track.UpdateRunNumbers();
             track.UpdateStats();
             track.SkiArea = await GetSkiAreaForTrack(trackPoints.ToList(), bounds);
             await _tracksRepository.UpdateAsync(track);
