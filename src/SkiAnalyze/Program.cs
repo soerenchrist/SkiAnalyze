@@ -1,7 +1,5 @@
-using Autofac.Extensions.DependencyInjection;
+using FastEndpoints;
 using SkiAnalyze.Infrastructure;
-using Microsoft.OpenApi.Models;
-using Autofac;
 using SkiAnalyze.Core;
 using SkiAnalyze.Data;
 using SkiAnalyze.Util;
@@ -10,8 +8,6 @@ using SkiAnalyze;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 var connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
 var osmPath = builder.Configuration.GetValue<string>("OsmDataPath");
@@ -29,26 +25,16 @@ builder.Services.AddCors(x =>
     });
 });
 
-builder.Services.AddDbContext(connectionString);
-builder.Services.AddOsmFile(osmPath);
+builder.Services.AddCore();
+builder.Services.AddInfrastructure(connectionString, osmPath);
+
 builder.Services.AddScoped<DataInitializer>();
+builder.Services.AddFastEndpoints();
+
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-    c.EnableAnnotations();
-});
 builder.Services.AddSpaStaticFiles(config => { config.RootPath = "ClientApp/dist"; });
-
-builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
-{
-    containerBuilder.RegisterModule(new DefaultCoreModule());
-    containerBuilder.RegisterModule(
-        new DefaultInfrastructureModule(builder.Environment.EnvironmentName == "Development"));
-});
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -58,8 +44,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
     app.UseCors("MyPolicy");
 }
 
@@ -68,8 +52,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSpaStaticFiles();
 app.UseRouting();
-
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.UseFastEndpoints();
 
 app.UseSpa(spa =>
 {

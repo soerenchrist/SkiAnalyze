@@ -1,5 +1,4 @@
 ﻿using SkiAnalyze.Core.Entities.SkiAreaAggregate.Specifications;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.SkiAreasEndpoints;
 
@@ -18,12 +17,6 @@ public class ListPaginated : EndpointBaseAsync
     }
 
     [HttpGet("/api/skiareas")]
-    [SwaggerOperation(
-        Summary = "Gets a list of all ski areas in bounds",
-        Description = "Gets a list of all ski areas in a specific bound",
-        OperationId = "SkiAreas.ListInBounds",
-        Tags = new[] { "SkiAreasEndpoints" })
-    ]
     public override async Task<ActionResult<PaginatedList<SkiAreaDto>>> HandleAsync([FromQuery] ListPaginatedRequest request, CancellationToken cancellationToken = default)
     {
         Bounds? bounds = null;

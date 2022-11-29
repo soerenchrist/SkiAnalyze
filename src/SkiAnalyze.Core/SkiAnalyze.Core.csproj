@@ -19,7 +19,6 @@
     <PackageReference Include="Ardalis.Result" Version="4.1.0" />
     <PackageReference Include="Ardalis.Specification" Version="6.1.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
-    <PackageReference Include="Autofac" Version="6.5.0" />
     
     <ProjectReference Include="..\SkiAnalyze.SharedKernel\SkiAnalyze.SharedKernel.csproj" />
     

@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
 public class StartAnalysis : EndpointBaseAsync
     .WithRequest<StartAnalysisRequest>
@@ -17,12 +15,6 @@ public class StartAnalysis : EndpointBaseAsync
     }
 
     [HttpPost("/api/tracks/{trackId:int}/analysis/start")]
-    [SwaggerOperation(
-        Summary = "Start an analysis",
-        Description = "Start the analysis of a given session",
-        OperationId = "Analysis.Start",
-        Tags = new[] { "AnalysisEndpoints" })
-    ]
     public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync([FromRoute] StartAnalysisRequest request, CancellationToken cancellationToken = default)
     {
         var analysisStatus = new AnalysisStatus

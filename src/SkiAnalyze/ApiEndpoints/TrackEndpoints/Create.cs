@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
 public class Create : EndpointBaseAsync
     .WithRequest<CreateTrackRequest>
@@ -17,12 +15,6 @@ public class Create : EndpointBaseAsync
     }
 
     [HttpPost("/api/tracks")]
-    [SwaggerOperation(
-        Summary = "Create a new track",
-        Description = "Create a new track",
-        OperationId = "Tracks.Create",
-        Tags = new[] { "TrackEndpoints" })
-    ]
     public override async Task<ActionResult<TrackDto>> HandleAsync([FromForm] CreateTrackRequest request, CancellationToken cancellationToken = default)
     {
         using var memoryStream = new MemoryStream();

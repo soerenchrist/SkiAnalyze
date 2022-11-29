@@ -81,8 +81,9 @@ public class OsmFileDataProvider : IOsmDataProvider
                     && x.Tags.Contains("piste:type", "downhill")));
             var complete = filtered.ToComplete();
             var pistes = new List<Piste>();
-            foreach (CompleteWay way in complete.Where(x => x.Type == OsmGeoType.Way))
+            foreach (var completeOsmGeo in complete.Where(x => x.Type == OsmGeoType.Way))
             {
+                var way = (CompleteWay)completeOsmGeo;
                 pistes.Add(Piste.FromWay(way));
             }
 

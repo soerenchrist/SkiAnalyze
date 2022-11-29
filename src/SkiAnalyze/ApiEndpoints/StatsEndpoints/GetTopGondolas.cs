@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
 
 public class GetTopGondolas : EndpointBaseAsync
     .WithRequest<GetTopGondolasRequest>
@@ -17,11 +15,6 @@ public class GetTopGondolas : EndpointBaseAsync
     }
 
     [HttpGet("/api/tracks/{trackId}/stats/gondolas")]
-    [SwaggerOperation(
-        Summary = "Get the three top used gondolas",
-        OperationId = "Stats.Gondolas",
-        Tags = new[] { "StatsEndpoints" })
-    ]
     public override async Task<ActionResult<List<BaseStatValueDto<Gondola, int>>>> HandleAsync([FromRoute] GetTopGondolasRequest request, CancellationToken cancellationToken = default)
     {
         var stats = await _statsService.GetTopGondolas(request.TrackId);

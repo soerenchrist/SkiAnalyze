@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
 public class List : EndpointBaseAsync
     .WithoutRequest
@@ -17,12 +15,6 @@ public class List : EndpointBaseAsync
     }
 
     [HttpGet("/api/tracks")]
-    [SwaggerOperation(
-        Summary = "Get tracks",
-        Description = "Get all tracks",
-        OperationId = "Tracks.Get",
-        Tags = new[] { "TrackEndpoints" })
-    ]
     public override async Task<ActionResult<List<TrackDto>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         var tracks = await _tracksRepository.ListAsync(new GetTracksWithSkiAreaSpec(), cancellationToken);

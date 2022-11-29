@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
 public class Remove : EndpointBaseAsync
     .WithRequest<RemoveTrackRequest>
@@ -13,12 +11,6 @@ public class Remove : EndpointBaseAsync
     }
 
     [HttpDelete("/api/tracks/{trackId}")]
-    [SwaggerOperation(
-        Summary = "Remove a track",
-        Description = "Remove a track from the session",
-        OperationId = "Tracks.Remove",
-        Tags = new[] { "TrackEndpoints" })
-    ]
     public override async Task<ActionResult> HandleAsync([FromRoute] RemoveTrackRequest request, CancellationToken cancellationToken = default)
     {
         var track = await _tracksRepository.GetByIdAsync(request.TrackId);

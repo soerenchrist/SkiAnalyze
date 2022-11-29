@@ -1,15 +1,4 @@
-﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result.AspNetCore;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using SkiAnalyze.ApiModels;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Interfaces;
-using SkiAnalyze.Core.Entities.PisteAggregate;
-using SkiAnalyze.Util;
-using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.PisteEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.PisteEndpoints;
 
 public class ListInBounds : EndpointBaseAsync
     .WithRequest<ListPistesInBoundsRequest>
@@ -26,12 +15,6 @@ public class ListInBounds : EndpointBaseAsync
     }
 
     [HttpGet("/api/pistes")]
-    [SwaggerOperation(
-        Summary = "Gets a list of all pistes in bounds",
-        Description = "Gets a list of all pistes in a specific bound",
-        OperationId = "Pistes.ListInBounds",
-        Tags = new[] { "PistesEndpoints" })
-    ]
     public override async Task<ActionResult<ListPistesInBoundsResponse>> HandleAsync([FromQuery] ListPistesInBoundsRequest request, CancellationToken cancellationToken = default)
     {
         var sw = new Coordinate

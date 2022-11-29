@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-
-namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
+﻿namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
 
 public class GetGondolaCountByProperty : EndpointBaseAsync
     .WithRequest<GetGondolaCountByPropertyRequest>
@@ -17,11 +15,6 @@ public class GetGondolaCountByProperty : EndpointBaseAsync
     }
 
     [HttpGet("/api/tracks/{trackId}/stats/gondolacount")]
-    [SwaggerOperation(
-        Summary = "Get the three top used gondola types",
-        OperationId = "Stats.GondolaTypes",
-        Tags = new[] { "StatsEndpoints" })
-    ]
     public override async Task<ActionResult<List<BaseStatValueDto<string, int>>>> HandleAsync([FromRoute] GetGondolaCountByPropertyRequest request, CancellationToken cancellationToken = default)
     {
         var stats = await _statsService.GetGondolaCountByProperty(request.TrackId, request.PropertyName);
