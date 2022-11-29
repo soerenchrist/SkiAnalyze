@@ -1,8 +1,8 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class AddGondolaToRuns : BaseAsyncEndpoint
+public class AddGondolaToRuns : EndpointBaseAsync
     .WithRequest<AddGondolaToRunsRequest>
-    .WithoutResponse
+    .WithoutResult
 {
     private readonly IRepository<Track> _trackRepository;
     private readonly IReadRepository<Gondola> _gondolaRepository;
@@ -17,7 +17,7 @@ public class AddGondolaToRuns : BaseAsyncEndpoint
     [HttpPost("/api/tracks/addGondola")]
     public override async Task<ActionResult> HandleAsync(AddGondolaToRunsRequest request, CancellationToken cancellationToken = new CancellationToken())
     {
-        var track = await _trackRepository.GetBySpecAsync(new GetTrackWithRunsSpec(request.TrackId), cancellationToken);
+        var track = await _trackRepository.FirstOrDefaultAsync(new GetTrackWithRunsSpec(request.TrackId), cancellationToken);
         if (track == null)
             return NotFound();
 

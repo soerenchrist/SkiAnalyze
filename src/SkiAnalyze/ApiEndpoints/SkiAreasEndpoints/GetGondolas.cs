@@ -3,9 +3,9 @@ using SkiAnalyze.Core.Entities.SkiAreaAggregate.Specifications;
 
 namespace SkiAnalyze.ApiEndpoints.SkiAreasEndpoints;
 
-public class GetGondolas : BaseAsyncEndpoint
+public class GetGondolas : EndpointBaseAsync
     .WithRequest<GetGondolasRequest>
-    .WithResponse<List<GondolaDto>>
+    .WithActionResult<List<GondolaDto>>
 {
     private readonly IReadRepository<SkiArea> _skiAreaRepository;
     private readonly IReadRepository<Gondola> _gondolaRepository;
@@ -24,7 +24,7 @@ public class GetGondolas : BaseAsyncEndpoint
     [HttpGet("/api/skiareas/{skiAreaId}/gondolas")]
     public override async Task<ActionResult<List<GondolaDto>>> HandleAsync([FromRoute] GetGondolasRequest request, CancellationToken cancellationToken = default)
     {
-        var skiArea = await _skiAreaRepository.GetBySpecAsync(new GetSkiAreaWithNodesSpec(request.SkiAreaId), cancellationToken);
+        var skiArea = await _skiAreaRepository.FirstOrDefaultAsync(new GetSkiAreaWithNodesSpec(request.SkiAreaId), cancellationToken);
         if (skiArea == null)
             return NotFound();
 

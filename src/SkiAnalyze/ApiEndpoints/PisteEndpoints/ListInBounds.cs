@@ -11,9 +11,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.PisteEndpoints;
 
-public class ListInBounds : BaseAsyncEndpoint
+public class ListInBounds : EndpointBaseAsync
     .WithRequest<ListPistesInBoundsRequest>
-    .WithResponse<ListPistesInBoundsResponse>
+    .WithActionResult<ListPistesInBoundsResponse>
 {
     private readonly IPisteSearchService _pisteSearchService;
     private readonly IMapper _mapper;

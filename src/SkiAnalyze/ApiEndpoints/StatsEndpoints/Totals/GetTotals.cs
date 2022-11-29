@@ -1,8 +1,8 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.StatsEndpoints.Totals;
 
-public class GetTotals : BaseAsyncEndpoint
+public class GetTotals : EndpointBaseAsync
     .WithoutRequest
-    .WithResponse<TotalsDto>
+    .WithActionResult<TotalsDto>
 {
     private readonly IReadRepository<Track> _tracksRepository;
     private readonly IReadRepository<Run> _runRepository;

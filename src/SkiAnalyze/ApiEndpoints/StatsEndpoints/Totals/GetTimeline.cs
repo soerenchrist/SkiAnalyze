@@ -1,8 +1,8 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.StatsEndpoints.Totals;
 
-public class GetTimeline : BaseAsyncEndpoint
+public class GetTimeline : EndpointBaseAsync
     .WithRequest<GetTimelineRequest>
-    .WithResponse<List<BaseStatValueDto<DateTime, double>>>
+    .WithActionResult<List<BaseStatValueDto<DateTime, double>>>
 {
     private readonly IReadRepository<Track> _tracksRepository;
 

@@ -1,8 +1,8 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class RemoveRun : BaseAsyncEndpoint
+public class RemoveRun : EndpointBaseAsync
     .WithRequest<RemoveRunRequest>
-    .WithoutResponse
+    .WithoutResult
 {
     private readonly IRepository<Track> _trackRepository;
 
@@ -14,7 +14,7 @@ public class RemoveRun : BaseAsyncEndpoint
     [HttpDelete("/api/tracks/{trackId:int}/runs/{runId:int}")]
     public override async Task<ActionResult> HandleAsync([FromRoute] RemoveRunRequest request, CancellationToken cancellationToken = new CancellationToken())
     {
-        var track = await _trackRepository.GetBySpecAsync(new GetTrackWithRunsSpec(request.TrackId), cancellationToken);
+        var track = await _trackRepository.FirstOrDefaultAsync(new GetTrackWithRunsSpec(request.TrackId), cancellationToken);
         if (track == null)
             return NotFound();
         

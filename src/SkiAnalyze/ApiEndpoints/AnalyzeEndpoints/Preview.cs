@@ -3,9 +3,9 @@ using SkiAnalyze.Data;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class Preview : BaseAsyncEndpoint
+public class Preview : EndpointBaseAsync
     .WithRequest<PreviewRequest>
-    .WithResponse<MapPreviewDto>
+    .WithActionResult<MapPreviewDto>
 {
     private readonly AppDbContext _context;
     public Preview(AppDbContext context)

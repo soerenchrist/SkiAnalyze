@@ -1,4 +1,5 @@
-﻿using SkiAnalyze.Data;
+﻿using System.Diagnostics;
+using SkiAnalyze.Data;
 using Microsoft.EntityFrameworkCore;
 using EFCore.BulkExtensions;
 
@@ -21,6 +22,7 @@ public class DataInitializer
 
     public async Task LoadInitialData(IConfiguration configuration)
     {
+        var stopwatch = Stopwatch.StartNew();
         var alpsNe = new Coordinate
         {
             Latitude = configuration.GetValue<float>("OsmBounds:NorthEast:Latitude"),
@@ -39,7 +41,9 @@ public class DataInitializer
             var skiAreas = await _dataProvider.GetSkiAreas(alpsNe, alpsSw);
             var skiAreaList = skiAreas.ToList();
             var nodes = skiAreaList.SelectMany(x => x.Nodes).ToList();
-            _logger.LogInformation("Found {Count} SkiAreas with {CoordCount} nodes from data provider - Inserting them...", skiAreaList.Count, nodes.Count);
+            _logger.LogInformation(
+                "Found {Count} SkiAreas with {CoordCount} nodes from data provider - Inserting them...",
+                skiAreaList.Count, nodes.Count);
             await _appDbContext.BulkInsertAsync(skiAreaList);
             await _appDbContext.BulkInsertAsync(nodes);
         }
@@ -51,7 +55,9 @@ public class DataInitializer
             var gondolas = await _dataProvider.GetGondolas(alpsNe, alpsSw);
             var gondolaList = gondolas.ToList();
             var coordinates = gondolaList.SelectMany(x => x.Coordinates).ToList();
-            _logger.LogInformation("Found {Count} gondolas with {CoordCount} nodes from data provider - Inserting them...", gondolaList.Count, coordinates.Count);
+            _logger.LogInformation(
+                "Found {Count} gondolas with {CoordCount} nodes from data provider - Inserting them...",
+                gondolaList.Count, coordinates.Count);
             await _appDbContext.BulkInsertAsync(gondolaList);
             await _appDbContext.BulkInsertAsync(coordinates);
         }
@@ -63,9 +69,14 @@ public class DataInitializer
             var pistes = await _dataProvider.GetPistes(alpsNe, alpsSw);
             var pistesList = pistes.ToList();
             var coordinates = pistesList.SelectMany(x => x.Coordinates).ToList();
-            _logger.LogInformation("Found {Count} pistes with {CoordCount} nodes from data provider - Inserting them...", pistesList.Count, coordinates.Count);
+            _logger.LogInformation(
+                "Found {Count} pistes with {CoordCount} nodes from data provider - Inserting them...", pistesList.Count,
+                coordinates.Count);
             await _appDbContext.BulkInsertAsync(pistesList);
             await _appDbContext.BulkInsertAsync(coordinates);
         }
+
+        stopwatch.Stop();
+        _logger.LogInformation("Initialization took {ElapsedMillis}", stopwatch.ElapsedMilliseconds);
     }
 }

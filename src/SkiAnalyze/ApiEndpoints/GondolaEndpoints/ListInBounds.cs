@@ -11,9 +11,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.GondolaEndpoints;
 
-public class ListInBounds : BaseAsyncEndpoint
+public class ListInBounds : EndpointBaseAsync
     .WithRequest<ListGondolasInBoundsRequest>
-    .WithResponse<ListGondolasInBoundsResponse>
+    .WithActionResult<ListGondolasInBoundsResponse>
 {
     private readonly IGondolaSearchService _gondolaSearchService;
     private readonly IMapper _mapper;

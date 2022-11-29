@@ -4,9 +4,9 @@ using SkiAnalyze.Data;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class GetAnalysisResult : BaseAsyncEndpoint
+public class GetAnalysisResult : EndpointBaseAsync
     .WithRequest<GetAnalysisResultRequest>
-    .WithResponse<AnalysisResultDto>
+    .WithActionResult<AnalysisResultDto>
 {
     private readonly AppDbContext _context;
     private readonly IMapper _mapper;

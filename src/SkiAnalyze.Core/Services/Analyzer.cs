@@ -45,7 +45,7 @@ public class Analyzer : IAnalyzer
             IsFinished = false,
             Success = false,
         };
-        var track = await _tracksRepository.GetBySpecAsync(new GetTrackWithStatusSpec(trackId));
+        var track = await _tracksRepository.FirstOrDefaultAsync(new GetTrackWithStatusSpec(trackId));
         if (track == null)
         {
             _logger.LogInformation("No track with id {Id} found", trackId);
@@ -124,7 +124,7 @@ public class Analyzer : IAnalyzer
         var random = new Random();
         foreach (var result in results)
         {
-            var areaWithNodes = await _skiAreaRepository.GetBySpecAsync(new GetSkiAreaWithNodesSpec(result.Id));
+            var areaWithNodes = await _skiAreaRepository.FirstOrDefaultAsync(new GetSkiAreaWithNodesSpec(result.Id));
             if (areaWithNodes == null) continue;
             // Check some random points in the track
             var allInBounds = true;

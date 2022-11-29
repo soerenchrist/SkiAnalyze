@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
-public class List : BaseAsyncEndpoint
+public class List : EndpointBaseAsync
     .WithoutRequest
-    .WithResponse<List<TrackDto>>
+    .WithActionResult<List<TrackDto>>
 {
     private readonly IReadRepository<Track> _tracksRepository;
     private readonly IMapper _mapper;

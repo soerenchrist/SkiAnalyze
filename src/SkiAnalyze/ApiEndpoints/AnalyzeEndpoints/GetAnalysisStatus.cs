@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class GetAnalysisStatus : BaseAsyncEndpoint
+public class GetAnalysisStatus : EndpointBaseAsync
     .WithRequest<GetAnalysisStatusRequest>
-    .WithResponse<AnalysisStatusDto>
+    .WithActionResult<AnalysisStatusDto>
 {
     private readonly IReadRepository<Track> _tracksRepository;
     private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ public class GetAnalysisStatus : BaseAsyncEndpoint
     ]
     public override async Task<ActionResult<AnalysisStatusDto>> HandleAsync([FromRoute] GetAnalysisStatusRequest request, CancellationToken cancellationToken = default)
     {
-        var track = await _tracksRepository.GetBySpecAsync(new GetTrackWithStatusSpec(request.TrackId));
+        var track = await _tracksRepository.FirstOrDefaultAsync(new GetTrackWithStatusSpec(request.TrackId));
         if (track?.AnalysisStatus == null)
             return NotFound();
 

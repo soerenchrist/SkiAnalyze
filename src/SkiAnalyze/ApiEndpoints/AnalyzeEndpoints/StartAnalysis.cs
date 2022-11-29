@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;
 
-public class StartAnalysis : BaseAsyncEndpoint
+public class StartAnalysis : EndpointBaseAsync
     .WithRequest<StartAnalysisRequest>
-    .WithResponse<AnalysisStatusDto>
+    .WithActionResult<AnalysisStatusDto>
 {
     private readonly IMapper _mapper;
     private readonly IBackgroundTaskQueue _taskQueue;

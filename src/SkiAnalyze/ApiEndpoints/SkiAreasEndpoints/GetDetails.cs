@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.SkiAreasEndpoints;
 
-public class GetDetails : BaseAsyncEndpoint
+public class GetDetails : EndpointBaseAsync
     .WithRequest<GetDetailsRequest>
-    .WithResponse<SkiAreaDetailDto>
+    .WithActionResult<SkiAreaDetailDto>
 {
     private readonly IReadRepository<SkiArea> _areaRepository;
     private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ public class GetDetails : BaseAsyncEndpoint
     [HttpGet("/api/skiareas/{skiAreaId}")]
     public override async Task<ActionResult<SkiAreaDetailDto>> HandleAsync([FromRoute] GetDetailsRequest request, CancellationToken cancellationToken = default)
     {
-        var area = await _areaRepository.GetBySpecAsync(new GetSkiAreaWithNodesSpec(request.SkiAreaId));
+        var area = await _areaRepository.FirstOrDefaultAsync(new GetSkiAreaWithNodesSpec(request.SkiAreaId));
         if (area == null)
             return NotFound();
 

@@ -3,9 +3,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SkiAnalyze.ApiEndpoints.SkiAreasEndpoints;
 
-public class ListPaginated : BaseAsyncEndpoint
+public class ListPaginated : EndpointBaseAsync
     .WithRequest<ListPaginatedRequest>
-    .WithResponse<PaginatedList<SkiAreaDto>>
+    .WithActionResult<PaginatedList<SkiAreaDto>>
 {
     private readonly IReadRepository<SkiArea> _areaRepository;
     private readonly IMapper _mapper;

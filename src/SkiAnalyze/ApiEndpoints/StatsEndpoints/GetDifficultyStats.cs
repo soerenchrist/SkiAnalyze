@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
 
-public class GetDifficultyStats : BaseAsyncEndpoint
+public class GetDifficultyStats : EndpointBaseAsync
     .WithRequest<GetDifficultyStatsRequest>
-    .WithResponse<List<BaseStatValueDto<PisteDifficulty, double>>>
+    .WithActionResult<List<BaseStatValueDto<PisteDifficulty, double>>>
 {
     private readonly IStatsService _statsService;
     private readonly IReadRepository<Track> _trackRepository;

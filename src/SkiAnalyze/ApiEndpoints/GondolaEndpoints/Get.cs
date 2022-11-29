@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.GondolaEndpoints;
 
-public class Get : BaseAsyncEndpoint
+public class Get : EndpointBaseAsync
     .WithRequest<GetGondolaRequest>
-    .WithResponse<GondolaDto>
+    .WithActionResult<GondolaDto>
 {
     private readonly IMapper _mapper;
     private readonly IReadRepository<Gondola> _gondolaRepository;
@@ -19,7 +19,7 @@ public class Get : BaseAsyncEndpoint
     [HttpGet("/api/gondolas/{id}")]
     public override async Task<ActionResult<GondolaDto>> HandleAsync([FromRoute] GetGondolaRequest request, CancellationToken cancellationToken = default)
     {
-        var gondola = await _gondolaRepository.GetBySpecAsync(new GondolaByIdSpec(request.Id));
+        var gondola = await _gondolaRepository.FirstOrDefaultAsync(new GondolaByIdSpec(request.Id));
         if (gondola == null)
             return NotFound();
 

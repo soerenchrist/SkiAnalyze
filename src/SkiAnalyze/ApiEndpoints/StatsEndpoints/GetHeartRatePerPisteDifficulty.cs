@@ -1,8 +1,8 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
 
-public class GetHeartRatePerPisteDifficulty : BaseAsyncEndpoint
+public class GetHeartRatePerPisteDifficulty : EndpointBaseAsync
     .WithRequest<GetHeartRatePerPisteDifficultyRequest>
-    .WithResponse<List<BaseStatValueDto<PisteDifficulty, double>>>
+    .WithActionResult<List<BaseStatValueDto<PisteDifficulty, double>>>
 {
     private readonly IMapper _mapper;
     private readonly IStatsService _statsService;

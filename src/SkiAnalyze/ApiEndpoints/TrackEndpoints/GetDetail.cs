@@ -1,8 +1,8 @@
 ﻿namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
-public class GetDetail : BaseAsyncEndpoint
+public class GetDetail : EndpointBaseAsync
     .WithRequest<GetDetailRequest>
-    .WithResponse<TrackDto>
+    .WithActionResult<TrackDto>
 {
     private readonly IReadRepository<Track> _tracksRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetDetail : BaseAsyncEndpoint
     [HttpGet("/api/tracks/{trackId}")]
     public override async Task<ActionResult<TrackDto>> HandleAsync([FromRoute] GetDetailRequest request, CancellationToken cancellationToken = default)
     {
-        var track = await _tracksRepository.GetBySpecAsync(new GetTrackWithSkiAreaSpec(request.TrackId), cancellationToken);
+        var track = await _tracksRepository.FirstOrDefaultAsync(new GetTrackWithSkiAreaSpec(request.TrackId), cancellationToken);
         if (track == null)
             return NotFound();
 

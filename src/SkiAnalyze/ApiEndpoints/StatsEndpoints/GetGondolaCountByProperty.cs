@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.StatsEndpoints;
 
-public class GetGondolaCountByProperty : BaseAsyncEndpoint
+public class GetGondolaCountByProperty : EndpointBaseAsync
     .WithRequest<GetGondolaCountByPropertyRequest>
-    .WithResponse<List<BaseStatValueDto<string, int>>>
+    .WithActionResult<List<BaseStatValueDto<string, int>>>
 {
     private readonly IStatsService _statsService;
     private readonly IMapper _mapper;

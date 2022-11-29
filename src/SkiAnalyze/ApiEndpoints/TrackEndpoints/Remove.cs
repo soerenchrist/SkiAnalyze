@@ -2,9 +2,9 @@
 
 namespace SkiAnalyze.ApiEndpoints.TrackEndpoints;
 
-public class Remove : BaseAsyncEndpoint
+public class Remove : EndpointBaseAsync
     .WithRequest<RemoveTrackRequest>
-    .WithoutResponse
+    .WithoutResult
 {
     private readonly IRepository<Track> _tracksRepository;
     public Remove(IRepository<Track> tracksRepository)
