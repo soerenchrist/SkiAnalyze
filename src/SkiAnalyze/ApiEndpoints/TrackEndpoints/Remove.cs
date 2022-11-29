@@ -17,7 +17,7 @@ public class Remove : EndpointBaseAsync
         if (track == null)
             return NotFound();
 
-        await _tracksRepository.DeleteAsync(track);
+        await _tracksRepository.DeleteAsync(track, cancellationToken);
         return Ok();
     }
 }

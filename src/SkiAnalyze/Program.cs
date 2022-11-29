@@ -1,4 +1,3 @@
-using FastEndpoints;
 using SkiAnalyze.Infrastructure;
 using SkiAnalyze.Core;
 using SkiAnalyze.Data;
@@ -29,8 +28,6 @@ builder.Services.AddCore();
 builder.Services.AddInfrastructure(connectionString, osmPath);
 
 builder.Services.AddScoped<DataInitializer>();
-builder.Services.AddFastEndpoints();
-
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
@@ -52,7 +49,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSpaStaticFiles();
 app.UseRouting();
-app.UseFastEndpoints();
 
 app.UseSpa(spa =>
 {
@@ -64,12 +60,13 @@ app.UseSpa(spa =>
     }
 });
 
-using var scope = app.Services.CreateScope();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await context.Database.EnsureCreatedAsync();
 
-var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-await context.Database.EnsureCreatedAsync();
-
-var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
-await initializer.LoadInitialData(app.Configuration);
+    var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
+    await initializer.LoadInitialData(app.Configuration);
+}
 
 app.Run();

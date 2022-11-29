@@ -6,7 +6,7 @@ using SkiAnalyze.Core.Entities.SkiAreaAggregate;
 
 namespace SkiAnalyze.Core.Interfaces;
 
-public interface IOsmDataProvider
+public interface IOsmDataProvider : IDisposable
 {
     Task<IEnumerable<SkiArea>> GetSkiAreas(Coordinate northEast, Coordinate southWest);
     Task<IEnumerable<Gondola>> GetGondolas(Coordinate northEast, Coordinate southWest);
