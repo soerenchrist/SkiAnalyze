@@ -2,7 +2,6 @@ using SkiAnalyze.Infrastructure;
 using SkiAnalyze.Core;
 using SkiAnalyze.Data;
 using SkiAnalyze.Util;
-using SkiAnalyze;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +25,6 @@ builder.Services.AddCors(x =>
 
 builder.Services.AddCore();
 builder.Services.AddInfrastructure(connectionString, osmPath);
-
-builder.Services.AddScoped<DataInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
@@ -65,8 +62,19 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await context.Database.EnsureCreatedAsync();
 
+    var alpsNe = new Coordinate
+    {
+        Latitude = app.Configuration.GetValue<float>("OsmBounds:NorthEast:Latitude"),
+        Longitude = app.Configuration.GetValue<float>("OsmBounds:NorthEast:Longitude"),
+    };
+    var alpsSw = new Coordinate
+    {
+        Latitude = app.Configuration.GetValue<float>("OsmBounds:SouthWest:Latitude"),
+        Longitude = app.Configuration.GetValue<float>("OsmBounds:SouthWest:Longitude"),
+    };
+
     var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
-    await initializer.LoadInitialData(app.Configuration);
+    await initializer.LoadInitialData(app.Configuration, alpsNe, alpsSw);
 }
 
 app.Run();

@@ -1,11 +1,11 @@
 ﻿using Ardalis.Result;
 using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Entities.PisteAggregate;
 using SkiAnalyze.Core.Entities.PisteAggregate.Specifications;
+using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.SharedKernel.Interfaces;
 
-namespace SkiAnalyze.Core.Services;
+namespace SkiAnalyze.Application.Services;
 
 public class PisteSearchService : IPisteSearchService
 {

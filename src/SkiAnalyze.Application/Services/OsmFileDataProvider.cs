@@ -1,14 +1,14 @@
-﻿using OsmSharp;
+﻿using System.Diagnostics;
+using OsmSharp;
 using OsmSharp.Complete;
 using OsmSharp.Streams;
-using SkiAnalyze.Core.Entities.PisteAggregate;
-using SkiAnalyze.Core.Entities.GondolaAggregate;
-using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Common;
-using System.Diagnostics;
+using SkiAnalyze.Core.Entities.GondolaAggregate;
+using SkiAnalyze.Core.Entities.PisteAggregate;
 using SkiAnalyze.Core.Entities.SkiAreaAggregate;
+using SkiAnalyze.Core.Interfaces;
 
-namespace SkiAnalyze.Core.Services;
+namespace SkiAnalyze.Application.Services;
 
 public class OsmFileDataProvider : IOsmDataProvider
 {

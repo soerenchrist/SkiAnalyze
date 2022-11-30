@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SkiAnalyze.Infrastructure\SkiAnalyze.Infrastructure.csproj" />
+        <ProjectReference Include="..\SkiAnalyze.Application\SkiAnalyze.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

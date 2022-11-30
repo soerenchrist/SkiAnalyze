@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{2673D737-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitDecode", "src\Util\FitDecode\FitDecode.csproj", "{8CE24740-8654-4A35-BC25-595E60902175}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiAnalyze.Application", "src\SkiAnalyze.Application\SkiAnalyze.Application.csproj", "{7A21CEAC-BD2A-4CC6-A069-6C93097E3105}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{8CE24740-8654-4A35-BC25-595E60902175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE24740-8654-4A35-BC25-595E60902175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE24740-8654-4A35-BC25-595E60902175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A21CEAC-BD2A-4CC6-A069-6C93097E3105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A21CEAC-BD2A-4CC6-A069-6C93097E3105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A21CEAC-BD2A-4CC6-A069-6C93097E3105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A21CEAC-BD2A-4CC6-A069-6C93097E3105}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{90877C12-018F-4EE6-A5D1-B4DAC94689CD} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
 		{2673D737-37CC-41E3-B5D0-544020F05811} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
 		{8CE24740-8654-4A35-BC25-595E60902175} = {2673D737-37CC-41E3-B5D0-544020F05811}
+		{7A21CEAC-BD2A-4CC6-A069-6C93097E3105} = {A030BC76-259B-447C-95B0-B92E26CFE0DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF5BDE7E-6F71-466A-86D9-D6444DB2D7A9}

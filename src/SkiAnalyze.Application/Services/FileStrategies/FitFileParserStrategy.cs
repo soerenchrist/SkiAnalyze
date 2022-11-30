@@ -3,7 +3,8 @@ using FitDecode;
 using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Interfaces;
-namespace SkiAnalyze.Core.Services.FileStrategies;
+
+namespace SkiAnalyze.Application.Services.FileStrategies;
 
 public class FitFileParserStrategy : ITrackFileParserStrategy
 {
@@ -83,6 +84,6 @@ public class FitFileParserStrategy : ITrackFileParserStrategy
         run.TotalCalories = lap.GetTotalCalories();
         run.TotalElevation = (lap.GetTotalDescent() ?? 0) * -1;
         run.Start = lap.GetStartTime()?.GetDateTime() + offset ?? System.DateTime.Now;
-        run.End = lap.GetEndTime()?.GetDateTime() + offset ?? System.DateTime.Now;
+        run.End = FitExtensions.GetEndTime(lap)?.GetDateTime() + offset ?? System.DateTime.Now;
     }
 }

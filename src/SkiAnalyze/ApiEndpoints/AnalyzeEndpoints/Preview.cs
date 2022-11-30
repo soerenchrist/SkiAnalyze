@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SkiAnalyze.Application.Services.Gpx;
 using SkiAnalyze.Data;
 
 namespace SkiAnalyze.ApiEndpoints.AnalyzeEndpoints;

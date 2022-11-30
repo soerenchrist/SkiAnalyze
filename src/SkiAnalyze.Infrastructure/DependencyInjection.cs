@@ -20,6 +20,9 @@ public static class DependencyInjection
             options.UseSqlite(connectionString);
             options.EnableSensitiveDataLogging();
         });
+
+        services.AddScoped<DataInitializer>();
+
         var backgroundTaskQueue = new BackgroundTaskQueue(100);
         services.AddSingleton<IBackgroundTaskQueue>(backgroundTaskQueue);
         services.AddScoped<IOsmFileProvider>(_ => new OsmFileProvider(osmPath));

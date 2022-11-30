@@ -1,18 +1,18 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using SkiAnalyze.Application.Services.FileStrategies;
+using SkiAnalyze.Application.Services.MapMatching;
+using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Entities.SkiAreaAggregate;
+using SkiAnalyze.Core.Entities.SkiAreaAggregate.Specifications;
 using SkiAnalyze.Core.Entities.TrackAggregate;
+using SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Interfaces.Common;
-using SkiAnalyze.Core.Services.MapMatching;
 using SkiAnalyze.Core.Util;
 using SkiAnalyze.SharedKernel.Interfaces;
-using System.Diagnostics;
-using SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
-using SkiAnalyze.Core.Entities.SkiAreaAggregate;
-using SkiAnalyze.Core.Common;
-using SkiAnalyze.Core.Entities.SkiAreaAggregate.Specifications;
-using SkiAnalyze.Core.Services.FileStrategies;
 
-namespace SkiAnalyze.Core.Services;
+namespace SkiAnalyze.Application.Services;
 
 public class Analyzer : IAnalyzer
 {

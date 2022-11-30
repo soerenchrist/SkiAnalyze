@@ -1,12 +1,12 @@
 ﻿using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Entities.GondolaAggregate;
-using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Entities.PisteAggregate;
 using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
+using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.SharedKernel.Interfaces;
 
-namespace SkiAnalyze.Core.Services.Stats;
+namespace SkiAnalyze.Application.Services.Stats;
 
 public class StatsService : IStatsService
 {

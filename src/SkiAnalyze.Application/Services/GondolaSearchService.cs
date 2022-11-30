@@ -5,7 +5,7 @@ using SkiAnalyze.Core.Entities.GondolaAggregate.Specifications;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.SharedKernel.Interfaces;
 
-namespace SkiAnalyze.Core.Services;
+namespace SkiAnalyze.Application.Services;
 
 public class GondolaSearchService : IGondolaSearchService
 {

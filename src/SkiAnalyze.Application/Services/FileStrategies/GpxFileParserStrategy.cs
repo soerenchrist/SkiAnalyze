@@ -1,11 +1,11 @@
-﻿using SkiAnalyze.Core.Common;
+﻿using SkiAnalyze.Application.Services.Gpx;
+using SkiAnalyze.Core.Common;
 using SkiAnalyze.Core.Entities.TrackAggregate;
 using SkiAnalyze.Core.Interfaces;
 using SkiAnalyze.Core.Interfaces.Common;
-using SkiAnalyze.Core.Services.Gpx;
 using SkiAnalyze.Core.Util;
 
-namespace SkiAnalyze.Core.Services.FileStrategies;
+namespace SkiAnalyze.Application.Services.FileStrategies;
 
 public class GpxFileParserStrategy : ITrackFileParserStrategy
 {

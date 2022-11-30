@@ -1,8 +1,8 @@
-﻿using NetTopologySuite.IO;
+﻿using System.Xml;
+using NetTopologySuite.IO;
 using SkiAnalyze.Core.Entities.TrackAggregate;
-using System.Xml;
 
-namespace SkiAnalyze.Core.Services.Gpx;
+namespace SkiAnalyze.Application.Services.Gpx;
 
 public class GpxFileLoader
 {

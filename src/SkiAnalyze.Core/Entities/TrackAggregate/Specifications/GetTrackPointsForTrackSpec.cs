@@ -3,7 +3,7 @@ using SkiAnalyze.Core.Common;
 
 namespace SkiAnalyze.Core.Entities.TrackAggregate.Specifications;
 
-internal class GetTrackPointsForTrackSpec : Specification<TrackPoint>
+public sealed class GetTrackPointsForTrackSpec : Specification<TrackPoint>
 {
     public GetTrackPointsForTrackSpec(int trackId)
     {

@@ -1,9 +1,13 @@
 ﻿using System.Diagnostics;
-using SkiAnalyze.Data;
-using Microsoft.EntityFrameworkCore;
 using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using SkiAnalyze.Core.Common;
+using SkiAnalyze.Core.Interfaces;
+using SkiAnalyze.Data;
 
-namespace SkiAnalyze;
+namespace SkiAnalyze.Infrastructure;
 
 public class DataInitializer
 {
@@ -20,25 +24,15 @@ public class DataInitializer
         _logger = logger;
     }
 
-    public async Task LoadInitialData(IConfiguration configuration)
+    public async Task LoadInitialData(IConfiguration configuration, Coordinate northEast, Coordinate southWest)
     {
         var stopwatch = Stopwatch.StartNew();
-        var alpsNe = new Coordinate
-        {
-            Latitude = configuration.GetValue<float>("OsmBounds:NorthEast:Latitude"),
-            Longitude = configuration.GetValue<float>("OsmBounds:NorthEast:Longitude"),
-        };
-        var alpsSw = new Coordinate
-        {
-            Latitude = configuration.GetValue<float>("OsmBounds:SouthWest:Latitude"),
-            Longitude = configuration.GetValue<float>("OsmBounds:SouthWest:Longitude"),
-        };
 
         var skiAreaCount = await _appDbContext.SkiAreas.CountAsync();
         _logger.LogInformation("Found {Count} ski areas already in db", skiAreaCount);
         if (skiAreaCount == 0)
         {
-            var skiAreas = await _dataProvider.GetSkiAreas(alpsNe, alpsSw);
+            var skiAreas = await _dataProvider.GetSkiAreas(northEast, southWest);
             var skiAreaList = skiAreas.ToList();
             var nodes = skiAreaList.SelectMany(x => x.Nodes).ToList();
             _logger.LogInformation(
@@ -52,7 +46,7 @@ public class DataInitializer
         _logger.LogInformation("Found {Count} gondolas already in db", gondolaCount);
         if (gondolaCount == 0)
         {
-            var gondolas = await _dataProvider.GetGondolas(alpsNe, alpsSw);
+            var gondolas = await _dataProvider.GetGondolas(northEast, southWest);
             var gondolaList = gondolas.ToList();
             var coordinates = gondolaList.SelectMany(x => x.Coordinates).ToList();
             _logger.LogInformation(
@@ -66,7 +60,7 @@ public class DataInitializer
         _logger.LogInformation("Found {Count} pistes already in db", pisteCount);
         if (pisteCount == 0)
         {
-            var pistes = await _dataProvider.GetPistes(alpsNe, alpsSw);
+            var pistes = await _dataProvider.GetPistes(northEast, southWest);
             var pistesList = pistes.ToList();
             var coordinates = pistesList.SelectMany(x => x.Coordinates).ToList();
             _logger.LogInformation(
