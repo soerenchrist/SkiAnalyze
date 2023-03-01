@@ -1,3 +1,4 @@
+using SkiAnalyze.Application;
 using SkiAnalyze.Infrastructure;
 using SkiAnalyze.Core;
 using SkiAnalyze.Data;
@@ -25,6 +26,7 @@ builder.Services.AddCors(x =>
 
 builder.Services.AddCore();
 builder.Services.AddInfrastructure(connectionString, osmPath);
+builder.Services.AddApplication();
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
